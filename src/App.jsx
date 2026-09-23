@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+
 import Descubra from './pages/Descubra'
+import ValesCafe from './pages/ValesCafe'
 
 function App() {
   const [intro, setIntro] = useState(true)
@@ -46,25 +48,32 @@ function App() {
 
       <main className="home">
 
-        {activePage === 'Descubra' ? (
+        {activePage === 'Descubra' && (
           <Descubra />
-        ) : (
-          <div className="home-content">
-
-            <p className="welcome">
-              EM BREVE
-            </p>
-
-            <h1>
-              {activePage}
-            </h1>
-
-            <p className="subtitle">
-              Estamos preparando essa parte do aplicativo.
-            </p>
-
-          </div>
         )}
+
+        {activePage === 'Vales do Café' && (
+          <ValesCafe />
+        )}
+
+        {activePage !== 'Descubra' &&
+          activePage !== 'Vales do Café' && (
+            <div className="home-content">
+
+              <p className="welcome">
+                EM BREVE
+              </p>
+
+              <h1>
+                {activePage}
+              </h1>
+
+              <p className="subtitle">
+                Estamos preparando essa parte do aplicativo.
+              </p>
+
+            </div>
+          )}
 
       </main>
 
