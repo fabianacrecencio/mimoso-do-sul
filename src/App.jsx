@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import Descubra from './pages/Descubra'
 
 function App() {
   const [intro, setIntro] = useState(true)
+  const [activePage, setActivePage] = useState('Descubra')
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -29,7 +31,9 @@ function App() {
 
   return (
     <div className="app">
+
       <header className="header">
+
         <div className="logo">
           Mimoso do Sul
         </div>
@@ -37,32 +41,79 @@ function App() {
         <button className="menu-button">
           ☰
         </button>
+
       </header>
 
       <main className="home">
-        <div className="home-content">
-          <p className="welcome">BEM-VINDO A</p>
 
-          <h1>Mimoso do Sul</h1>
+        {activePage === 'Descubra' ? (
+          <Descubra />
+        ) : (
+          <div className="home-content">
 
-          <p className="subtitle">
-            História, cultura, natureza e lugares para descobrir.
-          </p>
+            <p className="welcome">
+              EM BREVE
+            </p>
 
-          <button className="start-button">
-            Explorar Mimoso
-          </button>
-        </div>
+            <h1>
+              {activePage}
+            </h1>
+
+            <p className="subtitle">
+              Estamos preparando essa parte do aplicativo.
+            </p>
+
+          </div>
+        )}
+
       </main>
 
       <nav className="main-menu">
-        <button>🏞️<span>Descubra</span></button>
-        <button>☕<span>Vales do Café</span></button>
-        <button>🗺️<span>Sul Capixaba</span></button>
-        <button>📸<span>Galeria</span></button>
-        <button>📖<span>História</span></button>
-        <button>📍<span>Mapa</span></button>
+
+        <button
+          onClick={() => setActivePage('Descubra')}
+        >
+          🏞️
+          <span>Descubra</span>
+        </button>
+
+        <button
+          onClick={() => setActivePage('Vales do Café')}
+        >
+          ☕
+          <span>Vales do Café</span>
+        </button>
+
+        <button
+          onClick={() => setActivePage('Sul Capixaba')}
+        >
+          🗺️
+          <span>Sul Capixaba</span>
+        </button>
+
+        <button
+          onClick={() => setActivePage('Galeria')}
+        >
+          📸
+          <span>Galeria</span>
+        </button>
+
+        <button
+          onClick={() => setActivePage('História')}
+        >
+          📖
+          <span>História</span>
+        </button>
+
+        <button
+          onClick={() => setActivePage('Mapa')}
+        >
+          📍
+          <span>Mapa</span>
+        </button>
+
       </nav>
+
     </div>
   )
 }
