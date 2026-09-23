@@ -1,0 +1,364 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #000;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================
+   ABERTURA
+========================= */
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+  background: #000;
+
+  animation: introExit 0.8s 2.7s ease forwards;
+}
+
+.intro-red,
+.intro-yellow,
+.intro-green {
+  position: absolute;
+  inset: 0;
+
+  transform: translateX(-100%);
+}
+
+.intro-red {
+  background: #c62828;
+  animation: slideColor 1s 0s cubic-bezier(0.77, 0, 0.18, 1) forwards;
+}
+
+.intro-yellow {
+  background: #f5c400;
+  animation: slideColor 1s 0.2s cubic-bezier(0.77, 0, 0.18, 1) forwards;
+}
+
+.intro-green {
+  background: #006b3f;
+  animation: slideColor 1s 0.4s cubic-bezier(0.77, 0, 0.18, 1) forwards;
+}
+
+.intro-content {
+  position: relative;
+  z-index: 2;
+
+  color: white;
+  text-align: center;
+
+  opacity: 0;
+  transform: scale(0.92);
+
+  animation:
+    logoIn 0.9s 0.8s ease forwards,
+    logoOut 0.5s 2.2s ease forwards;
+}
+
+.intro-content p {
+  margin: 0 0 15px;
+
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 7px;
+}
+
+.intro-content h1 {
+  margin: 0;
+
+  font-size: clamp(50px, 9vw, 100px);
+  font-weight: 800;
+  letter-spacing: -3px;
+}
+
+
+/* =========================
+   TELA PRINCIPAL
+========================= */
+
+.app {
+  min-height: 100vh;
+}
+
+.home {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #006b3f 0%,
+      #006b3f 40%,
+      #f5c400 40%,
+      #f5c400 70%,
+      #c62828 70%,
+      #c62828 100%
+    );
+}
+
+.home-content {
+  width: 90%;
+  max-width: 800px;
+}
+
+.welcome {
+  margin-bottom: 20px;
+
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 5px;
+}
+
+.home h1 {
+  margin: 0;
+
+  font-size: clamp(50px, 9vw, 100px);
+  line-height: 0.95;
+  font-weight: 800;
+}
+
+.subtitle {
+  max-width: 550px;
+  margin: 30px auto;
+
+  font-size: 19px;
+  line-height: 1.5;
+}
+
+.start-button {
+  padding: 15px 32px;
+
+  border: none;
+  border-radius: 30px;
+
+  background: white;
+  color: #222;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: transform 0.2s ease;
+}
+
+.start-button:hover {
+  transform: scale(1.05);
+}
+
+
+/* =========================
+   CABEÇALHO
+========================= */
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 10;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 20px 30px;
+
+  color: white;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.menu-button {
+  border: none;
+
+  width: 45px;
+  height: 45px;
+
+  border-radius: 50%;
+
+  background: rgba(0, 0, 0, 0.25);
+  color: white;
+
+  font-size: 22px;
+
+  cursor: pointer;
+}
+
+
+/* =========================
+   MENU PRINCIPAL
+========================= */
+
+.main-menu {
+  position: fixed;
+
+  left: 50%;
+  bottom: 20px;
+
+  transform: translateX(-50%);
+
+  z-index: 20;
+
+  width: min(95%, 850px);
+
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 10px;
+
+  background: rgba(0, 0, 0, 0.75);
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  border-radius: 20px;
+
+  backdrop-filter: blur(12px);
+}
+
+.main-menu button {
+  flex: 1;
+
+  min-height: 60px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: transparent;
+  color: white;
+
+  cursor: pointer;
+
+  font-size: 20px;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.main-menu button:hover {
+  background: rgba(255, 255, 255, 0.12);
+
+  transform: translateY(-3px);
+}
+
+.main-menu span {
+  display: block;
+
+  margin-top: 5px;
+
+  font-size: 11px;
+  font-weight: bold;
+}
+
+
+/* =========================
+   ANIMAÇÕES
+========================= */
+
+@keyframes slideColor {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes logoIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes logoOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes introExit {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+
+/* =========================
+   CELULAR
+========================= */
+
+@media (max-width: 700px) {
+  .header {
+    padding: 15px 20px;
+  }
+
+  .logo {
+    font-size: 17px;
+  }
+
+  .main-menu {
+    bottom: 10px;
+
+    width: 96%;
+
+    gap: 3px;
+    padding: 6px;
+
+    border-radius: 16px;
+  }
+
+  .main-menu button {
+    min-height: 55px;
+    font-size: 17px;
+  }
+
+  .main-menu span {
+    font-size: 8px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+}
