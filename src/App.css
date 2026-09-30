@@ -447,7 +447,15 @@ a:focus-visible {
   max-width: 1100px;
   height: 100vh;
 
-  padding: 94px 20px 120px;
+  /* O `padding-top` de 124px (era 94) desce o bloco DESCUBRA /
+     título / crédito até logo acima da cabeça do Cristo, que fica
+     a ~37% da altura. Antes sobravam ~90px de vão entre o crédito
+     e a cabeça.
+
+     Isso NÃO aumenta a altura da página: a seção de baixo tem
+     `margin-top: auto`, e o auto-margin absorve exatamente o que
+     o padding-top ganhou. O mesmo vale no celular. */
+  padding: 124px 20px 120px;
 
   overflow-y: auto;
   color: #fff;
@@ -3186,7 +3194,13 @@ a:focus-visible {
 
   .discover-page {
     width: 100%;
-    padding: 72px 26px 92px;
+
+    /* 102px (era 72) desce o bloco até a cabeça do Cristo, que
+       está a ~29% da tela. Antes o crédito terminava a 189px e a
+       cabeça ficava a 241: 52px de vão. Agora sobram ~22px, e o
+       `margin-top: auto` da seção encolhe na mesma medida, então a
+       página continua cabendo sem rolagem. */
+    padding: 102px 26px 92px;
   }
 
   .discover-header {

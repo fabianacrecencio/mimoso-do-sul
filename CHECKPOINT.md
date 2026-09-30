@@ -150,6 +150,37 @@ Sombras de texto mantidas nos cards para legibilidade sobre o fundo translúcido
 São elas, e não a opacidade do card, que garantem a leitura — por isso dá
 para baixar o preto até 2,5% sem perder legibilidade.
 
+### Posição do cabeçalho em relação à cabeça do Cristo
+
+O bloco DESCUBRA / MIMOSO DO SUL / crédito foi descido para encostar na
+cabeça da estátua, sem cobrir:
+
+| | Antes | Agora |
+|---|---|---|
+| `padding-top` desktop | 94px | **124px** |
+| `padding-top` ≤767px | 72px | **102px** |
+| `padding-top` ≤374px | 66px | 66px (intacto) |
+
+No celular o crédito terminava a 189px e a cabeça ficava a 241 — 52px de
+vão. Agora o crédito termina a 219 e sobram ~22px.
+
+**Isso não aumenta a altura da página.** A seção de baixo tem
+`margin-top: auto`, e o auto-margin absorve exatamente o que o
+`padding-top` ganhou. Por isso dá para descer o cabeçalho à vontade sem
+quebrar o "cabe sem rolar".
+
+**Ressalva honesta:** a posição da cabeça na tela varia com a proporção da
+janela no desktop, porque `cover` trava a vertical quando a janela é larga e
+baixa (aí não sobra folga e o `background-position-y` é no-op) e a libera
+quando a janela é alta. Os 124px do desktop foram calibrados por conta, sem
+medição — **é o número menos confiável do projeto.** No celular o
+`background-size: auto 110%` dá controle real, então 102px é sólido.
+
+**Cuidado com as media queries sobrepostas:** a página inicial tem regras em
+≤900px, ≤767px, ≤600px, ≤430px e ≤374px, e a ordem no arquivo decide. A de
+≤767px é a que governa quase tudo no celular porque vem **depois** das
+menores. Alterar valor só na ≤600px não surte efeito nenhum.
+
 ### Altura da página inicial no celular — cabe sem rolar
 
 Orçamento medido a 390px de largura (1 coluna): o conteúdo dava **815px**
@@ -158,21 +189,16 @@ contra **765px disponíveis** (844 de tela menos 79 da barra inferior) —
 
 | O que | Antes | Depois |
 |---|---|---|
-| `padding-top` | 88px | **72px** |
 | `margin-bottom` do `.discover-header` | 32px | **20px** |
 | `padding-top` da `.discover-section` | 40px | **20px** |
 | `margin-bottom` do EXPLORE MIMOSO | 30px | **18px** |
 | `padding` do card | 14px | **12px** (10px abaixo de 375px) |
 | `padding-bottom` | 120px | **92px** |
 
-O `padding-top` de 72px ainda libera o cabeçalho fixo, que tem 75px mas só
-ocupa a **direita** com o botão × — o título é centralizado e não colide. E
-o `padding-bottom` de 92px continua acima dos 79px da barra inferior.
-
-**Cuidado com as media queries sobrepostas:** a página inicial tem regras em
-≤900px, ≤767px, ≤600px, ≤430px e ≤374px, e a ordem no arquivo decide. A de
-≤767px é a que governa quase tudo no celular porque vem **depois** das
-menores. Alterar valor só na ≤600px não surte efeito nenhum.
+O `padding-bottom` de 92px continua acima dos 79px da barra inferior.
+Medido depois de tudo: página com 830px, `scrollHeight` igual a
+`clientHeight` — **sem rolagem**, e o último card termina a 738px, com a
+barra começando a 751px.
 
 **Limite conhecido:** num aparelho com menos de ~800px de altura (iPhone SE,
 375×667) ainda vai rolar, porque o conteúdo precisa de ~800px. Numa faixa
@@ -419,14 +445,19 @@ quebrar abas já aprovadas, e `npm run build && npm run lint` antes de cada
 
 - Cloudflare Pages project: `fabibriefs`
 - URL: https://fabibriefs.pages.dev
-- Deployment mais recente: https://4d087eb0.fabibriefs.pages.dev
+- Deployment mais recente: https://08aba2eb.fabibriefs.pages.dev
 - Comando: `npm run deploy` (= `npm run build && npx wrangler pages deploy dist --project-name fabibriefs`)
 
-Deploy de 30/09/2026: página inicial com a cabeça do Cristo posicionada no
-círculo pedido (`auto 110%` a `51% 100%`), cards da página inicial mais
-transparentes **numa regra única** válida para desktop e celular, e coluna
-única de 760px na página do Cristo Redentor alinhando foto, texto, galeria e
-mapa. Detalhes nas seções **Fotos de fundo** e **Cristo Redentor**.
+Deploy de 30/09/2026: cabeçalho da página inicial descido até encostar na
+cabeça do Cristo (desktop e celular), página inicial cabendo inteira sem
+rolagem, cabeça posicionada no círculo pedido (`auto 110%` a `51% 100%`),
+cards mais transparentes **numa regra única** válida para desktop e celular,
+e coluna única de 760px na página do Cristo Redentor alinhando foto, texto,
+galeria e mapa.
+
+**Último commit: `8126a91`** ("pagina do cristo redentor, galeria e fundo do
+celular"). O trabalho da última hora ainda está só no disco — commitar de
+novo ao retomar.
 
 **Atenção ao cache:** o `index.html` em produção pode ficar alguns instantes
 servindo a versão anterior. Confirmar com `?cb=<timestamp>` na URL ou usar a URL
