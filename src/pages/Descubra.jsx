@@ -1,76 +1,131 @@
-function Descubra() {
+import Icon from '../components/Icon'
+
+function Descubra({ onOpen }) {
   return (
     <section className="discover-page">
 
       <div className="discover-header">
-        <p>DESCUBRA</p>
 
-        <h2>Mimoso do Sul</h2>
+        <p className="discover-eyebrow">DESCUBRA</p>
 
-        <p className="discover-text">
-          Entre montanhas, história e cultura,
-          descubra lugares que fazem parte da identidade
-          de Mimoso do Sul.
-        </p>
+        <div className="discover-title-block">
+
+          <h2 className="discover-title">
+            MIMOSO
+            <br className="discover-title-break" />
+            {' DO SUL'}
+          </h2>
+
+          <p className="discover-credit">
+            Por Fabiana Silva
+          </p>
+
+        </div>
+
       </div>
 
       <div className="discover-section">
 
-        <h3>Explore Mimoso</h3>
+        <h3>
+          EXPLORE MIMOSO
+        </h3>
 
         <div className="discover-grid">
 
-          <article className="discover-card">
+          <button
+            type="button"
+            className="discover-card"
+            onClick={() =>
+              onOpen({
+                icon: 'mountains',
+                category: 'DESCUBRA · PONTOS TURÍSTICOS',
+                page: 'Natureza',
+                title: 'Pontos Turísticos',
+                description:
+                  'Descubra os principais pontos turísticos e as paisagens naturais de Mimoso do Sul.',
+              })
+            }
+          >
             <div className="discover-icon">
-              🌿
+              <Icon name="locationPrivacy" size={54} />
             </div>
 
-            <h4>Natureza</h4>
+            <h4>
+              Pontos Turísticos
+            </h4>
 
             <p>
-              Paisagens, montanhas, rios e lugares
+              Pontos turísticos, paisagens e lugares
               para conhecer e explorar.
             </p>
-          </article>
 
-          <article className="discover-card">
+            <span className="card-arrow">
+              →
+            </span>
+          </button>
+
+          <button
+            type="button"
+            className="discover-card"
+            onClick={() =>
+              onOpen({
+                icon: 'landmark',
+                category: 'DESCUBRA · PATRIMÔNIOS',
+                page: 'Patrimônios',
+                title: 'Patrimônios',
+                description:
+                  'Conheça lugares, construções e histórias que fazem parte da identidade de Mimoso do Sul.',
+              })
+            }
+          >
             <div className="discover-icon">
-              🏛️
+              <Icon name="classicalBuilding" size={54} />
             </div>
 
-            <h4>Patrimônio</h4>
+            <h4>
+              Patrimônios
+            </h4>
 
             <p>
-              Conheça lugares e construções que contam
-              parte da história do município.
+              Conheça construções e histórias
+              que fazem parte da identidade do município.
             </p>
-          </article>
 
-          <article className="discover-card">
+            <span className="card-arrow">
+              →
+            </span>
+          </button>
+
+          <button
+            type="button"
+            className="discover-card"
+            onClick={() =>
+              onOpen({
+                icon: 'masks',
+                category: 'DESCUBRA',
+                title: 'Cultura',
+                description:
+                  'Tradições, festas, manifestações culturais e a identidade do povo mimosense.',
+              })
+            }
+          >
             <div className="discover-icon">
-              🎭
+              <Icon name="articleReader" size={54} />
             </div>
 
-            <h4>Cultura</h4>
+            <h4>
+              Cultura
+            </h4>
 
             <p>
               Tradições, festas, manifestações culturais
               e a identidade do povo mimosense.
             </p>
-          </article>
 
-          <article className="discover-card">
-            <div className="discover-icon">
-              🍽️
-            </div>
-
-            <h4>Sabores</h4>
-
-            <p>
-              Descubra comidas, produtos e sabores
-              presentes na região.
-            </p>
-          </article>
+            <span className="card-arrow">
+              →
+            </span>
+          </button>
 
         </div>
 

@@ -1,4 +1,6 @@
-function ValesCafe() {
+import Icon from '../components/Icon'
+
+function ValesCafe({ onOpen }) {
   return (
     <section className="region-page">
 
@@ -6,11 +8,12 @@ function ValesCafe() {
 
         <p>REGIÃO</p>
 
-        <h2>Vales do Café</h2>
+        <h2>
+          MONAST
+        </h2>
 
         <p className="region-description">
-          Uma região marcada pela história, pelas montanhas,
-          pela agricultura e pela cultura do sul do Espírito Santo.
+         Monumento Natural Serra das Torres
         </p>
 
       </div>
@@ -18,10 +21,11 @@ function ValesCafe() {
       <div className="region-highlight">
 
         <div className="region-icon">
-          ☕
+          <Icon name="tree" size={40} />
         </div>
 
         <div>
+
           <p className="small-title">
             MIMOSO DO SUL
           </p>
@@ -35,6 +39,7 @@ function ValesCafe() {
             pelas montanhas e pela história da ocupação do
             sul capixaba.
           </p>
+
         </div>
 
       </div>
@@ -47,8 +52,22 @@ function ValesCafe() {
 
         <div className="region-grid">
 
-          <article className="region-card">
-            <span>⛰️</span>
+          <button
+            className="region-card"
+            onClick={() =>
+              onOpen({
+                icon: 'mountain',
+                category: 'Região do Vale e do Café',
+                title: 'Montanhas',
+                description:
+                  'Conheça as paisagens montanhosas e os lugares especiais da região.',
+              })
+            }
+          >
+
+            <span>
+              <Icon name="mountain" size={34} />
+            </span>
 
             <h4>
               Montanhas
@@ -58,10 +77,29 @@ function ValesCafe() {
               Paisagens montanhosas que caracterizam
               boa parte do sul do Espírito Santo.
             </p>
-          </article>
 
-          <article className="region-card">
-            <span>☕</span>
+            <span className="card-arrow">
+              →
+            </span>
+
+          </button>
+
+          <button
+            className="region-card"
+            onClick={() =>
+              onOpen({
+                icon: 'coffee',
+                category: 'VALES DO CAFÉ',
+                title: 'Café',
+                description:
+                  'Conheça a relação da região com a cultura do café e sua importância histórica.',
+              })
+            }
+          >
+
+            <span>
+              <Icon name="coffee" size={34} />
+            </span>
 
             <h4>
               Café
@@ -71,10 +109,29 @@ function ValesCafe() {
               A cultura do café faz parte da história
               e da identidade de diversas áreas da região.
             </p>
-          </article>
 
-          <article className="region-card">
-            <span>🏡</span>
+            <span className="card-arrow">
+              →
+            </span>
+
+          </button>
+
+          <button
+            className="region-card"
+            onClick={() =>
+              onOpen({
+                icon: 'home',
+                category: 'VALES DO CAFÉ',
+                title: 'Interior',
+                description:
+                  'Descubra pequenas comunidades, propriedades rurais e paisagens do interior capixaba.',
+              })
+            }
+          >
+
+            <span>
+              <Icon name="home" size={34} />
+            </span>
 
             <h4>
               Interior
@@ -84,7 +141,12 @@ function ValesCafe() {
               Pequenas comunidades, propriedades rurais
               e paisagens do interior capixaba.
             </p>
-          </article>
+
+            <span className="card-arrow">
+              →
+            </span>
+
+          </button>
 
         </div>
 

@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Backup manual do projeto, 2,5 MB e já desatualizado
+mimoso-do-sul.zip
