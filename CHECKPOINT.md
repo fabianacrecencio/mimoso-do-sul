@@ -406,14 +406,15 @@ altura da imagem; a 2,74:1 a janela ia de 33% a 67% e cortava a base. Por isso
 
 Ordem sugerida para a próxima sessão:
 
-1. **Fazer um commit.** É o item de maior risco e o mais rápido de resolver.
-2. O usuário valida no celular o que foi publicado em 30/09: página inicial
-   sem rolagem, cabeça do Cristo no círculo, cards transparentes, e a página
-   do Cristo Redentor (coluna única, galeria, ícones, texto justificado).
-   Calibrar se pedir.
-3. Decidir o peso 800 do título (trocar Cormorant por uma serif com 800 real,
+1. O usuário valida no celular e no desktop o que foi publicado em 30/09:
+   página inicial sem rolagem, cabeça do Cristo no círculo, cabeçalho
+   encostado na cabeça, cards transparentes, e a página do Cristo Redentor
+   (coluna única, galeria, ícones, texto justificado). **O número mais
+   frágil é o `padding-top: 124px` do desktop** — foi calibrado por conta,
+   sem medição. Calibrar se pedir.
+2. Decidir o peso 800 do título (trocar Cormorant por uma serif com 800 real,
    ou aceitar 700).
-4. Continuar os atrativos incompletos, um por vez, começando por Pico dos
+3. Continuar os atrativos incompletos, um por vez, começando por Pico dos
    Pontões — que já tem página, só precisa entrar no padrão novo.
 4. Migrar Fazenda União para o mesmo padrão.
 5. Opcional: apagar as 25 imagens sem uso no deploy — **27,4 MB**.
@@ -455,9 +456,8 @@ cards mais transparentes **numa regra única** válida para desktop e celular,
 e coluna única de 760px na página do Cristo Redentor alinhando foto, texto,
 galeria e mapa.
 
-**Último commit: `8126a91`** ("pagina do cristo redentor, galeria e fundo do
-celular"). O trabalho da última hora ainda está só no disco — commitar de
-novo ao retomar.
+**Último commit: `f58cd05`** ("desce o cabecalho da pagina inicial ate a
+cabeca do cristo"). A árvore de trabalho está limpa — nada pendente no disco.
 
 **Atenção ao cache:** o `index.html` em produção pode ficar alguns instantes
 servindo a versão anterior. Confirmar com `?cb=<timestamp>` na URL ou usar a URL
