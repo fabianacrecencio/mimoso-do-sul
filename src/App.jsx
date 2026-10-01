@@ -183,6 +183,8 @@ function App() {
           description={selectedItem.description}
           image={selectedItem.image}
           backgroundImage={selectedItem.backgroundImage}
+          galeria={selectedItem.galeria}
+          trilha={selectedItem.trilha}
           onBack={() => setSelectedItem(null)}
         />
       </div>

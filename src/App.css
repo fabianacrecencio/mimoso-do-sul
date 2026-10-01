@@ -1440,6 +1440,118 @@ a:focus-visible {
   object-fit: cover;
 }
 
+/* "O QUE VEMOS PELO CAMINHO": quatro vagas logo abaixo da galeria.
+
+   Espaçamento curto de propósito — a usuária pediu "sem muito
+   espaçamento entre eles". O vão é de três parcelas: a margem
+   inferior da seção da galeria (70px padrão, cortada para 22px
+   aqui), a altura do `h2` (33px, intocável porque tem as linhas
+   laterais do padrão) e a margem de baixo do `h2`. Antes somavam
+   117px entre a foto e a primeira vaga; agora 65px.
+
+   As margens adjacentes colapsam para a maior, por isso o
+   `margin-top` do `26px` do `.cristo-trilha-section` nunca valia:
+   o `70px` da galeria é que mandava. */
+
+.details-page-cristo .details-section:has(> .cristo-gallery) {
+  margin-bottom: 22px;
+}
+
+.details-page-cristo .cristo-trilha-section {
+  margin-top: 22px;
+  margin-bottom: 70px;
+}
+
+.details-page-cristo .cristo-trilha-section h2 {
+  margin-bottom: 10px;
+}
+
+/* 2×2 em vez de 1×4: com quatro colunas cada vaga ficava com
+   183px de largura e a foto saía pequena demais. Assim são 375px
+   em cima e 375px embaixo. */
+.cristo-trilha {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Cada vaga é `position: relative` e a legenda fica absoluta na
+   base, sobre um véu transparente — o mesmo recurso do rodapé dos
+   cards. O gradiente em vez de uma cor chapada é para a transição
+   com a foto não ficar com um corte reto. */
+.cristo-trilha-item {
+  position: relative;
+
+  aspect-ratio: 1.5 / 1;
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.cristo-trilha-legenda {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 16px 10px 8px;
+
+  background: linear-gradient(
+    rgba(0, 0, 0, 0),
+    rgba(8, 14, 6, 0.72)
+  );
+  color: var(--off-white);
+
+  font-family: 'Google Sans', 'Poppins', Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.3;
+  text-shadow: 0 1px 3px rgba(14, 22, 8, 0.9);
+}
+
+/* PADRÃO MAIÚSCULO/MINÚSCULO
+
+   O mesmo tratamento das estatísticas (`cristo-stats span`): 11px,
+   `letter-spacing: 1.4px` e uppercase. Reaproveitado em vez de
+   inventar um terceiro padrão de caixa alta no projeto.
+
+   O `letter-spacing` é o que faz o maiúsculo não virar um bloco
+   sólido de letras coladas — a 1,4px as palavras ainda se separam
+   numa barra de 373px.
+
+   Antes passava por `::first-letter` + `capitalize`, que é regra
+   do inglês e produzia "Vista Da Janela Do Cristo". */
+.cristo-trilha-legenda {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.cristo-trilha-legenda .icon {
+  flex-shrink: 0;
+
+  color: #d6e7c1;
+}
+
+.cristo-trilha-item img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
 /* A estátua da foto grande fica entre 63% e 76% da altura da
    imagem, então o centro não é o enquadramento certo. */
 .cristo-gallery-item:nth-child(1) img {
@@ -1797,6 +1909,12 @@ a:focus-visible {
     max-width: 90%;
   }
 
+  /* As vagas do "O QUE VEMOS PELO CAMINHO" já são 2×2 na regra
+     base, então no celular só falta o raio menor. */
+  .cristo-trilha-item {
+    border-radius: 10px;
+  }
+
   .cristo-gallery-item {
     border-radius: 12px;
   }
@@ -1846,7 +1964,7 @@ a:focus-visible {
       rgba(0, 0, 0, 0.52),
       rgba(0, 0, 0, 0.76)
     ),
-    url('/fotos/fund0.png');
+    url('/fotos/tes.png');
   background-position: center calc(50% + var(--parallax-offset));
   background-size: cover;
   background-repeat: no-repeat;
@@ -1879,6 +1997,17 @@ a:focus-visible {
   min-height: 300px;
 
   background: transparent;
+}
+
+/* O herói da Pontos Turísticos é mais baixo que o padrão (era
+   300px) porque o conteúdo ficava centralizado nos 300px e sobrava
+   ~64px vazios abaixo do subtítulo, antes do "ATRATIVOS
+   TURÍSTICOS". Com 250px sobram ~43px.
+
+   O escopo `:not(.patrimonios-page)` é obrigatório: Patrimônios
+   usa a mesma `.natureza-hero` e já estava aprovado. */
+.natureza-page:not(.patrimonios-page) .natureza-hero {
+  min-height: 250px;
 }
 
 .natureza-back {
@@ -2154,6 +2283,13 @@ a:focus-visible {
 @media (max-width: 600px) {
   .natureza-hero {
     min-height: 330px;
+  }
+
+  /* Mesma redução do desktop, Mobile vai de 330px para 270px: o vão
+     entre o subtítulo e o "ATRATIVOS TURÍSTICOS" cai de ~94px
+     para ~64px. */
+  .natureza-page:not(.patrimonios-page) .natureza-hero {
+    min-height: 270px;
   }
 
   .natureza-back {
@@ -2727,6 +2863,11 @@ a:focus-visible {
   gap: 18px;
 }
 
+/* O fundo do CARD é que escurecia a barra de baixo, não o do
+   rodapé: eram 22% de preto aqui, com o rodapé de 1% por cima
+   parecendo não ter efeito nenhum. Caiu para 6%, o que deixa a
+   foto de fundo da página aparecer levemente atrás do texto.
+   O `overflow: hidden` segura o arredondamento das pontas. */
 .nature-card {
   display: flex;
   min-height: 0;
@@ -2735,7 +2876,7 @@ a:focus-visible {
   overflow: hidden;
 
   border-radius: 20px;
-  background: rgba(0, 0, 0, 0.22);
+  background: rgba(0, 0, 0, 0.06);
   text-align: center;
 }
 
@@ -2763,22 +2904,36 @@ a:focus-visible {
   transform: scale(1.05);
 }
 
+/* RODAPÉ DO CARD DE ATRATIVO
+
+   Mais transparente e mais fino: caiu de 113px para ~77px, e o
+   preto de 14% para 3%.
+
+   O que mais pesava era a seta: `card-arrow` é compartilhada com os
+   cards da página inicial e vinha com 20px de fonte, line-height
+   herdado e um `padding-top` de 10px — 33px de altura sozinha. Aqui
+   ela tem escopo próprio, senão a página inicial mudaria junto.
+
+   Com o fundo tão leve, a legibilidade passou a depender quase
+   toda do `backdrop-filter` e das sombras de texto, então as duas
+   foram reforçadas. */
 .nature-card-content {
   display: flex;
   flex: 1;
   flex-direction: column;
   align-items: center;
 
-  padding: 14px 14px 12px;
-  background: rgba(0, 0, 0, 0.14);
+  padding: 7px 12px 6px;
+  background: rgba(0, 0, 0, 0.012);
   text-align: center;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
 
 .nature-card h4 {
-  margin: 0 0 8px;
-  font-size: 18px;
+  margin: 0 0 4px;
+  font-size: 17px;
+  text-shadow: 0 1px 3px rgba(14, 22, 8, 0.9), 0 2px 12px rgba(14, 22, 8, 0.7);
 }
 
 .nature-card-location {
@@ -2786,11 +2941,18 @@ a:focus-visible {
   align-items: flex-start;
   gap: 5px;
 
-  margin: 0 0 8px !important;
+  margin: 0 0 4px !important;
 
-  color: #d6e7c1;
+  color: #e2eeda;
   font-size: 12px !important;
   line-height: 1.4 !important;
+  text-shadow: 0 1px 3px rgba(14, 22, 8, 0.9), 0 2px 10px rgba(14, 22, 8, 0.7);
+}
+
+/* Seta do rodapé: era 33px de altura sozinha */
+.nature-card .card-arrow {
+  font-size: 15px;
+  line-height: 1.2;
 }
 
 .nature-card-location .icon {
@@ -2809,9 +2971,13 @@ a:focus-visible {
   -webkit-line-clamp: 3;
 }
 
+/* `margin-top: auto` alinha a seta na base de todos os cards,
+   mesmo os de título mais comprido — é o motivo de existir.
+   O `padding-top` era 10px e somava 10px de altura à seta;
+   caiu para 2px junto com a fonte de 20px para 15px. */
 .nature-card .card-arrow {
   margin-top: auto;
-  padding-top: 10px;
+  padding-top: 2px;
 }
 
 @media (max-width: 900px) {
@@ -2826,7 +2992,7 @@ a:focus-visible {
   }
 
   .nature-card-content {
-    padding: 18px 16px 16px;
+    padding: 9px 14px 8px;
   }
 }
 
@@ -3388,7 +3554,7 @@ a:focus-visible {
    recortes verticais dedicados.
 
    MONAST usa `celularmonast.jpg` (1080×1920, 0,562) e Pontos
-   Turísticos usa `touriscel.png` (941×1672, 0,563). As duas já
+   Turísticos usa `sun.png` (724×2172, 0,333). As duas já
    nascem no formato do celular, então o único ajuste necessário
    é `cover`: num 390×844 ambas escalam por 0,44 e renderizam
    475×844 — a altura preenche exatamente (por isso o percentual
@@ -3455,14 +3621,27 @@ a:focus-visible {
     background-repeat: no-repeat;
   }
 
-  /* Pontos Turísticos no celular: idem, com o gradiente da aba. */
+  /* Pontos Turísticos no celular: `sun.png` (724×2172, proporção
+     0,333), com o gradiente da aba.
+
+     É a foto certa para o formato: a `touriscel.png` era 0,563,
+     ou seja, 69% mais larga que a página. Esta é quase vertical,
+     então o `cover` corta muito menos dos lados.
+
+     Ela ainda EXPANDE, e a régua é esta: `cover` só não amplia se
+     a foto for maior que a página nos DOIS eixos. A página vai até
+     430px de largura e 3017px de altura; `sun.png` tem 724 de
+     largura (ok) e 2172 de altura (falta). Resultado: 1,18× a 1,39×
+     de ampliação, conforme o aparelho — sem emenda, mas mole num
+     celular de tela 2×. Para não ampliar seria preciso uns
+     900×3400. */
   .natureza-page {
     background-image:
       linear-gradient(
         rgba(0, 0, 0, 0.52),
         rgba(0, 0, 0, 0.76)
       ),
-      url('/fotos/touriscel.png');
+      url('/fotos/sun.png');
     background-position: center calc(50% + var(--parallax-offset));
     background-size: cover;
     background-repeat: no-repeat;

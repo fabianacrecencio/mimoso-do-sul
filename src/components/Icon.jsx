@@ -23,6 +23,37 @@ const lineIcons = {
       <circle cx="12" cy="13" r="3.5" />
     </>
   ),
+  /* arcticons:camera, embutido de
+     https://i.allsvgicons.com/r/arcticons:camera.json.
+     O `camera` acima é um desenho 24×24 genérico, usado como
+     placeholder antigo; este é o SVG real de 48×48. */
+  arctCamera: (
+    <>
+      <path
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M24 16.92a8.5 8.5 0 1 1-8.5 8.5a8.5 8.5 0 0 1 8.5-8.5"
+      />
+      <path
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M39.5 12.02h-8l-2.594-4h-9.812l-2.594 4h-8a4 4 0 0 0-4 4v18.8a4 4 0 0 0 4 4h31a4 4 0 0 0 4-4v-18.8a4 4 0 0 0-4-4"
+      />
+      <circle
+        cx="38.5"
+        cy="17.02"
+        r="2"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </>
+  ),
   book: (
     <>
       <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21V5.5Z" />
@@ -624,6 +655,7 @@ function Icon({ name, size = 24, isometric = false, className = '' }) {
     'mapsgo',
     'arctRuler',
     'yahooJapanCalendar',
+    'arctCamera',
     'terraria',
     'nordlockerCloud',
     'nothingButWallpapers',

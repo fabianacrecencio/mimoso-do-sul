@@ -7,17 +7,53 @@ function Detalhes({
   description,
   image,
   backgroundImage,
+  galeria,
+  trilha,
   onBack,
 }) {
   const isNatureza = title === 'Natureza'
   const isCristoRedentor = title === 'Cristo Redentor'
   const isPicoDosPontos = title === 'Pico dos Pontões'
   const isFazendaUniao = title === 'Fazenda União'
+
+  /* Identifica um ATRATIVO de Natureza. NÃO usar `title ===
+     'Natureza'`: esse era o título da página antiga de categoria e
+     nenhum atrativo o tem — foi exatamente esse erro que, numa
+     tentativa anterior, tirou o Cristo Redentor do layout aprovado
+     sem o build nem o lint reclamarem.
+
+     `usaPadraoCristo` INCLUI o Cristo, e é o que seleciona o
+     layout. Ele entra no mesmo `isCristoRedentor` de sempre, então
+     o Cristo continua caindo no mesmo código — inalterado. Onde o
+     que muda é o CONTEÚDO (estatísticas, galeria, trilha), o Cristo
+     usa os arrays locais, e os outros usam o que veio por prop. */
+  const isAtrativoNatureza = category === 'NATUREZA'
+  const usaPadraoCristo = isCristoRedentor || isAtrativoNatureza
   const cristoGallery = [
     '/fotos/cristo2.png',
     '/fotos/maybe2.png',
     '/fotos/cristo.jpeg',
   ]
+  /* Trecho "O QUE VEMOS PELO CAMINHO". As fotos ainda estão vazias:
+     basta trocar `foto: null` pelo caminho da imagem que o card
+     passa a mostrar a foto no lugar do placeholder, mantendo a
+     barra de descrição. */
+  const cristoTrilha = [
+    { foto: null, descricao: 'vista da janela do cristo' },
+    { foto: null, descricao: 'torre de sinal' },
+    { foto: null, descricao: 'mirante hollywood' },
+    { foto: null, descricao: 'vista da praça central' },
+  ]
+  /* Derivadas — precisam vir DEPOIS dos arrays acima, senão o
+     `cristoGallery` cai na zona morta temporal e a página nem
+     abre.
+
+     A galeria tem fallback no array do Cristo, senão um atrativo
+     sem galeria ficaria com as fotos do Cristo. A trilha NÃO tem:
+     cair nela mostraria as descrições do Cristo nos outros cards.
+     Sem `trilha` própria, a seção simplesmente não aparece. */
+  const galeriaDoCard = galeria && galeria.length > 0 ? galeria : cristoGallery
+  const trilhaDoCard = isCristoRedentor ? cristoTrilha : trilha || []
   const cristoStats = [
     { icon: 'yahooJapanCalendar', value: '1956', label: 'Inauguração' },
     { icon: 'arctRuler', value: '28 m', label: 'Altura do monumento' },
@@ -41,7 +77,7 @@ function Detalhes({
 
   return (
     <section
-      className={`details-page ${backgroundImage ? 'details-page-background' : ''} ${isCristoRedentor ? 'details-page-cristo' : ''}`}
+      className={`details-page ${backgroundImage ? 'details-page-background' : ''} ${usaPadraoCristo ? 'details-page-cristo' : ''}`}
       style={detailsStyle}
     >
 
@@ -79,16 +115,16 @@ function Detalhes({
 
         <div className="details-intro">
 
-          {isCristoRedentor ? (
+          {usaPadraoCristo ? (
             <>
               <h1 className="details-title">
                 {title}
               </h1>
 
               <p className="details-subtitle">
-                Erguido sobre um monte a 128 metros de altitude, o Cristo
-                Redentor é considerado a primeira maravilha do município e
-                proporciona uma vista panorâmica da cidade.
+                {isCristoRedentor
+                  ? 'Erguido sobre um monte a 128 metros de altitude, o Cristo Redentor é considerado a primeira maravilha do município e proporciona uma vista panorâmica da cidade.'
+                  : description}
               </p>
             </>
           ) : (
@@ -284,14 +320,14 @@ function Detalhes({
                     : 'Conheça este lugar'}
             </h2>
 
-            {isCristoRedentor ? (
+            {usaPadraoCristo ? (
               <>
                 <p>
-                  Inaugurado em 1956, o Cristo Redentor de Mimoso do Sul está localizado na Ladeira Ely Juqueira, no bairro Monte Cristo. Com 28 metros de altura, o monumento se destaca em meio à paisagem serrana e proporciona uma linda vista das montanhas que cercam o município.
+                  Inaugurado em 1956, o Cristo Redentor de Mimoso do Sul está localizado na Ladeira Ely Junqueira, no bairro Monte Cristo. Com 28 metros de altura, o monumento se destaca em meio à paisagem serrana e proporciona uma linda vista das montanhas que cercam o município.
                 </p>
 
                 <p>
-                  A experiência vai além do próprio monumento. Trilhas ao redor do Cristo levam a diferentes visões da cidade, entre eles a conhecida casinha “Hollywood”, situada no topo da montanha, de onde se tem uma vista panorâmica dos Pontões e da Serra das Torres. O local também é propício para contemplação, fotografia, contato com a natureza e observação de aves.
+                  A experiência vai além do próprio monumento. Trilhas ao redor do Cristo levam a diferentes visões da cidade, entre eles a conhecida casinha "Hollywood", situada no topo da montanha, de onde se tem uma vista panorâmica dos Pontões e da Serra das Torres. O local também é propício para contemplação, fotografia, contato com a natureza e observação de aves.
                 </p>
               </>
             ) : isPicoDosPontos ? (
@@ -360,7 +396,7 @@ function Detalhes({
 
           <section className="details-section">
 
-            {!isCristoRedentor && (
+            {!usaPadraoCristo && (
               <p className="details-label">
                 {isPicoDosPontos || isFazendaUniao
                   ? 'GALERIA'
@@ -369,7 +405,7 @@ function Detalhes({
             )}
 
             <h2>
-              {isCristoRedentor
+              {usaPadraoCristo
                 ? 'Galeria'
                 : isPicoDosPontos
                   ? 'Imagens do Pico'
@@ -378,16 +414,16 @@ function Detalhes({
                     : 'Galeria'}
             </h2>
 
-            {isCristoRedentor && (
+            {usaPadraoCristo && (
               <div className="cristo-gallery">
-                {cristoGallery.map((photo, index) => (
+                {galeriaDoCard.map((photo, index) => (
                   <div
                     className="cristo-gallery-item"
                     key={photo}
                   >
                     <img
                       src={photo}
-                      alt={`Cristo Redentor — foto ${index + 1}`}
+                      alt={`${title} — foto ${index + 1}`}
                       loading="lazy"
                       decoding="async"
                     />
@@ -396,7 +432,7 @@ function Detalhes({
               </div>
             )}
 
-            {!isCristoRedentor && (
+            {!usaPadraoCristo && (
               <div className="photo-placeholder-grid">
 
               {isPicoDosPontos ? (
@@ -451,19 +487,53 @@ function Detalhes({
 
           </section>
 
+          {usaPadraoCristo && trilhaDoCard.length > 0 && (
+            <section className="details-section cristo-trilha-section">
+
+              <h2>
+                O que vemos pelo caminho
+              </h2>
+
+              <div className="cristo-trilha">
+                {trilhaDoCard.map((vaga, index) => (
+                  <div
+                    className="cristo-trilha-item"
+                    key={`${vaga.descricao}-${index}`}
+                  >
+                    {vaga.foto && (
+                      <img
+                        src={vaga.foto}
+                        alt={`O que vemos pelo caminho — ${vaga.descricao}`}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    )}
+
+                    <span className="cristo-trilha-legenda">
+                      <Icon name="arctCamera" size={16} />
+
+                      {vaga.descricao}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+            </section>
+          )}
+
           <section className="details-section">
 
-            {!isCristoRedentor && (
+            {!usaPadraoCristo && (
               <p className="details-label">
                 LOCALIZAÇÃO
               </p>
             )}
 
             <h2>
-              {isCristoRedentor ? 'Como chegar' : 'Onde fica?'}
+              {usaPadraoCristo ? 'Como chegar' : 'Onde fica?'}
             </h2>
 
-            {isCristoRedentor && (
+            {usaPadraoCristo && (
               <div className="cristo-address">
                 <Icon name="pushPinOutlined" size={18} />
 

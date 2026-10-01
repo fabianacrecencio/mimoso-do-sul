@@ -13,11 +13,13 @@ function Natureza({ onOpen, onBack }) {
     },
     {
       title: 'Pico dos Pontões',
-      imagem: '/fotos/pontoes6.png',
+      imagem: '/fotos/cardpico.png',
       fundo: '/fotos/fundopontos.png',
       localizacao: 'Conceição do Muqui',
       description:
         'O Pico dos Pontões, localizado no distrito de Conceição do Muqui, em Mimoso do Sul (ES), possui 1.938 metros de altitude, sendo o ponto mais alto do município.',
+      galeria: ['/fotos/pico.jpeg', '/fotos/pontoes1.png', '/fotos/pontoes.jpeg'],
+      trilha: [],
     },
     {
       title: 'Cachoeira do Paraíba',
@@ -25,6 +27,15 @@ function Natureza({ onOpen, onBack }) {
       localizacao: 'Localizada a 13 km de Mimoso',
       description:
         'Cachoeira com aproximadamente 12 metros de altura.',
+      galeria: ['/fotos/paraiba.png'],
+      trilha: [],
+    },
+    {
+      title: 'Cachoeira das Flores',
+      imagem: '/fotos/flores.png',
+      localizacao: 'Sao Jose das Torres',
+      galeria: ['/fotos/flores.png'],
+      trilha: [],
     },
     {
       title: 'Usina Aparecida',
@@ -32,6 +43,8 @@ function Natureza({ onOpen, onBack }) {
       localizacao: 'Rio Muqui do Sul, na altura da Fazenda Aparecida',
       description:
         'Construída no encontro do Córrego Aparecida com o rio Muqui do Sul para abastecer a cidade, encontra-se desativada e em ruínas.',
+      galeria: ['/fotos/usina.jpeg'],
+      trilha: [],
     },
     {
       title: 'Mirante Santa Terezinha',
@@ -39,6 +52,8 @@ function Natureza({ onOpen, onBack }) {
       localizacao: 'Interior de Mimoso do Sul',
       description:
         'Mirante com vista panorâmica dos vales e montanhas da região de Mimoso do Sul.',
+      galeria: ['/fotos/mirante.png'],
+      trilha: [],
     },
     {
       title: "Mirante da Água Limpa",
@@ -46,6 +61,8 @@ function Natureza({ onOpen, onBack }) {
       localizacao: 'Comunidade SÁgua Limpa',
       description:
         'Faz parte do MONAST e liga Mimoso do Sul a Muqui.',
+      galeria: ['/fotos/agua.jpeg'],
+      trilha: [],
     },
   ]
 
@@ -73,7 +90,7 @@ function Natureza({ onOpen, onBack }) {
           </h1>
 
           <p className="discover-text">
-            Natureza entre montanhas, rios, cachoeiras e mirantes.
+            entre montanhas, rios, cachoeiras e mirantes.
           </p>
 
         </div>
@@ -104,6 +121,8 @@ function Natureza({ onOpen, onBack }) {
                     image: atrativo.imagemDetalhe || atrativo.imagem,
                     backgroundImage: atrativo.fundo,
                     localizacao: atrativo.localizacao,
+                    galeria: atrativo.galeria,
+                    trilha: atrativo.trilha,
                   })
                 }
               >

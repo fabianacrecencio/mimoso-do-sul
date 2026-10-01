@@ -1,6 +1,10 @@
 # Checkpoint — Mimoso do Sul
 
-Data: 30/09/2026 — sessão 2. Tudo publicado e verificado em produção.
+Data: 30/09/2026 — fim da sessão 2. Tudo publicado e verificado.
+
+**Estado final desta sessão:** o padrão do Cristo Redentor foi estendido para
+os outros 6 atrativos de Pontos Turísticos, e **amanhã é para preencher o
+conteúdo de cada um**. O Cristo não deve ser tocado.
 
 ## Estado atual
 
@@ -404,20 +408,67 @@ altura da imagem; a 2,74:1 a janela ia de 33% a 67% e cortava a base. Por isso
 
 ## Retomar a partir daqui
 
-Ordem sugerida para a próxima sessão:
+**O que fazer amanhã: preencher o conteúdo de cada atrativo.** A estrutura
+visual já está idêntica em todos — o que falta é texto, foto e legenda.
 
-1. O usuário valida no celular e no desktop o que foi publicado em 30/09:
-   página inicial sem rolagem, cabeça do Cristo no círculo, cabeçalho
-   encostado na cabeça, cards transparentes, e a página do Cristo Redentor
-   (coluna única, galeria, ícones, texto justificado). **O número mais
-   frágil é o `padding-top: 124px` do desktop** — foi calibrado por conta,
-   sem medição. Calibrar se pedir.
-2. Decidir o peso 800 do título (trocar Cormorant por uma serif com 800 real,
-   ou aceitar 700).
-3. Continuar os atrativos incompletos, um por vez, começando por Pico dos
-   Pontões — que já tem página, só precisa entrar no padrão novo.
-4. Migrar Fazenda União para o mesmo padrão.
-5. Opcional: apagar as 25 imagens sem uso no deploy — **27,4 MB**.
+### Como o padrão foi estendido (e o que NÃO pode ser repetido)
+
+Tudo vive em dois arquivos. `Natureza.jsx` guarda os dados por atrativo e
+`Detalhes.jsx` consome. O Cristo ficou como estava: os arrays `cristoGallery`,
+`cristoTrilha` e `cristoStats` continuam locais dele.
+
+A flag que seleciona o layout é:
+
+```js
+const isAtrativoNatureza = category === 'NATUREZA'
+const usaPadraoCristo = isCristoRedentor || isAtrativoNatureza
+```
+
+`usaPadraoCristo` **inclui** o Cristo, então ele entra no mesmo `if` de sempre
+e não muda de ramo. Só o CONTEÚDO é por dado: `galeriaDoCard` cai no array do
+Cristo quando o atrativo não tem o seu.
+
+**`App.jsx` precisa repassar os props.** Foi o bug do dia: ele listava
+sozinho `icon, category, title, description, image, backgroundImage`, e
+`galeria`/`trilha` ficavam retidos lá. Ao acrescentar um campo novo em
+`onOpen`, acrescentar em `App.jsx` também — o build e o lint **não**
+reclamam, o campo só chega `undefined`.
+
+**Nunca usar `title === 'Natureza'` para identificar atrativo.** Esse era o
+título da página antiga de categoria, e nenhum atrativo o tem. Numa tentativa
+anterior isso tirou o Cristo do layout aprovado, com build e lint limpos:
+só a conferência na tela pegou. `category === 'NATUREZA'` é o certo.
+
+### Fila de amanhã
+
+1. **Pico dos Pontões** — tem `galeria` com 3 fotos e `description`. Falta
+   `subtitulo` próprio (hoje cai na descrição) e `trilha`.
+2. **Cachoeira do Paraíba, Cachoeira das Flores, Usina Aparecida, Mirante
+   Santa Terezinha, Mirante da Água Limpa** — cada um tem só a própria foto
+   como galeria (1 foto, layout 1×1) e uma linha de descrição. Faltam
+   subtítulo, texto de "Sobre", mais fotos e as 4 legendas da trilha.
+3. Migrar **Fazenda União** (aba Patrimônios) para o mesmo padrão.
+4. Decidir o peso 800 do título.
+5. Opcional: apagar as imagens sem uso — **27,4 MB**.
+
+### Pendências técnicas
+
+- **`sun.png` no celular amplia.** 724×2172 contra uma página de até 430×3017:
+  o `cover` escala 1,18× a 1,39×. Sem emenda, mas mole em tela 2×. Para não
+  ampliar precisaria de uns **900×3400**.
+- **`padding-top: 124px`** do cabeçalho da página inicial no desktop foi
+  calibrado por conta, sem medição — é o número mais frágil do projeto.
+- **`cardpico.png` é quadrada** (1254×1254) e o card é 4/3: perde 25% da
+  altura. O `flores.png` (1,5) perdeu só 11% da largura.
+- **`text-transform: capitalize`** é regra do inglês e virou "Vista Da Janela
+  Do Cristo". Para caixa alta, usar `uppercase`; para só a primeira letra,
+  `::first-letter`.
+- **`backdrop-filter` não é verificável pelo CSSOM**: o minificador do Vite
+  remove a versão sem prefixo, e `getComputedStyle().backdropFilter` devolve
+  `"none"`. Só a captura de tela prova.
+- **Margens adjacentes colapsam para a maior.** Foi por isso que `margin-top:
+  26px` numa seção e `margin-bottom: 70px` na anterior não somavam 96px — o
+  70px vencia. Para encurtar um vão, corte a margem da seção **anterior**.
 
 ### Imagens sem uso (medido, não estimado)
 
@@ -446,18 +497,19 @@ quebrar abas já aprovadas, e `npm run build && npm run lint` antes de cada
 
 - Cloudflare Pages project: `fabibriefs`
 - URL: https://fabibriefs.pages.dev
-- Deployment mais recente: https://08aba2eb.fabibriefs.pages.dev
+- Deployment mais recente: https://ae92277c.fabibriefs.pages.dev
 - Comando: `npm run deploy` (= `npm run build && npx wrangler pages deploy dist --project-name fabibriefs`)
 
-Deploy de 30/09/2026: cabeçalho da página inicial descido até encostar na
-cabeça do Cristo (desktop e celular), página inicial cabendo inteira sem
-rolagem, cabeça posicionada no círculo pedido (`auto 110%` a `51% 100%`),
-cards mais transparentes **numa regra única** válida para desktop e celular,
-e coluna única de 760px na página do Cristo Redentor alinhando foto, texto,
-galeria e mapa.
+Deploy de 30/09/2026 (fim da sessão 2): padrão do Cristo Redentor estendido
+para os 7 atrativos de Pontos Turísticos, fundo do celular da aba trocado para
+`sun.png`, card novo "Cachoeira das Flores", foto do Pico trocada para
+`cardpico.png`, rodapé dos cards mais fino e transparente (o escuro vinha do
+card, 22%, não do rodapé), e o "O QUE VEMOS PELO CAMINHO" com as 4 vagas e
+legendas.
 
-**Último commit: `f58cd05`** ("desce o cabecalho da pagina inicial ate a
-cabeca do cristo"). A árvore de trabalho está limpa — nada pendente no disco.
+**O Cristo Redentor não foi alterado** — conferido no navegador depois do
+deploy: título, subtítulo, as 3 estatísticas, as 4 seções, a galeria com as 3
+fotos e a trilha com as 4 legendas.
 
 **Atenção ao cache:** o `index.html` em produção pode ficar alguns instantes
 servindo a versão anterior. Confirmar com `?cb=<timestamp>` na URL ou usar a URL
@@ -468,7 +520,7 @@ do deployment, que é imutável.
 | Aba | Desktop | Celular (≤700px) |
 |---|---|---|
 | Descubra | `/fotos/abertura.jpeg` | mesma, mas `auto 110%` a `51% 100%` (ver abaixo) |
-| Pontos Turísticos | `/fotos/fund0.png` | `/fotos/touriscel.png` (941×1672, 0,563), `cover` |
+| Pontos Turísticos | `/fotos/tes.png` | `/fotos/sun.png` (724×2172, 0,333), `cover` |
 | MONAST | `/fotos/monast3.jpeg` | `/fotos/celularmonast.jpg` (1080×1920, 0,562), `cover` |
 | Patrimônios | `/fotos/uniao.jpeg` | mesmo, `cover` com viés vertical 38% |
 | Cristo Redentor | inline via `fundo` | `/fotos/final.png` (722×2176, 0,3318), `cover` |
