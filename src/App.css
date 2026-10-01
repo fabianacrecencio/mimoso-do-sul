@@ -1558,6 +1558,42 @@ a:focus-visible {
   object-position: center 58%;
 }
 
+/* Itens 2 e 3 do Pico dos Pontões. O escopo é `.details-page-pico` de
+   propósito: a galeria do Cristo é a versão aprovada e usa o mesmo
+   `.cristo-gallery`, então mexer na regra geral mudaria as fotos dele
+   junto.
+
+   Item 2 (`pontoes.jpeg`, 569×490 dentro de um card 1,35:1): o
+   `center 50%` padrão cortava a parte de cima. `center top` empurra
+   a imagem para baixo dentro do card. Perde só 14% da altura, todo
+   do rodão — sem custo para o assunto da foto. */
+
+.details-page-pico .cristo-gallery-item:nth-child(2) img {
+  object-position: center top;
+}
+
+/* Item 3 (`ponte.png`, 938×1122 dentro de um card 1,35:1): aqui
+   `center top` errou — essa foto tem 20% de céu no topo e o card só
+   mostra 61,8% da altura dela, então colar no topo mostrava quase
+   só nuvens.
+
+   Medindo os pixels da foto:
+     0–20%   céu com nuvens (brilho 168 / 156)
+     14,5%   topo da agulha de pedra
+     20–30%  rocha aparecendo (brilho 127)
+     30–80%  montanha e mata (brilho 55–84)
+     80–100% cerca e tabuado da ponte (brilho 110)
+
+   Com 61,8% de altura visível, começar em 14,5% fecha em 76,3% —
+   cabe a agulha, a rocha, a mata e o vale, com uma faixa fina de
+   céu. 38% é o número que faz a janela começar exatamente na agulha.
+
+   A alternativa é `center bottom`: aí some todo o céu e aparece o
+   tabuado da ponte inteiro, mas o topo da agulha sai de quadro. */
+.details-page-pico .cristo-gallery-item:nth-child(3) img {
+  object-position: center 38%;
+}
+
 /* Endereço em "Como chegar". A margem de baixo é curta de propósito:
    ela é o único vão entre o endereço e o mapa, e 24px deixava os
    dois blocos soltos. */

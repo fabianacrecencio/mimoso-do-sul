@@ -468,6 +468,59 @@ const lineIcons = {
       />
     </>
   ),
+  /* arcticons:summit — cume com bandeira. Usado no infográfico do
+     Pico dos Pontões, no lugar da dificuldade. */
+  arctSummit: (
+    <path
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M20.394 14.32L24 18.124l3.606-3.803zM24 38.052L4.5 33.367L24 9.949zl19.5-4.685L24 9.949"
+    />
+  ),
+  /* arcticons:alltrails — trilha sinuosa. 1ª coluna do
+     infográfico do Pico dos Pontões (altura). */
+  arctAlltrails: (
+    <path
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="m41.82 30.535l-8.136-11.784l-3.989 2.336l-5.905-9.79L4.5 35.784c18.136-12.337 27.782-3.774 39 .919"
+    />
+  ),
+  /* arcticons:emoji-hiking-boot — bota com coturno. 2ª coluna do
+     infográfico do Pico dos Pontões (distância). */
+  arctHikingBoot: (
+    <>
+      <path
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M5.533 35.392c-.258-4.372 1.103-11.861 1.48-12.595l.027-9.431s7.46-.086 9.667-1.111c.957-.445 2.536-1.329 3.612-1.944a.747.747 0 0 1 1.12.663c-.048 2.56-.044 8.044.81 9.55c.78 1.378 3.033 2.87 4.42 3.918c3.723 2.81 9.096 3.145 11.504 3.494c5.393.782 4.834 6.933 3.172 8.08c-2.61 1.802-11.576.803-11.576.803c-2.18-.12-7.522-1.427-12.252-1.427"
+      />
+      <path
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M8.768 32.667s21.159 2.027 24.07 1.402M19.72 16.968l-1.98-.01m2.345 3.576l-1.925.463m3.564 2.163l-1.64 1.11M5.5 35.392h12.017v2.398H5.5z"
+      />
+    </>
+  ),
+  /* arcticons:levelsfyi — escadinha de níveis. 3ª coluna do
+     infográfico do Pico dos Pontões (dificuldade). */
+  arctLevels: (
+    <path
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M42.46 7.983V42.5H8.504v-6.887h6.527v-6.728h6.848v-6.807h6.767V15.27h7.328V7.982zM29.887 5.5L5.539 30.007"
+    />
+  ),
   /* arcticons:ruler */
   arctRuler: (
     <path
@@ -656,6 +709,10 @@ function Icon({ name, size = 24, isometric = false, className = '' }) {
     'arctRuler',
     'yahooJapanCalendar',
     'arctCamera',
+    'arctSummit',
+    'arctAlltrails',
+    'arctHikingBoot',
+    'arctLevels',
     'terraria',
     'nordlockerCloud',
     'nothingButWallpapers',

@@ -14,12 +14,54 @@ function Natureza({ onOpen, onBack }) {
     {
       title: 'Pico dos Pontões',
       imagem: '/fotos/cardpico.png',
+      /* `imagemDetalhe` é a foto grande que abre a página. O card
+         pequeno da lista usa `imagem`. Mesmo par do Cristo
+         (`cristo2.png` no card, `top.png` na página). */
+      imagemDetalhe: '/fotos/cardgrande.png',
       fundo: '/fotos/fundopontos.png',
       localizacao: 'Conceição do Muqui',
       description:
-        'O Pico dos Pontões, localizado no distrito de Conceição do Muqui, em Mimoso do Sul (ES), possui 1.938 metros de altitude, sendo o ponto mais alto do município.',
-      galeria: ['/fotos/pico.jpeg', '/fotos/pontoes1.png', '/fotos/pontoes.jpeg'],
-      trilha: [],
+        'O Pico dos Pontões, localizado no distrito de Conceição do Muqui, em Mimoso do Sul (ES), possui 1.438 metros de altitude, sendo o ponto mais alto do município.',
+      /* `subtitulo` é o texto logo abaixo do título na página de
+         detalhes. Fica separado do `description`, que é o que
+         aparece no card da lista "ATRATIVOS TURÍSTICOS" — os dois
+         podem ser diferentes sem um virar o outro. */
+      subtitulo:
+        'Localizado no distrito de Conceição do Muqui em Mimoso do Sul, os Pontões podem ser avistados de municípios vizinhos, como Alegre, Muqui e Guaçuí.',
+      /* `sobre` são os parágrafos justificados da seção. O Cristo
+         tem os dele hardcoded no `Detalhes.jsx`, porque é o
+         primeiro a ser feito; os outros vêm por aqui. */
+      sobre: [
+        'A região integra a Rota do Pico dos Pontões, percurso de aproximadamente 36 km que atravessa diferentes distritos de Mimoso do Sul. Marcada por vales verdes, montanhas, tradição cafeeira e pequenas comunidades, a região preserva uma paisagem rural de ritmo tranquilo. A subida até o cume da formação menor dos Pontões exige preparo moderado e inclui trechos com cordas nos metros finais. A caminhada dura aproximadamente 4 horas no total e, ao alcançar o alto, proporciona uma ampla vista das montanhas e vales do entorno.',
+        'Além do trekking, os Pontões atraem praticantes de motocross, escalada e parapente, além de atividades como o wingsuit, que ganhou destaque na região após os saltos realizados pelo atleta Fernando Brito em 2016. Entre plantações de café, comunidades rurais e grandes formações rochosas, o percurso reúne natureza, cultura e aventura, revelando diferentes paisagens do interior capixaba.',
+      ],
+      /* Infográfico no mesmo padrão do bloco de estatísticas do
+         Cristo. Os três ícones vieram da fonte (allsvgicons) e
+         estão no catálogo como `arctAlltrails`, `arctHikingBoot`
+         e `arctLevels`. */
+      stats: [
+        { icon: 'arctAlltrails', value: '1.438 m', label: 'Altura' },
+        { icon: 'arctHikingBoot', value: '4km aprox', label: 'Distância' },
+        { icon: 'arctLevels', value: 'Difícil', label: 'Dificuldade' },
+      ],
+      /* Galeria: 1ª foto grande à esquerda, 2 e 3 menores ao lado.
+
+         O item 1 é o mesmo arquivo do fundo da página
+         (`fundo`, abaixo) — é a foto do pôr do sol. */
+      galeria: ['/fotos/fundopontos.png', '/fotos/pontoes.jpeg', '/fotos/ponte.png'],
+      /* "O QUE VEMOS PELO CAMINHO" — as 4 vagas, no mesmo formato
+         do Cristo: `foto: null` deixa o espaço da imagem vazio até
+         você escolher o arquivo, e a legenda já aparece.
+
+         As legendas abaixo foram montadas com trechos do seu próprio
+         texto do "Sobre o local". Troque pelas que preferir — é só
+         editar a palavra depois de `descricao:`. */
+      trilha: [
+        { foto: null, descricao: 'Trecho com cordas na subida' },
+        { foto: null, descricao: 'Vista das montanhas do alto' },
+        { foto: null, descricao: 'Comunidades rurais e plantações de café' },
+        { foto: null, descricao: 'Esportes de aventura' },
+      ],
     },
     {
       title: 'Cachoeira do Paraíba',
@@ -121,6 +163,9 @@ function Natureza({ onOpen, onBack }) {
                     image: atrativo.imagemDetalhe || atrativo.imagem,
                     backgroundImage: atrativo.fundo,
                     localizacao: atrativo.localizacao,
+                    subtitulo: atrativo.subtitulo,
+                    sobre: atrativo.sobre,
+                    stats: atrativo.stats,
                     galeria: atrativo.galeria,
                     trilha: atrativo.trilha,
                   })

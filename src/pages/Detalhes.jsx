@@ -7,6 +7,9 @@ function Detalhes({
   description,
   image,
   backgroundImage,
+  subtitulo,
+  sobre,
+  stats,
   galeria,
   trilha,
   onBack,
@@ -34,6 +37,17 @@ function Detalhes({
     '/fotos/maybe2.png',
     '/fotos/cristo.jpeg',
   ]
+  /* Parágrafos do "Sobre" do Cristo. Ficam aqui porque ele foi o
+     primeiro a ser feito, mas são dados como qualquer outro: os
+     demais atrativos trazem os seus pelo campo `sobre`.
+
+     Antes eles estavam escritos direto no JSX do ramo, e como o
+     ramo é `usaPadraoCristo` — que inclui TODOS os atrativos de
+     Natureza — o Pico dos Pontões aparecia com o texto do Cristo. */
+  const cristoSobre = [
+    'Inaugurado em 1956, o Cristo Redentor de Mimoso do Sul está localizado na Ladeira Ely Junqueira, no bairro Monte Cristo. Com 28 metros de altura, o monumento se destaca em meio à paisagem serrana e proporciona uma linda vista das montanhas que cercam o município.',
+    'A experiência vai além do próprio monumento. Trilhas ao redor do Cristo levam a diferentes visões da cidade, entre eles a conhecida casinha "Hollywood", situada no topo da montanha, de onde se tem uma vista panorâmica dos Pontões e da Serra das Torres. O local também é propício para contemplação, fotografia, contato com a natureza e observação de aves.',
+  ]
   /* Trecho "O QUE VEMOS PELO CAMINHO". As fotos ainda estão vazias:
      basta trocar `foto: null` pelo caminho da imagem que o card
      passa a mostrar a foto no lugar do placeholder, mantendo a
@@ -52,13 +66,15 @@ function Detalhes({
      sem galeria ficaria com as fotos do Cristo. A trilha NÃO tem:
      cair nela mostraria as descrições do Cristo nos outros cards.
      Sem `trilha` própria, a seção simplesmente não aparece. */
-  const galeriaDoCard = galeria && galeria.length > 0 ? galeria : cristoGallery
-  const trilhaDoCard = isCristoRedentor ? cristoTrilha : trilha || []
   const cristoStats = [
     { icon: 'yahooJapanCalendar', value: '1956', label: 'Inauguração' },
     { icon: 'arctRuler', value: '28 m', label: 'Altura do monumento' },
     { icon: 'celeste', value: '128 m', label: 'Altitude do monte' },
   ]
+  const galeriaDoCard = galeria && galeria.length > 0 ? galeria : cristoGallery
+  const trilhaDoCard = isCristoRedentor ? cristoTrilha : trilha || []
+  const sobreDoCard = isCristoRedentor ? cristoSobre : sobre || []
+  const statsDoCard = isCristoRedentor ? cristoStats : stats || []
   const picoGallery = [
     '/fotos/pico.jpeg',
     '/fotos/pontoes1.png',
@@ -77,7 +93,7 @@ function Detalhes({
 
   return (
     <section
-      className={`details-page ${backgroundImage ? 'details-page-background' : ''} ${usaPadraoCristo ? 'details-page-cristo' : ''}`}
+      className={`details-page ${backgroundImage ? 'details-page-background' : ''} ${usaPadraoCristo ? 'details-page-cristo' : ''} ${isPicoDosPontos ? 'details-page-pico' : ''}`}
       style={detailsStyle}
     >
 
@@ -124,7 +140,7 @@ function Detalhes({
               <p className="details-subtitle">
                 {isCristoRedentor
                   ? 'Erguido sobre um monte a 128 metros de altitude, o Cristo Redentor é considerado a primeira maravilha do município e proporciona uma vista panorâmica da cidade.'
-                  : description}
+                  : subtitulo || description}
               </p>
             </>
           ) : (
@@ -141,7 +157,7 @@ function Detalhes({
                 <p>
                   O <strong>Pico dos Pontões</strong>, localizado no distrito
                   de Conceição do Muqui, em Mimoso do Sul (ES), possui
-                  <strong> 1.938 metros de altitude</strong>, sendo o ponto
+                  <strong> 1.438 metros de altitude</strong>, sendo o ponto
                   mais alto do município.
                 </p>
               ) : (
@@ -154,9 +170,9 @@ function Detalhes({
 
         </div>
 
-        {isCristoRedentor && (
+        {usaPadraoCristo && statsDoCard.length > 0 && (
           <ul className="cristo-stats">
-            {cristoStats.map((stat) => (
+            {statsDoCard.map((stat) => (
               <li key={stat.label}>
                 <Icon name={stat.icon} size={22} />
 
@@ -193,7 +209,7 @@ function Detalhes({
 
             <p>
               Conhecido também como “Dedo de Deus”, o pico
-              possui 1.938 metros de altura e se destaca pela
+              possui 1.438 metros de altura e se destaca pela
               sua formação rochosa e pelas paisagens das
               montanhas do sul do Espírito Santo.
             </p>
@@ -300,13 +316,13 @@ function Detalhes({
 
           <section className="details-section">
 
-            {!isCristoRedentor && (
+            {/* O rótulo saiu: repetia o `h2` logo abaixo e poluía a
+                leitura. O `h2` é escrito em caixa baixa porque o CSS
+                do projeto aplica `text-transform: uppercase` — é ele
+                que vira "SOBRE O LOCAL" na tela. */}
+            {isFazendaUniao && (
               <p className="details-label">
-                {isPicoDosPontos
-                  ? 'SOBRE A TRILHA'
-                  : isFazendaUniao
-                    ? 'SOBRE A FAZENDA'
-                    : 'SOBRE'}
+                SOBRE A FAZENDA
               </p>
             )}
 
@@ -314,80 +330,28 @@ function Detalhes({
               {isCristoRedentor
                 ? 'Sobre o monumento'
                 : isPicoDosPontos
-                  ? 'Pico dos Pontões'
+                  ? 'Sobre o local'
                   : isFazendaUniao
                     ? 'Fazenda União'
                     : 'Conheça este lugar'}
             </h2>
 
-            {usaPadraoCristo ? (
-              <>
-                <p>
-                  Inaugurado em 1956, o Cristo Redentor de Mimoso do Sul está localizado na Ladeira Ely Junqueira, no bairro Monte Cristo. Com 28 metros de altura, o monumento se destaca em meio à paisagem serrana e proporciona uma linda vista das montanhas que cercam o município.
+            {sobreDoCard.length > 0 ? (
+              sobreDoCard.map((paragrafo, indice) => (
+                <p key={`${title}-sobre-${indice}`}>
+                  {paragrafo}
                 </p>
-
-                <p>
-                  A experiência vai além do próprio monumento. Trilhas ao redor do Cristo levam a diferentes visões da cidade, entre eles a conhecida casinha "Hollywood", situada no topo da montanha, de onde se tem uma vista panorâmica dos Pontões e da Serra das Torres. O local também é propício para contemplação, fotografia, contato com a natureza e observação de aves.
-                </p>
-              </>
-            ) : isPicoDosPontos ? (
-              <>
-                <p>
-                  A trilha tem início na comunidade de <strong>Alto dos
-                  Pontões</strong> e apresenta trechos que exigem técnicas
-                  de aderência. Por isso, <strong>não é recomendada para
-                  iniciantes</strong>, especialmente devido ao trecho final,
-                  que é mais exposto e inclui subidas com auxílio de cordas
-                  e passagens próximas a ribanceiras.
-                </p>
-
-                <p>
-                  Recomenda-se a contratação de um <strong>guia
-                  especializado</strong>, embora a trilha seja bem
-                  sinalizada.
-                </p>
-              </>
-            ) : isFazendaUniao ? (
-              <>
-                <p>
-                  A antiga sede da Fazenda União é uma construção da
-                  segunda metade do século XIX, com características
-                  arquitetônicas semelhantes às antigas fazendas do Vale
-                  do Paraíba fluminense e de Minas Gerais. Apesar do
-                  estilo colonial, a propriedade começou a ser ocupada
-                  apenas na década de 1840, durante o período do Império.
-                </p>
-
-                <p>
-                  No início do século XX, com a crise do café, a fazenda
-                  passou também a cultivar cana-de-açúcar. Em 1915, já
-                  possuía três moendas, um sistema movido por roda
-                  hidráulica e um alambique com capacidade para produzir
-                  cerca de 480 litros de aguardente por dia. A atividade
-                  deu origem à Usina União, que entre as décadas de 1940
-                  e 1950 se tornou uma importante produtora de açúcar e
-                  aguardente, destacando-se pela fabricação da cachaça
-                  Bocãina.
-                </p>
-
-                <p>
-                  A propriedade foi abandonada na década de 1970 e, com
-                  cerca de 564 hectares, desapropriada em 1998, passando a
-                  integrar o Assentamento União.
-                </p>
-              </>
+              ))
             ) : (
               <>
                 <p>
-                  Aqui você poderá adicionar as informações,
-                  histórias, curiosidades e detalhes sobre
-                  este lugar ou tema.
+                  {description ||
+                    'Aqui você poderá adicionar as informações, histórias, curiosidades e detalhes sobre este lugar ou tema.'}
                 </p>
 
                 <p>
-                  Este espaço foi preparado para receber
-                  o conteúdo que fará parte do seu guia
-                  de Mimoso do Sul.
+                  Este espaço foi preparado para receber o conteúdo que
+                  fará parte do seu guia de Mimoso do Sul.
                 </p>
               </>
             )}

@@ -1,10 +1,11 @@
 # Checkpoint — Mimoso do Sul
 
-Data: 30/09/2026 — fim da sessão 2. Tudo publicado e verificado.
+Data: 01/10/2026 — fim da sessão 3. Tudo publicado e verificado.
 
-**Estado final desta sessão:** o padrão do Cristo Redentor foi estendido para
-os outros 6 atrativos de Pontos Turísticos, e **amanhã é para preencher o
-conteúdo de cada um**. O Cristo não deve ser tocado.
+**Estado final desta sessão:** o **Pico dos Pontões** foi preenchido por
+completo — subtítulo, texto "Sobre o local", infográfico, bloco "O QUE VEMOS
+PELO CAMINHO" com 4 vagas e galeria própria. O próximo atrativo da fila é a
+**Cachoeira do Paraíba**. O Cristo não deve ser tocado.
 
 ## Estado atual
 
@@ -269,9 +270,24 @@ Icons arcticons usam viewBox 48×48 e `stroke-width: 1.6`, controlados pela list
 preenchido, sem stroke) e é usado em todos os pins de localização.
 
 Ícones não usados em tela foram mantidos no catálogo a pedido do usuário
-(`terraria`, `nordlockerCloud`, `articleReader` como título, `alpiMaps`, `tripeaks`,
-`opentopomap`, `novelWorld`, `readera`, `celeste`, `classicalBuilding`).
-Podem ser removidos depois, se o usuário quiser.
+(`terraria`, `nordlockerCloud`, `articleReader` como título, `opentopomap`,
+`novelWorld`, `readera`, `classicalBuilding`). Podem ser removidos depois, se
+o usuário quiser.
+
+**Ícones novos da sessão 01/10**, todos 48×48 vindos de `i.allsvgicons.com/r/`
+e registrados também na lista `is48Icon` (sem isso o `viewBox` cai para 24×24
+e o desenho fica minúsculo):
+
+| `Icon name` | Origem | Onde |
+|---|---|---|
+| `arctSummit` | arcticons:summit | dificuldade do Pico (hoje substituído) |
+| `arctAlltrails` | arcticons:alltrails | altura do Pico |
+| `arctHikingBoot` | arcticons:emoji-hiking-boot | distância do Pico |
+| `arctLevels` | arcticons:levelsfyi | dificuldade do Pico |
+
+Muitos nomes deduzidos por palpite retornam 404 na fonte. Os que entraram no
+catálogo foram testados um a um antes, e todos vieram com o `viewBox`
+confirmado em 48×48.
 
 ## Natureza — atrativos
 
@@ -331,10 +347,71 @@ mão e foi substituído pelo SVG real de 48×48.
 
 ### Pico dos Pontões
 
-- Card: `/fotos/pontoes6.png`
-- Fundo dos detalhes: `/fotos/fundopontos.png`
-- Galeria: `pico.jpeg`, `pontoes1.png`, `pontoes.jpeg`
-- Texto da trilha, altitude e mapa configurados.
+Primeiro atrativo a ser preenchido depois do Cristo. Tudo em `Natureza.jsx`:
+
+| Campo | Valor |
+|---|---|
+| `imagem` (card da lista) | `/fotos/cardpico.png` |
+| `imagemDetalhe` (foto grande) | `/fotos/cardgrande.png` |
+| `fundo` | `/fotos/fundopontos.png` |
+| `galeria` | `fundopontos.png`, `pontoes.jpeg`, `ponte.png` |
+| `stats` | 1.438 m / 4km aprox / Difícil |
+| `trilha` | 4 vagas, todas com `foto: null` |
+
+**O par `imagem` / `imagemDetalhe` é o padrão** — é o mesmo que o Cristo usa
+(`cristo2.png` no card, `top.png` na página). `Detalhes.jsx` consome com
+`imagemDetalhe || imagem`. Serve para quando a foto do card e a da página
+precisarem ser diferentes; se forem a mesma, basta deixar `imagemDetalhe` fora.
+
+**`subtitulo` e `sobre` são campos novos** (`subtitulo` fica separado do
+`description` porque este último é o texto do card na lista). Passam por
+`onOpen` → `App.jsx` → `Detalhes.jsx`. Se acrescentar campo, **acrescentar nos
+três lugares**.
+
+**`stats` alimenta o mesmo bloco do Cristo** (`.cristo-stats`), que deixou de
+ser exclusivo dele: agora sai quando `statsDoCard.length > 0`. O Cristo tem os
+deles no array local `cristoStats`; os outros trazem pelo prop.
+
+**O `sobre` do Cristo foi para o array `cristoSobre`.** Antes os parágrafos dele
+estavam escritos direto dentro do ramo `usaPadraoCristo` no JSX — e como esse
+ramo inclui todos os atrativos de Natureza, o Pico abria **com o texto do
+Cristo**. Build e lint limpos; só a tela pegou. Agora todo texto vive em dados.
+
+**A altitude foi corrigida para 1.438 m** nos três lugares onde aparecia
+(`description`, e dois blocos de código morto). Antes o infográfico dizia
+1.438 e o resto do site dizia 1.938.
+
+**O `h2` da seção "Sobre" é "Sobre o local"**, escrito em caixa baixa no
+código porque o CSS aplica `text-transform: uppercase`. O rótulo
+`SOBRE A TRILHA` foi removido — repetia o `h2` logo abaixo.
+
+**A galeria tem escopo próprio: `.details-page-pico`.** A regra do
+`object-position` dos itens 2 e 3 é dessa classe, e não geral, porque
+`.cristo-gallery` é compartilhada com o Cristo — mexer na regra comum
+mudaria a galeria aprovada dele junto.
+
+| Item | Foto | `object-position` | Por quê |
+|---|---|---|---|
+| 1 | `fundopontos.png` 1719×915 | `center 58%` (regra geral) | não corta nada |
+| 2 | `pontoes.jpeg` 569×490 | `center top` | o centro cortava o topo; perde só 14% da altura, tudo do rodão |
+| 3 | `ponte.png` 938×1122 | **`center 38%`** | ver abaixo |
+
+**Como o 38% foi calculado** (medi os pixels da foto com `System.Drawing`, não
+estimando): brilho médio por faixa de altura — 0–20% = 168/156 (céu com
+nuvens), 20–30% = 127 (rocha aparecendo), 30–80% = 55–84 (montanha e mata),
+80–100% = 110/103 (cerca e tabuado da ponte). O topo da agulha de pedra está
+a **14,5%** da altura.
+
+O card de `ponte.png` é 1,35:1 contra uma foto de 0,84:1, então o `cover`
+só mostra **61,8%** da altura dela. Começar em 14,5% fecha em 76,3% — cabe a
+agulha, a rocha, a mata e o vale, com uma faixa fina de céu.
+`center 38%` é o número que faz a janela começar exatamente na agulha.
+`center top` (o que estava antes) mostrava quase só nuvens.
+
+**Alternativa guardada:** `center bottom` no item 3 mostra o tabuado da ponte
+inteiro com **zero céu**, e resolve uma repetição que ficou visível — com a
+montanha no item 3, os cards 2 e 3 mostram a mesma agulha, lado a lado. É uma
+palavra no CSS. **Decisão da usuária, ainda não tomada.**
 
 ## Patrimônios
 
@@ -380,42 +457,48 @@ altura da imagem; a 2,74:1 a janela ia de 33% a 67% e cortava a base. Por isso
   Garamond só vai até 700. O navegador renderiza o 700. Se for necessário um ExtraBold
   real, precisa trocar a fonte do título (Playfair Display vai até 900) ou aceitar o 700.
   **Aguardando decisão do usuário.**
-- **NADA está commitado.** Todo o trabalho existe só no disco e na Cloudflare.
-  O último commit é `09b901b adiciona pagina vales do cafe`, de antes de todo
-  este trabalho. Se a pasta for movida ou limpa, vai tudo. Já avisei duas vezes
-  e a usuária não respondeu — **é o maior risco do projeto agora.**
+- **Item 3 da galeria do Pico:** decidir entre `center 38%` (montanha, atual) e
+  `center bottom` (ponte, sem céu). Ver **Pico dos Pontões** acima.
+- **`fundopontos.png` está em dois lugares** — é o `fundo` da página do Pico e
+  também o item 1 da galeria dele. No celular não aparece duplicado (o fundo
+  do celular é outro arquivo), mas no desktop sim. A usuária confirmou o nome
+  do arquivo de propósito, então **não foi erro** — só está anotado.
 - **Validação visual no celular ainda é parcial.** A janela do navegador do
   ambiente não pode ser redimensionada por `window.resizeTo` nem por ferramenta
-  de emulação, então o viewport fica em ~611–652px: dá para conferir o
+  de emulação, então o viewport fica em ~611–1000px: dá para conferir o
   breakpoint ≤700px (celular grande) e ≤800px, mas **não** 320/375/390/430px.
   O usuário precisa olhar no aparelho e dizer a largura se algo estiver errado.
 - **Aparelho com menos de ~800px de altura ainda rola** na página inicial. O
   conteúdo precisa de ~800px e uma tela de 667px (iPhone SE) só oferece 588px
   utilizáveis. Só se resolve cortando conteúdo, não espaçamento.
-- **A captura de tela funciona** (`browser.screenshot`, com `browser.tabs.focus`
-  antes). O checkpoint anterior afirmava que não funcionava — estava errado.
-  Ela quebra só se a janela do desktop não estiver visível; aí basta focar a aba
-  e recarregar. Foi ela que revelou o vão de 52px que nenhuma medição de caixa
-  separaria.
-- **Atrativos ainda incompletos:** Cachoeira do Paraíba, Usina Aparecida,
-  Mirante Santa Terezinha e Mirante da Água Limpa têm apenas card + localização.
-  Falta o mesmo tratamento que o Cristo tem (página de detalhes, galeria,
-  seções, mapa).
-- **Ainda no padrão antigo:** Pico dos Pontões e Fazenda União continuam em
-  Arial no `Detalhes.jsx`, sem as seções e a identidade visual nova.
-- **Imagens sem uso** (ver **Fotos de fundo**): `fundocelular.png`, `funcel.png`
-  e `tour.png` somam ~4,9 MB no deploy. Apagar só com confirmação do usuário.
+- **A captura de tela funciona, mas é intermitente.** (`browser.screenshot`, com
+  `browser.tabs.focus` antes). O checkpoint anterior afirmava que não funcionava
+  — estava errado. Ela falha quando a janela do desktop não está visível; às
+  vezes focar a aba e recarregar resolve, às vezes só funciona numa aba nova.
+  **Não confunda "screenshot falhou" com "a página está errada".**
+- **`loading="lazy"` engana a verificação.** Imagens fora da tela reportam
+  `naturalWidth: 0x0` e não aparecem em `performance.getEntriesByType('resource')`
+  — o navegador ainda não pediu. Rolar até a seção costuma destravar. Foi assim
+  que duas fotos da galeria pareceram quebradas e estavam perfeitas.
+- **Atrativos ainda incompletos:** Cachoeira do Paraíba, Cachoeira das Flores,
+  Usina Aparecida, Mirante Santa Terezinha e Mirante da Água Limpa têm apenas
+  card + localização. Falta o mesmo tratamento que o Pico tem agora.
+- **Ainda no padrão antigo:** Fazenda União (aba Patrimônios) continua sem as
+  seções e a identidade visual nova.
+- **Imagens sem uso** (ver **Fotos de fundo**): `fundocelular.png`, `funcel.png`,
+  `tour.png`, `fundoponto.png` e `fundoponto.jpeg` somam ~8 MB no deploy.
+  Apagar só com confirmação do usuário.
 
 ## Retomar a partir daqui
 
-**O que fazer amanhã: preencher o conteúdo de cada atrativo.** A estrutura
-visual já está idêntica em todos — o que falta é texto, foto e legenda.
+**Próximo: a Cachoeira do Paraíba.** O Pico dos Pontões acabou e virou o
+modelo do que um atrativo preenchido tem — copie a estrutura dele.
 
 ### Como o padrão foi estendido (e o que NÃO pode ser repetido)
 
 Tudo vive em dois arquivos. `Natureza.jsx` guarda os dados por atrativo e
 `Detalhes.jsx` consome. O Cristo ficou como estava: os arrays `cristoGallery`,
-`cristoTrilha` e `cristoStats` continuam locais dele.
+`cristoTrilha`, `cristoStats` e `cristoSobre` continuam locais dele.
 
 A flag que seleciona o layout é:
 
@@ -428,28 +511,56 @@ const usaPadraoCristo = isCristoRedentor || isAtrativoNatureza
 e não muda de ramo. Só o CONTEÚDO é por dado: `galeriaDoCard` cai no array do
 Cristo quando o atrativo não tem o seu.
 
+**Os quatro "DoCard" derivados, e a ordem importa:**
+
+```js
+const galeriaDoCard = galeria && galeria.length > 0 ? galeria : cristoGallery
+const trilhaDoCard   = isCristoRedentor ? cristoTrilha : trilha || []
+const sobreDoCard    = isCristoRedentor ? cristoSobre  : sobre  || []
+const statsDoCard    = isCristoRedentor ? cristoStats  : stats  || []
+```
+
+**Constantes derivadas precisam vir DEPOIS dos arrays** que referenciam — usar
+`cristoGallery` antes da declaração cai em zona morta temporal e a página nem
+abre. Já aconteceu duas vezes, e o lint acusa como
+`no-useless-assignment`, que não é óbvio.
+
+**A galeria tem fallback no array do Cristo; a trilha, o `sobre` e as `stats`
+NÃO.** Cair nelas mostraria o conteúdo do Cristo nos outros cards. Sem o campo
+próprio, a seção simplesmente não aparece.
+
 **`App.jsx` precisa repassar os props.** Foi o bug do dia: ele listava
 sozinho `icon, category, title, description, image, backgroundImage`, e
 `galeria`/`trilha` ficavam retidos lá. Ao acrescentar um campo novo em
 `onOpen`, acrescentar em `App.jsx` também — o build e o lint **não**
 reclamam, o campo só chega `undefined`.
 
+**Texto dentro de um ramo do JSX vaza para os outros atrativos.** Os
+parágrafos do Cristo estavam escritos direto no ramo `usaPadraoCristo`, e o
+Pico herdou o texto. Build e lint limpos; só a tela pegou. **Todo texto que
+depende do atrativo precisa ser dado.**
+
 **Nunca usar `title === 'Natureza'` para identificar atrativo.** Esse era o
 título da página antiga de categoria, e nenhum atrativo o tem. Numa tentativa
 anterior isso tirou o Cristo do layout aprovado, com build e lint limpos:
 só a conferência na tela pegou. `category === 'NATUREZA'` é o certo.
 
-### Fila de amanhã
+**Cuidado com CSS compartilhado.** `.cristo-gallery` e `.cristo-stats` são
+usados por todos os atrativos do padrão. Para ajustar um só, criar uma classe
+por atrativo na raiz (`details-page-pico`) e escopar a regra — senão a
+galeria aprovada do Cristo muda junto.
 
-1. **Pico dos Pontões** — tem `galeria` com 3 fotos e `description`. Falta
-   `subtitulo` próprio (hoje cai na descrição) e `trilha`.
-2. **Cachoeira do Paraíba, Cachoeira das Flores, Usina Aparecida, Mirante
-   Santa Terezinha, Mirante da Água Limpa** — cada um tem só a própria foto
-   como galeria (1 foto, layout 1×1) e uma linha de descrição. Faltam
-   subtítulo, texto de "Sobre", mais fotos e as 4 legendas da trilha.
+### Fila
+
+1. **Cachoeira do Paraíba** — tem `galeria` com 1 foto e uma linha de
+   descrição. Faltam `subtitulo`, `sobre`, `stats` (provavelmente altura da
+   queda e distância), mais fotos na galeria e as 4 legendas da `trilha`.
+2. **Cachoeira das Flores, Usina Aparecida, Mirante Santa Terezinha,
+   Mirante da Água Limpa** — mesma situação da Paraíba.
 3. Migrar **Fazenda União** (aba Patrimônios) para o mesmo padrão.
-4. Decidir o peso 800 do título.
-5. Opcional: apagar as imagens sem uso — **27,4 MB**.
+4. Decidir o `object-position` do item 3 da galeria do Pico.
+5. Decidir o peso 800 do título.
+6. Opcional: apagar as imagens sem uso — **~25 MB**.
 
 ### Pendências técnicas
 
@@ -460,6 +571,20 @@ só a conferência na tela pegou. `category === 'NATUREZA'` é o certo.
   calibrado por conta, sem medição — é o número mais frágil do projeto.
 - **`cardpico.png` é quadrada** (1254×1254) e o card é 4/3: perde 25% da
   altura. O `flores.png` (1,5) perdeu só 11% da largura.
+- **A foto grande da página de detalhes é 1,95:1** (760×390), de
+  `.details-page-cristo .details-image`. Serve para todos os atrativos do
+  padrão, então a foto de origem tem muita perda se for quadrada:
+  `top.png` (16:9) perde 8,8% da altura; `cardpico.png` (1:1) perderia 48,7%;
+  `cardgrande.png` (1321×1191, 1,11:1) perde 43%. Para não perder, a foto
+  precisaria de uns **1670 × 855**.
+- **Nome de arquivo não existe não dá erro visível.** O `img` fica com
+  `naturalWidth: 0x0` e a área fica em branco — sem mensagem. Conferir
+  `File.Exists` / `grep` antes de escrever o caminho. Foi o que aconteceu com
+  `fundopontoes.png`, que a usuária queria e não estava na pasta (existem
+  `fundopontos.png` e `fundoponto.png`).
+- **Para medir onde o céu termina numa foto, use `System.Drawing`** e não o
+  olho: brilho médio por faixa horizontal dá o corte certo do `object-position`.
+  Foi assim que o 38% da `ponte.png` saiu.
 - **`text-transform: capitalize`** é regra do inglês e virou "Vista Da Janela
   Do Cristo". Para caixa alta, usar `uppercase`; para só a primeira letra,
   `::first-letter`.
@@ -472,22 +597,31 @@ só a conferência na tela pegou. `category === 'NATUREZA'` é o certo.
 
 ### Imagens sem uso (medido, não estimado)
 
-Levantado por `grep` de `/fotos/` em `src/` — 38 nomes referenciados no
-código, 63 arquivos na pasta, logo **25 sem uso, somando 27,4 MB**:
+Levantado por `Select-String` de `/fotos/` em **todos** os `.jsx`, `.js` e
+`.css` de `src/` (12 arquivos) — 41 nomes referenciados, 68 arquivos na pasta,
+logo **27 sem uso, somando 31,6 MB**:
 
-`aaaa.jpeg`, `card2.png`, `card22.png`, `chega.jpeg`, `cristo5.jpeg`,
-`essa.png`, `funcel.png`, `fundo3.jpeg`, `fundocelular.png`,
-`fundocristocelular.png`, `fundoponto.jpeg`, `fundoponto.png`, `last.png`,
-`maybe.png`, `monast1.jpeg`, `montanha1.jpeg`, `montanha3.jpeg`,
-`montanha4.jpeg`, `montanha5.jpeg`, `montanha6.jpeg`,
-`montanhasmimoso.jpeg`, `palmeira.jpeg`, `pontoes1.jpeg`, `test.png`,
-`tour.png`
+`aaaa.jpeg`, `chega.jpeg`, `cristo5.jpeg`, `essa.png`, `funcel.png`,
+`fund0.png`, `fundo3.jpeg`, `fundocelular.png`, `fundocristocelular.png`,
+`fundoponto.jpeg`, `fundoponto.png`, `last.png`, `maybe.png`, `monast1.jpeg`,
+`montanha1.jpeg`, `montanha3.jpeg`, `montanha4.jpeg`, `montanha5.jpeg`,
+`montanha6.jpeg`, `montanhasmimoso.jpeg`, `palmeira.jpeg`, `pon.png`,
+`pontoes1.jpeg`, `pontoes6.png`, `test.png`, `tour.png`, `touriscel.png`
+
+**Cuidado ao refazer esse levantamento:** procurar só em `src/*.css` perde
+`src/pages/Monast.css`, que é onde o `monast.jpeg` é usado — foi assim que
+`monast.jpeg` apareceu como "sem uso" na primeira medição. Varra a pasta
+inteira, recursivamente.
+
+`card2.png` e `card22.png` **já foram apagadas** nesta sessão (nada as
+referenciava). `fund0.png` e `touriscel.png` saíram de uso quando os fundos
+foram trocados, e `pontoes6.png` era o card antigo do Pico.
 
 As candidatas a voltar são as fotos de teste do fundo e da galeria do Cristo
-(`test.png`, `last.png`, `aaaa.jpeg`, `card2.png`, `card22.png`, `maybe.png`,
-`essa.png`, `chega.jpeg`, `cristo5.jpeg`) — foram substituídas durante a
-sessão 30/09. Apagar só com confirmação da usuária, e refazer o `grep` antes
-porque a lista cresce a cada troca de foto.
+(`test.png`, `last.png`, `aaaa.jpeg`, `maybe.png`, `essa.png`, `chega.jpeg`,
+`cristo5.jpeg`) — foram substituídas durante a sessão 30/09. Apagar só com
+confirmação da usuária, e refazer a medição antes, porque a lista cresce a
+cada troca de foto.
 
 Regra de trabalho que vem funcionando: **um arquivo/atrativo por vez**, sem
 quebrar abas já aprovadas, e `npm run build && npm run lint` antes de cada
