@@ -631,14 +631,29 @@ quebrar abas já aprovadas, e `npm run build && npm run lint` antes de cada
 
 - Cloudflare Pages project: `fabibriefs`
 - URL: https://fabibriefs.pages.dev
-- Deployment mais recente: https://ae92277c.fabibriefs.pages.dev
+- Deployment mais recente: **https://0cc20d63.fabibriefs.pages.dev**
 - Comando: `npm run deploy` (= `npm run build && npx wrangler pages deploy dist --project-name fabibriefs`)
 
-Deploy de 30/09/2026 (fim da sessão 2): padrão do Cristo Redentor estendido
-para os 7 atrativos de Pontos Turísticos, fundo do celular da aba trocado para
-`sun.png`, card novo "Cachoeira das Flores", foto do Pico trocada para
-`cardpico.png`, rodapé dos cards mais fino e transparente (o escuro vinha do
-card, 22%, não do rodapé), e o "O QUE VEMOS PELO CAMINHO" com as 4 vagas e
+**Deploy de 01/10/2026 (fim da sessão 3) — commit `fd02df9`.** Pico dos Pontões
+completo: subtítulo, "Sobre o local" com dois parágrafos, infográfico com os
+três ícones novos da fonte, "O QUE VEMOS PELO CAMINHO" com as 4 vagas,
+galeria `fundopontos.png` / `pontoes.jpeg` / `ponte.png`, foto grande
+`cardgrande.png`, altitude corrigida para 1.438 m, e o `object-position` do
+item 3 da galeria medido por pixel (38%).
+
+Assets publicados: `index-DYRJAW7D.css` (42,30 kB) e `index-Dq97VkoZ.js`
+(273,00 kB).
+
+Conferido **em produção**, não só no local: Cristo Redentor com as 3
+estatísticas, a galeria em `58%/50%/50%` e as 4 legendas; Pico dos Pontões
+com o infográfico, `SOBRE O LOCAL` sem rótulo, 2 parágrafos, a galeria em
+`58%/0%/38%` e zero ocorrência de `1.938` no texto renderizado.
+
+Deploy de 30/09/2026 (fim da sessão 2, `949debc`): padrão do Cristo Redentor
+estendido para os 7 atrativos de Pontos Turísticos, fundo do celular da aba
+trocado para `sun.png`, card novo "Cachoeira das Flores", foto do Pico trocada
+para `cardpico.png`, rodapé dos cards mais fino e transparente (o escuro vinha
+do card, 22%, não do rodapé), e o "O QUE VEMOS PELO CAMINHO" com as 4 vagas e
 legendas.
 
 **O Cristo Redentor não foi alterado** — conferido no navegador depois do
@@ -754,13 +769,14 @@ exige `!important` na regra `.details-page-cristo` dentro da media query.
 Executado com sucesso ao final da sessão:
 
 ```bash
-npm run build     # index-IdGuxhRq.js / index-BEwcc2AY.css
+npm run build     # index-Dq97VkoZ.js / index-DYRJAW7D.css
 npm run lint      # sem erros
 ```
 
-E conferido contra a produção: o `index.html` em `fabibriefs.pages.dev` serve os
-assets acima, o bloco `@media (width<=700px)` do CSS publicado aponta para
-`/fotos/celularmonast.jpg` e `/fotos/touriscel.png`, e as duas imagens
-responderam `200` no servidor.
+E conferido contra a produção em `0cc20d63.fabibriefs.pages.dev`: o
+`index.html` serve os assets acima, as seis imagens testadas
+(`cardgrande.png`, `ponte.png`, `fundopontos.png`, `cardpico.png`, `top.png`,
+`cristo2.png`) responderam `200`, e a página foi aberta e conferida atrativo
+por atrativo — ver **Publicação**.
 
 Continuar a partir da seção **Retomar a partir daqui**.
