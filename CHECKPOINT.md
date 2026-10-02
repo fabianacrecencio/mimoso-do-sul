@@ -807,8 +807,26 @@ quebrar abas já aprovadas, e `npm run build && npm run lint` antes de cada
 
 - Cloudflare Pages project: `fabibriefs`
 - URL: https://fabibriefs.pages.dev
-- Deployment mais recente: **https://c9b5b69f.fabibriefs.pages.dev**
+- Deployment mais recente: **https://a5437368.fabibriefs.pages.dev**
 - Comando: `npm run deploy` (= `npm run build && npx wrangler pages deploy dist --project-name fabibriefs`)
+
+**Deploy de 02/10/2026 (encerra a sessão 3) — commit `297e7f0`.** Título da
+Cachoeira da Paraíba em uma linha só dentro dos 760px da foto (`min(6.6vw,
+58px)`), e os fundos de celular por atrativo: `sun.png` no Pico e
+`funcel0.png` na Paraíba, ambos depois da regra do Cristo no CSS — o que
+também conserta o vazamento que fazia o Pico e a Paraíba mostrarem a
+`final.png` do Cristo no celular.
+
+Assets: `index-DeWDMNsa.js` (273,34 kB).
+
+Conferido **em produção**: `CACHOEIRA DA PARAÍBA` em **1 linha**, fonte 58px,
+**743px dentro dos 760px da foto**, todos os blocos com desvio 0, fundo
+`funweb.png`, e zero ocorrência de "do Paraíba". As três fotos de fundo
+(`funcel0.png`, `funweb.png`, `sun.png`) responderam `200`.
+
+O primeiro `wrangler deploy` desta sessão falhou com `ERROR fetch failed` — é
+erro de rede, e a segunda tentativa passou. **Não é sinal de build ruim:**
+confirme o build antes de tentar de novo.
 
 **Deploy de 01/10/2026 (encerra a sessão 3) — commit `0806ab1`.** Cachoeira da
 Paraíba no padrão do Pico: subtítulo, "Sobre o local" com dois parágrafos,
@@ -972,10 +990,8 @@ npm run build     # index-Dq97VkoZ.js / index-DYRJAW7D.css
 npm run lint      # sem erros
 ```
 
-E conferido contra a produção em `c9b5b69f.fabibriefs.pages.dev`: o
-`index.html` serve os assets acima, as seis imagens testadas
-(`cardgrande.png`, `ponte.png`, `fundopontos.png`, `cardpico.png`, `top.png`,
-`cristo2.png`) responderam `200`, e a página foi aberta e conferida atrativo
-por atrativo — ver **Publicação**.
+E conferido contra a produção em `a5437368.fabibriefs.pages.dev`: o
+`index.html` serve os assets acima, as imagens testadas responderam `200`, e a
+página foi aberta e conferida atrativo por atrativo — ver **Publicação**.
 
 Continuar a partir da seção **Retomar a partir daqui**.
