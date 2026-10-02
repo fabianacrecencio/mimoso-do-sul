@@ -886,7 +886,7 @@ do deployment, que é imutável.
 | Aba | Desktop | Celular (≤700px) |
 |---|---|---|
 | Descubra | `/fotos/abertura.jpeg` | mesma, mas `auto 110%` a `51% 100%` (ver abaixo) |
-| Pontos Turísticos | `/fotos/tes.png` | `/fotos/atr.jpg` (900×2720, 0,3309), `cover` |
+| Pontos Turísticos | `/fotos/abertura1.jpeg` (1600×900, 1,778) | `/fotos/atr.jpg` (900×2720, 0,3309), `cover` |
 | MONAST | `/fotos/monast3.jpeg` | `/fotos/celularmonast.jpg` (1080×1920, 0,562), `cover` |
 | Patrimônios | `/fotos/uniao.jpeg` | mesmo, `cover` com viés vertical 38% |
 | Cristo Redentor | inline via `fundo` | `/fotos/final.png` (722×2176, 0,3318), `cover` |
@@ -1025,7 +1025,15 @@ pouco e não se vê, mas não é zero. A `sun.png` (724×2172), que era a foto
 anterior, amplificava de 1,18× a 1,39×.
 
 A página de **detalhes** é bem menos alta: 0,331 de proporção. Por isso
-`funcel0.png` (900×2720) e `final.png` (722×2176)neles só reduzem.
+`funcel0.png` (900×2720) e `final.png` (722×2176) nele só reduzem.
+
+**Por que a `abertura1.jpeg` (1600×900, 1,778) NÃO pode ir no celular:** é uma
+foto deitada e a página é 1:8. O `cover` escalaria por 3,1× a 3,56× e mostraria
+**7% da largura da foto** — 350px de 4960. Ficaria uma faixa vertical
+estourada e irreconhecível. No desktop ela é perfeita: 1,778 é a proporção de
+uma janela de desktop. Por isso foi aplicada só no desktop, e o celular segue com
+o `atr.jpg` vertical. **Se a usuária quiser à força no celular, é trocar a URL
+da regra de `≤700px` — mas o resultado é o número acima.**
 
 ## Ritmo vertical da aba Pontos Turísticos no celular
 

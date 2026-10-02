@@ -2042,12 +2042,19 @@ a:focus-visible {
   max-width: none;
   min-height: 100vh;
 
+  /* `abertura1.jpeg` tem 1600×900, proporção 1,778 — praticamente
+     16:9, que é a proporção de uma janela de desktop. Aqui é
+     exatamente o formato certo.
+
+     A anterior, `tes.png` (1576×998, 1,579), era mais quadrada.
+     A `abertura.jpeg` (1600×898, 1,782) é quase gêmea desta e é a
+     que a página inicial usa. */
   background-image:
     linear-gradient(
       rgba(0, 0, 0, 0.52),
       rgba(0, 0, 0, 0.76)
     ),
-    url('/fotos/tes.png');
+    url('/fotos/abertura1.jpeg');
   background-position: center calc(50% + var(--parallax-offset));
   background-size: cover;
   background-repeat: no-repeat;
