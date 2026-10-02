@@ -1311,7 +1311,7 @@ a:focus-visible {
   text-shadow: var(--olive-shadow);
 }
 
-/* "Sobre o monumento", "Galeria" e "Como chegar" com linhas
+/* "Sobre o local", "Galeria" e "Como chegar" com linhas
    finas nas laterais, no mesmo padrão do site */
 .details-page-cristo .details-section h2 {
   display: flex;
@@ -1667,7 +1667,7 @@ a:focus-visible {
   margin-bottom: 10px;
 }
 
-/* "Sobre o monumento" mais perto do texto corrido que vem abaixo.
+/* "Sobre o local" mais perto do texto corrido que vem abaixo.
    É a seção que contém os parágrafos justificados. */
 .details-page-cristo .details-section:has(> p:not(.details-label)) h2 {
   margin-bottom: 12px;

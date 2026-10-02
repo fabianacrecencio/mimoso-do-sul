@@ -4,6 +4,10 @@ function Natureza({ onOpen, onBack }) {
   const atrativos = [
     {
       title: 'Cristo Redentor',
+      /* Título da seção "Sobre". O Cristo usava 'Sobre o monumento'
+         hardcoded no `Detalhes.jsx`; a usuária pediu "Sobre o local"
+         em 02/10/2026, o mesmo dos outros atrativos. */
+      sobreTitulo: 'Sobre o local',
       imagem: '/fotos/cristo2.png',
       imagemDetalhe: '/fotos/top.png',
       fundo: '/fotos/ok.png',
@@ -73,9 +77,32 @@ function Natureza({ onOpen, onBack }) {
       imagem: '/fotos/paraiba.png',
       /* `fundo` é o fundo no desktop. No celular a foto é outra,
          escolhida em `App.css` dentro de `@media (max-width: 700px)`
-         — ver `.details-page-paraiba`. */
-      fundo: '/fotos/funweb.png',
+         — ver `.details-page-paraiba`.
+
+         `caweb.jpg` tem 1448×1086, proporção 1,333 (4:3). A página
+         de detalhes desta cachoeira mede 1431×2547 no desktop, ou
+         seja 0,5618 — bem mais alta que a foto. O `cover` então
+         escala pela altura em 2,35×, e sobra 42% da largura visível.
+
+         A anterior, `funweb.png` (1024×1536, 0,667), era mais alta e
+         ampliava 1,66×. Ou seja, esta amplia mais. O gradiente
+         escuro por cima (0,52 → 0,76) esconde boa parte da falta de
+         nitidez, mas é bom saber o número.
+
+         Para não ampliar no desktop a foto precisaria de uns
+         1430×2550. */
+      fundo: '/fotos/caweb.jpg',
       localizacao: 'Localizada a 13 km de Mimoso',
+      /* Pin no OpenStreetMap. Coordenadas fornecidas pela usuária em
+         02/10/2026. `raio` abre a caixa do mapa em graus, nos dois
+         eixos: 0,015 é o mesmo do Pico, que também é um ponto ao ar
+         livre fora do centro — dá contexto sem chegar perto demais. */
+      mapa: {
+        lat: -21.043596367306062,
+        lon: -41.42810765513875,
+        zoom: 15,
+        raio: 0.015,
+      },
       /* O desenho manda "COMO CHEGAR" seguido direto do mapa, sem
          linha de pin. `endereco: ''` remove o bloco — sem o campo
          ele cairia no `localizacao` e repetiria "13 km de Mimoso",

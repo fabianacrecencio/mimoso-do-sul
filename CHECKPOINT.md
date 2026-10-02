@@ -626,10 +626,14 @@ aviso. Agora cada atrativo com foto própria tem a sua regra:
 
 | Página | Celular (≤700px) | Web |
 |---|---|---|
-| Cristo Redentor | `final.png` | `ok.png` |
-| Pico dos Pontões | `sun.png` | `fundopontos.png` |
-| Cachoeira da Paraíba | `funcel0.png` | `funweb.png` |
-| outros 4 atrativos | `final.png` (o do Cristo) | o `fundo` de cada um |
+| Cristo Redentor | `cristocel.jpg` | `ok.png` |
+| Pico dos Pontões | `pontoescel.jpg` | `fundopontos.png` |
+| Cachoeira da Paraíba | `cachoparacel.jpg` | `funweb.png` |
+| Pontos Turísticos (aba) | `pont1.jpg` | `ptweb.jpg` |
+| outros 4 atrativos | `cristocel.jpg` (o do Cristo) | o `fundo` de cada um |
+
+**Todas as fotos de celular são 900×3400** (proporção 0,2647) — o formato que
+resolve o `cover` sem ampliar, medido a 350px e 338px de largura.
 
 **A ordem no CSS importa** e é o que garante o resultado: os três seletores têm
 a mesma especificidade (0,1,0) e todos levam `!important`, então vence o último
@@ -807,8 +811,29 @@ quebrar abas já aprovadas, e `npm run build && npm run lint` antes de cada
 
 - Cloudflare Pages project: `fabibriefs`
 - URL: https://fabibriefs.pages.dev
-- Deployment mais recente: **https://c6fe01c3.fabibriefs.pages.dev**
+- Deployment mais recente: **https://25885a72.fabibriefs.pages.dev**
 - Comando: `npm run deploy` (= `npm run build && npx wrangler pages deploy dist --project-name fabibriefs`)
+
+**Deploy de 02/10/2026 (encerra a sessão 3) — commit `3868930`.** Fundos de
+celular das três páginas de detalhe, todas em 900×3400 e todas **sem ampliar**:
+
+| Página | Foto | Página medida | Escala |
+|---|---|---|---|
+| Cristo Redentor | `cristocel.jpg` | 338 × 2286 | 0,67× (só reduz) |
+| Pico dos Pontões | `pontoescel.jpg` | 338 × 2513 | 0,73× (só reduz) |
+| Cachoeira da Paraíba | `cachoparacel.jpg` | 338 × 1871 | 0,55× (só reduz) |
+
+O nome pedido, `cachoeiraparacel.jpg`, não existe na pasta; foi usado
+`cachoparacel.jpg`, que tem as medidas certas. Conferido em produção a 353px:
+os três fundos, e o Cristo com as 3 estatísticas e a galeria em
+`58%/50%/50%`, o Pico com o pin "Conceição do Muqui" e a galeria em
+`58%/0%/38%`, a Paraíba com o título em 1 linha e zero ocorrência de
+"do Paraíba".
+
+Assets: `index-DVb6-pRz.js` (273,34 kB).
+
+**Os outros 4 atrativos ainda usam o `cristocel.jpg` do Cristo no celular**,
+por falta de regra própria. Basta me passar uma foto 900×3400 de cada.
 
 **Deploy de 02/10/2026 (encerra a sessão 3) — commit `b17fa42`.** Fundo da aba
 Pontos Turísticos: `ptweb.jpg` no desktop e **`pont1.jpg` (900×3400) no

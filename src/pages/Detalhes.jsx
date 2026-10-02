@@ -50,8 +50,8 @@ const isCachoeiraParaiba = title === 'Cachoeira da Paraíba'
      ramo é `usaPadraoCristo` — que inclui TODOS os atrativos de
      Natureza — o Pico dos Pontões aparecia com o texto do Cristo. */
   const cristoSobre = [
-    'Inaugurado em 1956, o Cristo Redentor de Mimoso do Sul está localizado na Ladeira Ely Junqueira, no bairro Monte Cristo. Com 28 metros de altura, o monumento se destaca em meio à paisagem serrana e proporciona uma linda vista das montanhas que cercam o município.',
-    'A experiência vai além do próprio monumento. Trilhas ao redor do Cristo levam a diferentes visões da cidade, entre eles a conhecida casinha "Hollywood", situada no topo da montanha, de onde se tem uma vista panorâmica dos Pontões e da Serra das Torres. O local também é propício para contemplação, fotografia, contato com a natureza e observação de aves.',
+    'Com 30 metros de altura, o Cristo de Mimoso do Sul é a segunda estátua mais alta do Espírito Santo. Sua construção teve início em 1980, a pedido de um juiz da cidade, e foi realizada pelo escultor Antônio Francisco Moreira. Após dois anos de trabalho, o monumento foi inaugurado em 11 de julho de 1982, tornando-se um dos símbolos da paisagem de Mimoso do Sul. A obra também marca a trajetória do escultor, sendo a última estátua construída por ele, que deixou seu trabalho registrado ainda em municípios como Colatina e Guaçuí.',
+    'Erguido em meio à paisagem serrana, o monumento proporciona uma vista privilegiada das montanhas que cercam o município. Trilhas ao redor do Cristo levam a diferentes pontos de observação, entre eles a conhecida casinha "Hollywood", localizada no topo da montanha, de onde é possível contemplar uma vista panorâmica dos Pontões e da Serra das Torres. O local também é ideal para caminhadas, fotografia, contemplação da natureza e observação de aves.',
   ]
   /* Endereço do "Como chegar". Mesmo caso do `cristoSobre`: estava
      escrito direto no JSX do ramo `usaPadraoCristo`, então o Pico
@@ -88,8 +88,13 @@ const isCachoeiraParaiba = title === 'Cachoeira da Paraíba'
      cair nela mostraria as descrições do Cristo nos outros cards.
      Sem `trilha` própria, a seção simplesmente não aparece. */
   const cristoStats = [
-    { icon: 'yahooJapanCalendar', value: '1956', label: 'Inauguração' },
-    { icon: 'arctRuler', value: '28 m', label: 'Altura do monumento' },
+    /* Inauguração e altura alinhadas com o texto de `cristoSobre`:
+       a usuária corrigiu os dados em 02/10/2026 — a obra começou em
+       1980 e foi inaugurada em 11 de julho de 1982, com 30 metros.
+       Antes aqui era 1956 e 28 m, o que contradizia o próprio texto
+       da página. */
+    { icon: 'yahooJapanCalendar', value: '1982', label: 'Inauguração' },
+    { icon: 'arctRuler', value: '30 m', label: 'Altura do monumento' },
     { icon: 'celeste', value: '128 m', label: 'Altitude do monte' },
   ]
   const galeriaDoCard = galeria && galeria.length > 0 ? galeria : cristoGallery
@@ -179,7 +184,7 @@ const isCachoeiraParaiba = title === 'Cachoeira da Paraíba'
 
               <p className="details-subtitle">
                 {isCristoRedentor
-                  ? 'Erguido sobre um monte a 128 metros de altitude, o Cristo Redentor é considerado a primeira maravilha do município e proporciona uma vista panorâmica da cidade.'
+                  ? 'O Cristo Redentor é considerado a primeira maravilha do município e proporciona uma vista panorâmica da cidade.'
                   : subtitulo || description}
               </p>
             </>
@@ -367,10 +372,10 @@ const isCachoeiraParaiba = title === 'Cachoeira da Paraíba'
             )}
 
             <h2>
-              {isCristoRedentor
-                ? 'Sobre o monumento'
-                : sobreTitulo
-                  ? sobreTitulo
+              {sobreTitulo
+                ? sobreTitulo
+                : isCristoRedentor
+                  ? 'Sobre o local'
                   : isPicoDosPontos
                     ? 'Sobre o local'
                     : isFazendaUniao
