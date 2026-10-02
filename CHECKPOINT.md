@@ -480,9 +480,12 @@ altura da imagem; a 2,74:1 a janela ia de 33% a 67% e cortava a base. Por isso
   `naturalWidth: 0x0` e não aparecem em `performance.getEntriesByType('resource')`
   — o navegador ainda não pediu. Rolar até a seção costuma destravar. Foi assim
   que duas fotos da galeria pareceram quebradas e estavam perfeitas.
-- **Atrativos ainda incompletos:** Cachoeira do Paraíba, Cachoeira das Flores,
-  Usina Aparecida, Mirante Santa Terezinha e Mirante da Água Limpa têm apenas
-  card + localização. Falta o mesmo tratamento que o Pico tem agora.
+- **Atrativos ainda incompletos:** Cachoeira das Flores, Usina Aparecida,
+  Mirante Santa Terezinha e Mirante da Água Limpa têm apenas card +
+  localização. Falta o mesmo tratamento que o Pico e a Paraíba têm agora.
+- **A Cachoeira da Paraíba está pela metade** — sem fundo, com 1 foto de
+  galeria, sem pin no mapa e com 3 legendas de trilha inventadas. A estrutura
+  está pronta; falta conteúdo.
 - **Ainda no padrão antigo:** Fazenda União (aba Patrimônios) continua sem as
   seções e a identidade visual nova.
 - **Imagens sem uso** (ver **Fotos de fundo**): `fundocelular.png`, `funcel.png`,
@@ -491,8 +494,8 @@ altura da imagem; a 2,74:1 a janela ia de 33% a 67% e cortava a base. Por isso
 
 ## Retomar a partir daqui
 
-**Próximo: a Cachoeira do Paraíba.** O Pico dos Pontões acabou e virou o
-modelo do que um atrativo preenchido tem — copie a estrutura dele.
+**Próximo: a Cachoeira das Flores.** A Cachoeira da Paraíba já está no padrão
+do Pico — copie a estrutura dela.
 
 ### Como o padrão foi estendido (e o que NÃO pode ser repetido)
 
@@ -552,18 +555,110 @@ galeria aprovada do Cristo muda junto.
 
 ### Fila
 
-1. **Cachoeira do Paraíba** — tem `galeria` com 1 foto e uma linha de
-   descrição. Faltam `subtitulo`, `sobre`, `stats` (provavelmente altura da
-   queda e distância), mais fotos na galeria e as 4 legendas da `trilha`.
-2. **Cachoeira das Flores, Usina Aparecida, Mirante Santa Terezinha,
-   Mirante da Água Limpa** — mesma situação da Paraíba.
+1. **Cachoeira das Flores** — só tem card, localização e 1 foto. Seguir o
+   mesmo roteiro da Paraíba: subtítulo, `sobre`, `sobreTitulo`, `stats`,
+   `galeria` com 3, `trilha` com 4, `fundo` e `mapa`.
+2. **Usina Aparecida, Mirante Santa Terezinha, Mirante da Água Limpa** —
+   mesma situação.
 3. Migrar **Fazenda União** (aba Patrimônios) para o mesmo padrão.
-4. Decidir o `object-position` do item 3 da galeria do Pico.
-5. Decidir o peso 800 do título.
-6. Opcional: apagar as imagens sem uso — **~25 MB**.
+4. Fotos e coordenadas que faltaram na Paraíba (ver **Cachoeira da Paraíba**).
+5. Decidir o `object-position` do item 3 da galeria do Pico.
+6. Decidir o peso 800 do título.
+7. Opcional: apagar as imagens sem uso — **~25 MB**.
+
+### Cachoeira da Paraíba
+
+Segundo atrativo preenchido. Tudo em `Natureza.jsx`.
+
+| Campo | Valor |
+|---|---|
+| `title` | `Cachoeira da Paraíba` — **nome corrigido**, era "do Paraíba" |
+| `imagem` / `imagemDetalhe` | `/fotos/paraiba.png` (mesma foto nos dois, é a única que existe) |
+| `fundo` | **não tem** — a página abre sem foto de fundo |
+| `localizacao` | `Localizada a 13 km de Mimoso` |
+| `endereco` | `''` — esconde o bloco do pin (o desenho manda só o mapa) |
+| `sobreTitulo` | `Sobre o local` |
+| `sobre` | 2 parágrafos |
+| `stats` | 12 m / 13 km / Fácil acesso |
+| `galeria` | **1 foto só** |
+| `trilha` | 4 vagas, todas `foto: null` |
+| `mapa` | **não tem** — fica o placeholder |
+
+**O nome é "Cachoeira da Paraíba", com DA.** A usuária corrigiu. Vale conferir
+antes de escrever qualquer texto que cite o nome.
+
+**`endereco: ''` esconde o pin** e para isso o `enderecoDoCard` usa `??`, não
+`||` — com `||` a string vazia cairia no `localizacao`.
+
+**`sobreTitulo` é um campo novo** e generaliza o `h2` da seção: o "Pico dos
+Pontões" tem o valor hardcoded e os demais caem em 'Conheça este lugar'.
+Se os outros quatro forem preenchidos, vale migrar o Pico para o campo
+também e simplifying o ternário.
+
+**Falta para a Paraíba:** foto de fundo, mais 2 fotos de galeria, uma foto
+deitada para o herói, as 4 fotos da trilha, as coordenadas do mapa, e as 3
+legendas da trilha que não vieram (as de `Natureza.jsx` são palpite).
+
+### O título mais longo desalinha a página inteira
+
+**Este é o achado mais importante da sessão 3.** "CACHOEIRA DA PARAÍBA" é o
+título mais longo do site e **não cabia em 760px**. Com `white-space: nowrap`
+no `.details-title`, o `min-content` do título empurrava `.details-intro` para
+**886px** dentro de uma coluna de 760px. Tudo que estava dentro do herói —
+foto, título, subtítulo e infográfico — saía **63px para a direita** do centro,
+enquanto a galeria e a trilha, que ficam fora do herói, continuavam
+centradas. Era o hetero que denunciava.
+
+Foram dois ajustes, e **cada um sozinho não resolveu**:
+
+| Ajuste | Efeito |
+|---|---|
+| `.details-hero { grid-template-columns: minmax(0, 1fr) }` | centralizou a foto e o infográfico; o título seguia fora |
+| `.details-intro { min-width: 0 }` | centralizou o subtítulo; o título seguia fora |
+| `.details-page-paraiba .details-title { white-space: normal }` | resolveu de vez |
+
+**O culpado é o `nowrap`**, não o grid. Confirmeiligando e desligando
+`white-space` no navegador: com `normal` tudo vai a 760px e desvio 0; com
+`nowrap` volta a 886px. As duas correções de grid continuam valendo como
+defesa, mas o `nowrap` era a raiz.
+
+**Não tirei o `nowrap` geral** — ele garante uma linha só, e foi assim que o
+Cristo e o Pico foram aprovados. "CRISTO REDENTOR" mede ~620px a 70px e "PICO
+DOS PONTÕES" ~709px, ambos cabem em 760px; só a Cachoeira estoura. Por isso a
+exceção é por classe (`.details-page-paraiba`), como o `.details-page-pico`.
+
+**Como achar esse tipo de problema:** medir o desvio do centro de cada bloco,
+`(esquerda + largura/2) - centroDaPagina`. Desvio 0 em tudo = alinhado. Vale
+rodar isso em qualquer atrativo novo cujo título seja comprido.
+
+### Armadilha do ambiente: HMR que falha e deixa módulo velho
+
+Um erro de sintaxe momentâneo no `Detalhes.jsx` (crase de template literal
+comida pelo PowerShell) fez o HMR do **`App.jsx`** falhar. O Vite no Windows
+**nunca refez aquela transformação**, então o navegador seguiu servindo um
+`App.jsx` antigo — sem o `sobreTitulo`. Sintoma: build e lint limpos, código
+perfeito nos três arquivos, e o campo chega `undefined` na tela. É o mesmo
+sintoma do bug do `App.jsx` do dia anterior.
+
+Como diagnosticar: ler o módulo servido em vez do disco.
+
+```powershell
+(Invoke-WebRequest 'http://localhost:5173/src/App.jsx').Content -match 'sobreTitulo'
+```
+
+Retornou `AUSENTE` quando o arquivo no disco já tinha. **Reiniciar o
+servidor de dev resolve.**
+
+Também: **`browser.evaluate` que clica e lê no mesmo script falha** — o React
+ainda não renderizou. É preciso uma chamada para clicar e outra para ler.
+E `.discover-card` também casa os 7 cards de atrativo na página de Pontos
+Turísticos, não só os 3 da página inicial — por isso `length === 3` é a
+condição certa para saber que se está na página inicial.
 
 ### Pendências técnicas
 
+- **Título longo desalinha o herói** — ver a seção acima. Aplicar a exceção
+  de `white-space` a qualquer outro atrativo cujo título não caiba em 760px.
 - **`sun.png` no celular amplia.** 724×2172 contra uma página de até 430×3017:
   o `cover` escala 1,18× a 1,39×. Sem emenda, mas mole em tela 2×. Para não
   ampliar precisaria de uns **900×3400**.

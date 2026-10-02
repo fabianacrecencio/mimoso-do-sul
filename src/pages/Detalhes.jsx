@@ -9,7 +9,11 @@ function Detalhes({
   backgroundImage,
   subtitulo,
   sobre,
+  sobreTitulo,
   stats,
+  endereco,
+  localizacao,
+  mapa,
   galeria,
   trilha,
   onBack,
@@ -18,6 +22,7 @@ function Detalhes({
   const isCristoRedentor = title === 'Cristo Redentor'
   const isPicoDosPontos = title === 'Pico dos Pontões'
   const isFazendaUniao = title === 'Fazenda União'
+const isCachoeiraParaiba = title === 'Cachoeira da Paraíba'
 
   /* Identifica um ATRATIVO de Natureza. NÃO usar `title ===
      'Natureza'`: esse era o título da página antiga de categoria e
@@ -48,6 +53,22 @@ function Detalhes({
     'Inaugurado em 1956, o Cristo Redentor de Mimoso do Sul está localizado na Ladeira Ely Junqueira, no bairro Monte Cristo. Com 28 metros de altura, o monumento se destaca em meio à paisagem serrana e proporciona uma linda vista das montanhas que cercam o município.',
     'A experiência vai além do próprio monumento. Trilhas ao redor do Cristo levam a diferentes visões da cidade, entre eles a conhecida casinha "Hollywood", situada no topo da montanha, de onde se tem uma vista panorâmica dos Pontões e da Serra das Torres. O local também é propício para contemplação, fotografia, contato com a natureza e observação de aves.',
   ]
+  /* Endereço do "Como chegar". Mesmo caso do `cristoSobre`: estava
+     escrito direto no JSX do ramo `usaPadraoCristo`, então o Pico
+     dos Pontões aparecia com a Ladeira Ely Juqueira — que é o
+     endereço do Cristo, não dele.
+
+     Os demais atrativos trazem o seu pelo campo `endereco`, com
+     `localizacao` de reserva. */
+  const cristoEndereco = 'Ladeira Ely Juqueira — Monte Cristo'
+  /* Pin do Cristo no OpenStreetMap. `raio` = 0,01 grau nos dois eixos,
+     que é a caixa que o mapa já mostrava. */
+  const cristoMapa = {
+    lat: -21.0676264,
+    lon: -41.3627127,
+    zoom: 16,
+    raio: 0.01,
+  }
   /* Trecho "O QUE VEMOS PELO CAMINHO". As fotos ainda estão vazias:
      basta trocar `foto: null` pelo caminho da imagem que o card
      passa a mostrar a foto no lugar do placeholder, mantendo a
@@ -75,6 +96,25 @@ function Detalhes({
   const trilhaDoCard = isCristoRedentor ? cristoTrilha : trilha || []
   const sobreDoCard = isCristoRedentor ? cristoSobre : sobre || []
   const statsDoCard = isCristoRedentor ? cristoStats : stats || []
+  /* `??` e não `||`: a Cachoeira da Paraíba manda `endereco: ''` para
+     esconder o bloco do pin, e `||` cairia no `localizacao`. */
+  const enderecoDoCard = isCristoRedentor
+    ? cristoEndereco
+    : (endereco ?? localizacao ?? '')
+  /* Mapa. Antes era um `ternary` com as coordenadas escritas direto no
+     JSX, uma bloqueia por atrativo. Virou dado no campo `mapa`:
+     `{ lat, lon, zoom, raio }`.
+
+     O `raio` é o quanto abre a caixa do mapa em graus, nos dois eixos.
+     Os valores guardados reproduzem exatamente as URLs que já
+     estavam no ar — conferido no navegador depois da troca. */
+  const mapaDoCard = isCristoRedentor ? cristoMapa : mapa
+  const mapaEmbed = mapaDoCard
+    ? `https://www.openstreetmap.org/export/embed.html?bbox=${(mapaDoCard.lon - mapaDoCard.raio).toFixed(7)}%2C${(mapaDoCard.lat - mapaDoCard.raio).toFixed(7)}%2C${(mapaDoCard.lon + mapaDoCard.raio).toFixed(7)}%2C${(mapaDoCard.lat + mapaDoCard.raio).toFixed(7)}&layer=mapnik&marker=${mapaDoCard.lat.toFixed(7)}%2C${mapaDoCard.lon.toFixed(7)}`
+    : null
+  const mapaLink = mapaDoCard
+    ? `https://www.openstreetmap.org/?mlat=${mapaDoCard.lat.toFixed(7)}&mlon=${mapaDoCard.lon.toFixed(7)}#map=${mapaDoCard.zoom}/${mapaDoCard.lat.toFixed(7)}/${mapaDoCard.lon.toFixed(7)}`
+    : null
   const picoGallery = [
     '/fotos/pico.jpeg',
     '/fotos/pontoes1.png',
@@ -93,7 +133,7 @@ function Detalhes({
 
   return (
     <section
-      className={`details-page ${backgroundImage ? 'details-page-background' : ''} ${usaPadraoCristo ? 'details-page-cristo' : ''} ${isPicoDosPontos ? 'details-page-pico' : ''}`}
+      className={`details-page ${backgroundImage ? 'details-page-background' : ''} ${usaPadraoCristo ? 'details-page-cristo' : ''} ${isPicoDosPontos ? 'details-page-pico' : ''} ${isCachoeiraParaiba ? 'details-page-paraiba' : ''}`}
       style={detailsStyle}
     >
 
@@ -329,11 +369,13 @@ function Detalhes({
             <h2>
               {isCristoRedentor
                 ? 'Sobre o monumento'
-                : isPicoDosPontos
-                  ? 'Sobre o local'
-                  : isFazendaUniao
-                    ? 'Fazenda União'
-                    : 'Conheça este lugar'}
+                : sobreTitulo
+                  ? sobreTitulo
+                  : isPicoDosPontos
+                    ? 'Sobre o local'
+                    : isFazendaUniao
+                      ? 'Fazenda União'
+                      : 'Conheça este lugar'}
             </h2>
 
             {sobreDoCard.length > 0 ? (
@@ -497,22 +539,20 @@ function Detalhes({
               {usaPadraoCristo ? 'Como chegar' : 'Onde fica?'}
             </h2>
 
-            {usaPadraoCristo && (
+            {usaPadraoCristo && enderecoDoCard && (
               <div className="cristo-address">
                 <Icon name="pushPinOutlined" size={18} />
 
                 <p>
-                  <strong>Ladeira Ely Juqueira — Monte Cristo</strong>
+                  <strong>{enderecoDoCard}</strong>
                 </p>
               </div>
             )}
 
-            {isPicoDosPontos && (
-              <p className="details-location-text">
-                Distrito de Conceição do Muqui, em Mimoso do Sul,
-                no Espírito Santo.
-              </p>
-            )}
+            {/* A linha "Distrito de Conceição do Muqui, em Mimoso do
+                Sul, no Espírito Santo." foi removida: repetia o que o
+                pin do "Como chegar" já diz. Quem fica só com o pin é o
+                Cristo, como sempre foi. */}
 
             {isFazendaUniao && (
               <p className="details-location-text">
@@ -521,11 +561,15 @@ function Detalhes({
               </p>
             )}
 
-            {isCristoRedentor ? (
+            {mapaDoCard ? (
               <div className="details-map">
                 <iframe
-                  title="Mapa do Cristo Redentor de Mimoso do Sul"
-                  src="https://www.openstreetmap.org/export/embed.html?bbox=-41.3727127%2C-21.0776264%2C-41.3527127%2C-21.0576264&layer=mapnik&marker=-21.0676264%2C-41.3627127"
+                  title={
+                    isCristoRedentor
+                      ? 'Mapa do Cristo Redentor de Mimoso do Sul'
+                      : `Mapa de ${title}`
+                  }
+                  src={mapaEmbed}
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   allowFullScreen
@@ -533,45 +577,7 @@ function Detalhes({
 
                 <a
                   className="details-map-link"
-                  href="https://www.openstreetmap.org/?mlat=-21.0676264&mlon=-41.3627127#map=16/-21.0676264/-41.3627127"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Abrir localização no mapa
-                </a>
-              </div>
-            ) : isPicoDosPontos ? (
-              <div className="details-map">
-                <iframe
-                  title="Mapa do Pico dos Pontões"
-                  src="https://www.openstreetmap.org/export/embed.html?bbox=-41.5708386%2C-20.9546950%2C-41.5408386%2C-20.9246950&layer=mapnik&marker=-20.9396950%2C-41.5558386"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  allowFullScreen
-                />
-
-                <a
-                  className="details-map-link"
-                  href="https://www.openstreetmap.org/?mlat=-20.9396950&mlon=-41.5558386#map=15/-20.9396950/-41.5558386"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Abrir localização no mapa
-                </a>
-              </div>
-            ) : isFazendaUniao ? (
-              <div className="details-map">
-                <iframe
-                  title="Mapa da Fazenda União"
-                  src="https://www.openstreetmap.org/export/embed.html?bbox=-41.4729892%2C-21.1486792%2C-41.4429892%2C-21.1186792&layer=mapnik&marker=-21.1336792%2C-41.4579892"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  allowFullScreen
-                />
-
-                <a
-                  className="details-map-link"
-                  href="https://www.openstreetmap.org/?mlat=-21.1336792&mlon=-41.4579892#map=16/-21.1336792/-41.4579892"
+                  href={mapaLink}
                   target="_blank"
                   rel="noreferrer"
                 >

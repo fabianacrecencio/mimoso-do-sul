@@ -1193,7 +1193,18 @@ a:focus-visible {
 ========================= */
 
 .details-page-cristo .details-hero {
-  grid-template-columns: 1fr;
+  /* `minmax(0, 1fr)` e não `1fr`. Um `1fr` vale `minmax(auto, 1fr)`,
+     e o `auto` deixa a coluna crescer até o `min-content` do filho mais
+     largo. O título mais comprido do site — "CACHOEIRA DA PARAÍBA" —
+     empurrava a coluna para 886px dentro de um pai de 760px, e tudo
+     que fica dentro dela (foto, título, subtítulo, infográfico)
+     saía 63px para a direita do centro. As fotos da galeria e da
+     trilha, que estão fora do herói, continuavam centradas — era o
+     que denunciava o problema.
+
+     Títulos curtos como "CRISTO REDENTOR" já ficavam em 760px, então
+     isto não muda nada neles. */
+  grid-template-columns: minmax(0, 1fr);
   gap: 22px;
 
   max-width: 1000px;
@@ -1221,6 +1232,13 @@ a:focus-visible {
 }
 
 .details-page-cristo .details-intro {
+  /* `min-width: 0` pelo mesmo motivo do `minmax(0, 1fr)` no herói:
+     sendo item de grid, o `min-width` padrão é `auto` e o bloco não
+     encolhe abaixo do `min-content`. Com o título mais longo do
+     site ele ficava 886px dentro de uma coluna de 760px, e título,
+     subtítulo e infográfico saíam 63px do centro. */
+  min-width: 0;
+
   max-width: 1000px;
   margin: 0 auto;
 
@@ -1247,6 +1265,21 @@ a:focus-visible {
   text-transform: uppercase;
   text-shadow: var(--olive-shadow);
   white-space: nowrap;
+}
+
+/* "CACHOEIRA DA PARAÍBA" é o título mais longo do site e não cabe
+   em 760px com `white-space: nowrap` — o `min-content` do título
+   empurrava `.details-intro` para 886px e título, subtítulo e
+   infográfico saíam 63px do centro, enquanto a foto e a galeria
+   (que estão fora do herói) ficavam centradas.
+
+   Aqui o título pode quebrar em duas linhas. Não tirei o `nowrap`
+   geral de propósito: ele garante uma linha só no Cristo e no Pico,
+   que é como foram aprovados. "CRISTO REDENTOR" mede ~620px a 70px e
+   "PICO DOS PONTÕES" ~709px — ambos cabem em 760px, então para eles
+   a regra abaixo nunca entraria em ação. */
+.details-page-paraiba .details-title {
+  white-space: normal;
 }
 
 .details-page-cristo .details-intro > .details-subtitle {

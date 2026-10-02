@@ -185,7 +185,11 @@ function App() {
           backgroundImage={selectedItem.backgroundImage}
           subtitulo={selectedItem.subtitulo}
           sobre={selectedItem.sobre}
+          sobreTitulo={selectedItem.sobreTitulo}
           stats={selectedItem.stats}
+          endereco={selectedItem.endereco}
+          localizacao={selectedItem.localizacao}
+          mapa={selectedItem.mapa}
           galeria={selectedItem.galeria}
           trilha={selectedItem.trilha}
           onBack={() => setSelectedItem(null)}

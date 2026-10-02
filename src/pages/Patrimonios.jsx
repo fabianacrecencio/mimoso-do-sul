@@ -18,6 +18,9 @@ function Patrimonios({ onOpen, onBack }) {
       imagemDetalhe: '/fotos/uniao.jpeg',
       fundo: '/fotos/uniao.jpeg',
       localizacao: 'Assentamento União',
+      /* Pin no OpenStreetMap. `raio` abre a caixa do mapa em graus,
+         nos dois eixos. */
+      mapa: { lat: -21.1336792, lon: -41.4579892, zoom: 16, raio: 0.015 },
       description:
         'Antiga sede de uma fazenda histórica que atravessou os períodos do café, da cana e da produção de açúcar e aguardente.',
     },
@@ -92,6 +95,7 @@ function Patrimonios({ onOpen, onBack }) {
                     image: patrimonio.imagemDetalhe || patrimonio.imagem,
                     backgroundImage: patrimonio.fundo,
                     localizacao: patrimonio.localizacao,
+                    mapa: patrimonio.mapa,
                   })
                 }
               >
