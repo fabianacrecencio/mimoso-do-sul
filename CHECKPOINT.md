@@ -305,9 +305,26 @@ Cards clicáveis com foto, localização e detalhes:
 - Card: `/fotos/cristo2.png`
 - Imagem principal nos detalhes: `/fotos/top.png`
 - Fundo dos detalhes (desktop): `/fotos/ok.png`
-- Fundo dos detalhes (celular): `/fotos/final.png`
+- Fundo dos detalhes (celular): `/fotos/cristocel.jpg`
 - Mapa com pin do Cristo.
 - Textos de apresentação, história, trilha de acesso e localização.
+
+**Dados corrigidos em 02/10/2026 pela usuária** — os antigos eram 1956 e 28 m:
+
+| | Antes | Agora |
+|---|---|---|
+| Inauguração | 1956 | **1982** (11 de julho) |
+| Altura do monumento | 28 m | **30 m** |
+| Altitude do monte | 128 m | 128 m (não mudou) |
+
+A obra começou em 1980, a pedido de um juiz da cidade, feita pelo escultor
+Antônio Francisco Moreira — a última estátua dele. É a segunda estátua mais
+alta do ES. O `128 m` da altitude do monte continua no texto e no infográfico,
+e não conflita com o texto novo.
+
+**O `h2` da seção do Cristo é "Sobre o local"**, e vem do campo
+`sobreTitulo` no `Natureza.jsx` — antes era 'Sobre o monumento' hardcoded no
+`Detalhes.jsx`.
 
 **Medidas e decisões desta retafinalização (29/09):**
 
@@ -457,12 +474,13 @@ altura da imagem; a 2,74:1 a janela ia de 33% a 67% e cortava a base. Por isso
   Garamond só vai até 700. O navegador renderiza o 700. Se for necessário um ExtraBold
   real, precisa trocar a fonte do título (Playfair Display vai até 900) ou aceitar o 700.
   **Aguardando decisão do usuário.**
-- **Os fundos de celular não foram vistos na tela.** A janela do ambiente não
-  entra na media query `≤700px`. As regras foram conferidas no CSS, mas o
-  resultado visual precisa de um olhar no aparelho — ver **Fundo de celular por
-  atrativo**.
-- **Os outros 4 atrativos ainda mostram a `final.png` do Cristo no celular**,
-  por falta de regra própria. Se cada um ganhar foto, é uma regra por classe.
+- **Os fundos de celular foram conferidos em tela** a 342–357px de largura
+  (todas as regras dentro de `≤700px` são as mesmas em qualquer celular), mas
+  **nunca em 320px**, que é o aparelho mais estreito em uso. Se algo vazar
+  ali, é o `h2` mais longo ou a foto do herói.
+- **Os outros 4 atrativos ainda mostram o `cristocel.jpg` do Cristo no
+  celular**, por falta de regra própria. Se cada um ganhar foto 900×3400, é uma
+  regra por classe.
 - **Item 3 da galeria do Pico:** decidir entre `center 38%` (montanha, atual) e
   `center bottom` (ponte, sem céu). Ver **Pico dos Pontões** acima.
 - **`fundopontos.png` está em dois lugares** — é o `fundo` da página do Pico e
@@ -562,17 +580,28 @@ galeria aprovada do Cristo muda junto.
 ### Fila
 
 1. **Cachoeira das Flores** — só tem card, localização e 1 foto. Seguir o
-   mesmo roteiro da Paraíba: subtítulo, `sobre`, `sobreTitulo`, `stats`,
-   `galeria` com 3, `trilha` com 4, `fundo` e `mapa`.
+   mesmo roteiro da Paraíba: `sobreTitulo`, `subtitulo`, `sobre`, `stats`,
+   `galeria` com 3, `trilha` com 4, `fundo` (web), fundo de celular (900×3400)
+   e `mapa`.
 2. **Usina Aparecida, Mirante Santa Terezinha, Mirante da Água Limpa** —
    mesma situação.
 3. Migrar **Fazenda União** (aba Patrimônios) para o mesmo padrão.
-4. Fotos e coordenadas que faltaram na Paraíba (ver **Cachoeira da Paraíba**).
-5. Olhar os fundos de celular no aparelho — Pico (`sun.png`) e Paraíba
-   (`funcel0.png`).
-6. Decidir o `object-position` do item 3 da galeria do Pico.
+4. Fotos que faltaram na Paraíba (ver **Cachoeira da Paraíba**).
+5. Os outros 4 atrativos ainda usam o `cristocel.jpg` do Cristo no celular —
+   falta uma foto 900×3400 de cada.
+6. Decidir o `object-position` do item 3 da galeria do Pico
+   (`center 38%` monta a montanha, `center bottom` mostra a ponte).
 7. Decidir o peso 800 do título.
 8. Opcional: apagar as imagens sem uso — **~25 MB**.
+
+**Ao pegar o próximo atrativo, três lembretes que custaram tempo hoje:**
+- Meça o `h2` das seções com um `Range`, não pela caixa (ver **Títulos das
+  seções no celular**).
+- Fundo de celular tem que ser 900×3400; de web, foto deitada sempre amplia
+  porque a página é alta.
+- Todo texto que dependa do atrativo precisa ser dado — texto escrito dentro
+  de um ramo do JSX vaza para os outros (já aconteceu com o "Sobre" e com o
+  endereço).
 
 **Ao pegar o próximo atrativo, lembre do `min(6.6vw, 58px)`:** se o título não
 caber em uma linha nos 760px da foto, é preciso uma regra por classe como a
@@ -587,8 +616,9 @@ Segundo atrativo preenchido. Tudo em `Natureza.jsx`.
 |---|---|
 | `title` | `Cachoeira da Paraíba` — **nome corrigido**, era "do Paraíba" |
 | `imagem` / `imagemDetalhe` | `/fotos/paraiba.png` (mesma foto nos dois, é a única que existe) |
-| `fundo` (web) | `/fotos/funweb.png` |
-| fundo no celular | `/fotos/funcel0.png` (900×2720), por CSS |
+| `fundo` (web) | `/fotos/caweb.jpg` (1448×1086) |
+| fundo no celular | `/fotos/cachoparacel.jpg` (900×3400), por CSS |
+| `mapa` | -21.043596367306062, -41.42810765513875, zoom 15, raio 0,015 |
 | `localizacao` | `Localizada a 13 km de Mimoso` |
 | `endereco` | `''` — esconde o bloco do pin (o desenho manda só o mapa) |
 | `sobreTitulo` | `Sobre o local` |
@@ -610,8 +640,41 @@ Se os outros quatro forem preenchidos, vale migrar o Pico para o campo
 também e simplifying o ternário.
 
 **Falta para a Paraíba:** mais 2 fotos de galeria, uma foto deitada para o
-herói, as 4 fotos da trilha, as coordenadas do mapa, e as 3 legendas da trilha
-que não vieram (as de `Natureza.jsx` são palpite).
+herói, as 4 fotos da trilha, e as 3 legendas da trilha que não vieram (as de
+`Natureza.jsx` são palpite). O mapa e os fundos já estão resolvidos.
+
+### Títulos das seções no celular: 18px
+
+O `h2` das seções tinha 22px no celular, e **"O QUE VEMOS PELO CAMINHO"
+estourava 88px**. Medido a 357px de viewport (306px de conteúdo):
+
+| Título | Texto | Total | Cabia? |
+|---|---|---|---|
+| SOBRE O LOCAL | 196px | 288 | sim |
+| GALERIA | 110px | 202 | sim |
+| COMO CHEGAR | 189px | 281 | sim |
+| O QUE VEMOS PELO CAMINHO | 370px | **394** | **NÃO** |
+
+Só o longo estourava, porque o `.details-section h2` tem `white-space: nowrap`
+na regra base e não pode quebrar.
+
+No bloco de celular: 18px, `letter-spacing: 1.8px` (era 2,4), `gap: 10px`,
+linhas laterais de 28px (era 34), e **`white-space: normal`** como rede de
+segurança. Com 18px ele cabe em uma linha até uns 380px de tela; em aparelho de
+320px ainda não cabe e quebra em duas linhas — melhor que vazar.
+
+O **desktop não foi tocado**: lá o `nowrap` continua e os quatro cabem em
+760px.
+
+**Como medir isso de novo:** a caixa do `h2` é `display: flex` e sempre mede a
+largura inteira do conteúdo, mesmo com o texto estourado. Medir a caixa não
+serve — é preciso medir o texto com um `Range`:
+
+```js
+var r = document.createRange();
+r.selectNodeContents(h);
+Math.ceil(r.getBoundingClientRect().width); // isto é o texto
+```
 
 ### Fundo de celular por atrativo — e o vazamento que isso conserta
 
@@ -628,12 +691,19 @@ aviso. Agora cada atrativo com foto própria tem a sua regra:
 |---|---|---|
 | Cristo Redentor | `cristocel.jpg` | `ok.png` |
 | Pico dos Pontões | `pontoescel.jpg` | `fundopontos.png` |
-| Cachoeira da Paraíba | `cachoparacel.jpg` | `funweb.png` |
-| Pontos Turísticos (aba) | `pont1.jpg` | `ptweb.jpg` |
+| Cachoeira da Paraíba | `cachoparacel.jpg` | `caweb.jpg` |
+| Pontos Turísticos (aba) | `ponturcel.jpg` | `ptweb.jpg` |
 | outros 4 atrativos | `cristocel.jpg` (o do Cristo) | o `fundo` de cada um |
 
 **Todas as fotos de celular são 900×3400** (proporção 0,2647) — o formato que
-resolve o `cover` sem ampliar, medido a 350px e 338px de largura.
+resolve o `cover` sem ampliar, medido a 338px e 342px de largura.
+
+No **web** a situação é outra, e vale saber: a página de detalhes é muito alta
+(1431×2547 no Cristo), então **foto deitada sempre amplia** por volta de 1,7×
+a 2,4×. Para não ampliar no desktop a foto precisaria de uns 1430×2550.
+A `caweb.jpg` (1448×1086) amplia 2,35× — a anterior `funweb.png` (1024×1536)
+ampliava 1,66×. O gradiente escuro por cima (0,52 → 0,76) esconde boa parte
+disso, mas é bom ter o número.
 
 **A ordem no CSS importa** e é o que garante o resultado: os três seletores têm
 a mesma especificidade (0,1,0) e todos levam `!important`, então vence o último
@@ -811,8 +881,30 @@ quebrar abas já aprovadas, e `npm run build && npm run lint` antes de cada
 
 - Cloudflare Pages project: `fabibriefs`
 - URL: https://fabibriefs.pages.dev
-- Deployment mais recente: **https://25885a72.fabibriefs.pages.dev**
+- Deployment mais recente: **https://3a5cc0d5.fabibriefs.pages.dev**
 - Comando: `npm run deploy` (= `npm run build && npx wrangler pages deploy dist --project-name fabibriefs`)
+
+**Deploy de 02/10/2026 (encerra a sessão 3) — commits `568abd5` e `d814761`.**
+
+1. **Dados do Cristo atualizados** pela usuária: o texto "Sobre o local" foi
+   reescrito (30 m, obra iniciada em 1980, escultor Antônio Francisco Moreira,
+   inauguração em 11/07/1982, segunda estátua mais alta do ES, Colatina e
+   Guaçuí). O infográfico foi **alinhado**: era 1956 e 28 m, o que contradizia o
+   texto na mesma tela — agora é 1982 e 30 m. O subtítulo perdeu a abertura
+   "Erguido sobre um monte a 128 metros de altitude,". O `h2` da seção passou
+   de "Sobre o monumento" para "Sobre o local", e virou dado (`sobreTitulo`).
+2. **Mapa da Cachoeira da Paraíba** com as coordenadas da usuária
+   (-21.043596367306062, -41.42810765513875), zoom 15, raio 0,015 — o
+   placeholder saiu.
+3. **Fundos de celular** das três páginas de detalhe, todas 900×3400 e sem
+   ampliar; e o da aba Pontos Turísticos passou a `ponturcel.jpg`.
+4. **Títulos das seções no celular** caíram de 22px para 18px.
+
+Assets: `index-BVmLjMcO.js` (273,74 kB).
+
+Conferido **em produção** a 357px de largura: os quatro títulos de seção a
+18px, **nenhum vaza da tela**, e o "O QUE VEMOS PELO CAMINHO" quebra em duas
+linhas em vez de estourar.
 
 **Deploy de 02/10/2026 (encerra a sessão 3) — commit `3868930`.** Fundos de
 celular das três páginas de detalhe, todas em 900×3400 e todas **sem ampliar**:
