@@ -1267,19 +1267,33 @@ a:focus-visible {
   white-space: nowrap;
 }
 
-/* "CACHOEIRA DA PARAÍBA" é o título mais longo do site e não cabe
-   em 760px com `white-space: nowrap` — o `min-content` do título
-   empurrava `.details-intro` para 886px e título, subtítulo e
-   infográfico saíam 63px do centro, enquanto a foto e a galeria
-   (que estão fora do herói) ficavam centradas.
+/* "CACHOEIRA DA PARAÍBA" é o título mais longo do site. A 70px, que
+   é o teto do clamp geral, ele mede 886px — 126px mais que a foto de
+   760px acima. Com `nowrap` ele empurrava `.details-intro` para 886px
+   e título, subtítulo e infográfico saíam 63px do centro, enquanto a
+   foto e a galeria (que estão fora do herói) ficavam certinhas.
 
-   Aqui o título pode quebrar em duas linhas. Não tirei o `nowrap`
-   geral de propósito: ele garante uma linha só no Cristo e no Pico,
-   que é como foram aprovados. "CRISTO REDENTOR" mede ~620px a 70px e
-   "PICO DOS PONTÕES" ~709px — ambos cabem em 760px, então para eles
-   a regra abaixo nunca entraria em ação. */
+   A usuária pediu uma linha só, dentro da largura da foto. Medido a
+   1446px de largura, cada px de fonte rende ~12,66px de texto:
+
+     70px -> 886px   60px -> 767px
+     62px -> 791px   58px -> 743px  <- o maior que cabe em 760px
+
+   Daí o `min(6.6vw, 58px)`: o `58px` é o teto do desktop, e o `6.6vw`
+   cobre o celular, onde a coluna é 90% da tela (5% de padding de cada
+   lado) e o título precisa caber em ~0,87 dela. A 375px dá 24,7px e o
+   texto fica com ~24px de folga.
+
+   O `nowrap` volta porque agora o texto cabe. O `max-width` explícito
+   é o "limite lateral da foto" que a usuária pediu.
+
+   Não mexi no clamp geral: Cristo e Pico continuam em 70px, como
+   foram aprovados. */
 .details-page-paraiba .details-title {
-  white-space: normal;
+  max-width: 760px;
+
+  font-size: min(6.6vw, 58px);
+  white-space: nowrap;
 }
 
 .details-page-cristo .details-intro > .details-subtitle {
@@ -3763,6 +3777,51 @@ a:focus-visible {
   .details-page-cristo .back-button,
   .details-page-cristo .details-map-link {
     text-shadow: var(--olive-shadow);
+  }
+
+  /* Fundos de celular por atrativo.
+
+     Ficam DEPOIS da regra do Cristo de propósito: os três seletores têm
+     a mesma especificidade (0,1,0) e todos os `background-image` levam
+     `!important`, então quem vence é a ordem.
+
+     Isso também conserta um vazamento antigo: `.details-page-cristo`
+     vale para TODOS os atrativos do padrão, então até aqui o Pico e a
+     Cachoeira mostravam a `final.png` do Cristo no celular, ignorando o
+     `fundo` de cada um. Cada atrativo com foto própria agora tem a sua
+     regra aqui.
+
+     `sun.png` tem 724×2172, proporção 0,333 — a mesma da página de
+     detalhes (0,331 medida). O `cover` então só amplia um pouco, entre
+     1,18× e 1,39× conforme a largura do aparelho; para não ampliar
+     nada precisaria de uns 900×3400. */
+  .details-page-pico {
+    background-image:
+      linear-gradient(
+        rgba(14, 22, 8, 0.32),
+        rgba(10, 16, 6, 0.52)
+      ),
+      url('/fotos/sun.png') !important;
+    background-position: center center;
+    background-size: 100% 100%, cover;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+  }
+
+  /* `funcel0.png` tem 900×2720, proporção 0,331 — a mesma da página, e
+     no formato que o projeto já tinha como meta, então o `cover` não
+     amplia em lugar nenhum. */
+  .details-page-paraiba {
+    background-image:
+      linear-gradient(
+        rgba(14, 22, 8, 0.32),
+        rgba(10, 16, 6, 0.52)
+      ),
+      url('/fotos/funcel0.png') !important;
+    background-position: center center;
+    background-size: 100% 100%, cover;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
   }
 }
 

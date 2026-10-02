@@ -71,6 +71,10 @@ function Natureza({ onOpen, onBack }) {
     {
       title: 'Cachoeira da Paraíba',
       imagem: '/fotos/paraiba.png',
+      /* `fundo` é o fundo no desktop. No celular a foto é outra,
+         escolhida em `App.css` dentro de `@media (max-width: 700px)`
+         — ver `.details-page-paraiba`. */
+      fundo: '/fotos/funweb.png',
       localizacao: 'Localizada a 13 km de Mimoso',
       /* O desenho manda "COMO CHEGAR" seguido direto do mapa, sem
          linha de pin. `endereco: ''` remove o bloco — sem o campo

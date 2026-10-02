@@ -457,6 +457,12 @@ altura da imagem; a 2,74:1 a janela ia de 33% a 67% e cortava a base. Por isso
   Garamond só vai até 700. O navegador renderiza o 700. Se for necessário um ExtraBold
   real, precisa trocar a fonte do título (Playfair Display vai até 900) ou aceitar o 700.
   **Aguardando decisão do usuário.**
+- **Os fundos de celular não foram vistos na tela.** A janela do ambiente não
+  entra na media query `≤700px`. As regras foram conferidas no CSS, mas o
+  resultado visual precisa de um olhar no aparelho — ver **Fundo de celular por
+  atrativo**.
+- **Os outros 4 atrativos ainda mostram a `final.png` do Cristo no celular**,
+  por falta de regra própria. Se cada um ganhar foto, é uma regra por classe.
 - **Item 3 da galeria do Pico:** decidir entre `center 38%` (montanha, atual) e
   `center bottom` (ponte, sem céu). Ver **Pico dos Pontões** acima.
 - **`fundopontos.png` está em dois lugares** — é o `fundo` da página do Pico e
@@ -483,9 +489,9 @@ altura da imagem; a 2,74:1 a janela ia de 33% a 67% e cortava a base. Por isso
 - **Atrativos ainda incompletos:** Cachoeira das Flores, Usina Aparecida,
   Mirante Santa Terezinha e Mirante da Água Limpa têm apenas card +
   localização. Falta o mesmo tratamento que o Pico e a Paraíba têm agora.
-- **A Cachoeira da Paraíba está pela metade** — sem fundo, com 1 foto de
-  galeria, sem pin no mapa e com 3 legendas de trilha inventadas. A estrutura
-  está pronta; falta conteúdo.
+- **A Cachoeira da Paraíba está pela metade** — com 1 foto de galeria, sem pin
+  no mapa e com 3 legendas de trilha inventadas. A estrutura e os fundos estão
+  prontos; falta conteúdo.
 - **Ainda no padrão antigo:** Fazenda União (aba Patrimônios) continua sem as
   seções e a identidade visual nova.
 - **Imagens sem uso** (ver **Fotos de fundo**): `fundocelular.png`, `funcel.png`,
@@ -562,9 +568,16 @@ galeria aprovada do Cristo muda junto.
    mesma situação.
 3. Migrar **Fazenda União** (aba Patrimônios) para o mesmo padrão.
 4. Fotos e coordenadas que faltaram na Paraíba (ver **Cachoeira da Paraíba**).
-5. Decidir o `object-position` do item 3 da galeria do Pico.
-6. Decidir o peso 800 do título.
-7. Opcional: apagar as imagens sem uso — **~25 MB**.
+5. Olhar os fundos de celular no aparelho — Pico (`sun.png`) e Paraíba
+   (`funcel0.png`).
+6. Decidir o `object-position` do item 3 da galeria do Pico.
+7. Decidir o peso 800 do título.
+8. Opcional: apagar as imagens sem uso — **~25 MB**.
+
+**Ao pegar o próximo atrativo, lembre do `min(6.6vw, 58px)`:** se o título não
+caber em uma linha nos 760px da foto, é preciso uma regra por classe como a
+`.details-page-paraiba`. E meça o título no navegador antes de escolher o
+número — a conta acima mostra por quê.
 
 ### Cachoeira da Paraíba
 
@@ -574,7 +587,8 @@ Segundo atrativo preenchido. Tudo em `Natureza.jsx`.
 |---|---|
 | `title` | `Cachoeira da Paraíba` — **nome corrigido**, era "do Paraíba" |
 | `imagem` / `imagemDetalhe` | `/fotos/paraiba.png` (mesma foto nos dois, é a única que existe) |
-| `fundo` | **não tem** — a página abre sem foto de fundo |
+| `fundo` (web) | `/fotos/funweb.png` |
+| fundo no celular | `/fotos/funcel0.png` (900×2720), por CSS |
 | `localizacao` | `Localizada a 13 km de Mimoso` |
 | `endereco` | `''` — esconde o bloco do pin (o desenho manda só o mapa) |
 | `sobreTitulo` | `Sobre o local` |
@@ -595,9 +609,76 @@ Pontões" tem o valor hardcoded e os demais caem em 'Conheça este lugar'.
 Se os outros quatro forem preenchidos, vale migrar o Pico para o campo
 também e simplifying o ternário.
 
-**Falta para a Paraíba:** foto de fundo, mais 2 fotos de galeria, uma foto
-deitada para o herói, as 4 fotos da trilha, as coordenadas do mapa, e as 3
-legendas da trilha que não vieram (as de `Natureza.jsx` são palpite).
+**Falta para a Paraíba:** mais 2 fotos de galeria, uma foto deitada para o
+herói, as 4 fotos da trilha, as coordenadas do mapa, e as 3 legendas da trilha
+que não vieram (as de `Natureza.jsx` são palpite).
+
+### Fundo de celular por atrativo — e o vazamento que isso conserta
+
+O fundo de celular **não** vem do dado `fundo`. Ele é CSS, dentro de
+`@media (max-width: 700px)`, porque precisa de `!important` para vencer o
+`background-image` que o JSX aplica inline.
+
+**O vazamento:** a regra do Cristo é `.details-page-cristo`, e essa classe vale
+para **todos** os atrativos do padrão. Então o Pico e a Cachoeira mostravam a
+`final.png` do Cristo no celular, ignorando o `fundo` de cada um — sem erro, sem
+aviso. Agora cada atrativo com foto própria tem a sua regra:
+
+| Página | Celular (≤700px) | Web |
+|---|---|---|
+| Cristo Redentor | `final.png` | `ok.png` |
+| Pico dos Pontões | `sun.png` | `fundopontos.png` |
+| Cachoeira da Paraíba | `funcel0.png` | `funweb.png` |
+| outros 4 atrativos | `final.png` (o do Cristo) | o `fundo` de cada um |
+
+**A ordem no CSS importa** e é o que garante o resultado: os três seletores têm
+a mesma especificidade (0,1,0) e todos levam `!important`, então vence o último
+declarado. `.details-page-pico` e `.details-page-paraiba` precisam ficar
+**depois** de `.details-page-cristo`. Conferido no CSS compilado: cristo na
+posição 25047, pico em 89714, paraiba em 90276.
+
+`funcel0.png` (900×2720) é o formato ideal — proporção 0,331, a mesma da
+página, e no tamanho que o projeto tinha como meta, então **não amplia**.
+`sun.png` (724×2172) amplia entre 1,18× e 1,39×; sem emenda, mas mole em tela
+2×. Para não ampliar precisaria de uns 900×3400.
+
+### O título mais longo, agora em uma linha só
+
+A usuária pediu "CACHOEIRA DA PARAÍBA" em uma linha, dentro da largura da foto.
+Medindo a 1446px, cada px de fonte rende ~12,6px de texto:
+
+| Fonte | Largura do título |
+|---|---|
+| 70px (teto do clamp geral) | 886px — **estoura** os 760px da foto |
+| 62px | 791px |
+| 60px | 767px |
+| **58px** | **743px** — o maior que cabe |
+
+A solução ficou em `.details-page-paraiba .details-title`:
+
+```css
+max-width: 760px;
+font-size: min(6.6vw, 58px);
+white-space: nowrap;
+```
+
+O `58px` é o teto do desktop; o `6.6vw` cobre o celular, onde a coluna é 90%
+da tela (5% de padding de cada lado). Conferido por conta: a 320px dá 21,1px e
+o texto fica com ~23px de folga; a 430px dá 28,4px com ~30px de folga.
+
+Medido na tela: fonte 58px, **1 linha**, 729px dentro dos 760px da foto, e
+todos os blocos com desvio 0.
+
+O clamp geral **não** foi mexido — Cristo e Pico continuam em 70px, como foram
+aprovados.
+
+### O que ainda NÃO foi verificado nesta sessão
+
+**Os fundos de celular (`≤700px`).** A janela do ambiente não pode ser
+redimensionada, e ela ficou entre 1000 e 1446px durante o trabalho — nunca
+entrou na media query. O que **foi** verificado: as regras existem no CSS
+servido, com a URL certa e na ordem certa depois do Cristo, e as três imagens
+estão no `dist`. **Falta olhar no aparelho.**
 
 ### O título mais longo desalinha a página inteira
 
