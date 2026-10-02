@@ -103,7 +103,7 @@ function Descubra({ onOpen }) {
               onOpen({
                 icon: 'masks',
                 category: 'DESCUBRA',
-                title: 'Cultura',
+                title: 'História',
                 description:
                   'Tradições, festas, manifestações culturais e a identidade do povo mimosense.',
               })
@@ -114,7 +114,7 @@ function Descubra({ onOpen }) {
             </div>
 
             <h4>
-              Cultura
+              História
             </h4>
 
             <p>

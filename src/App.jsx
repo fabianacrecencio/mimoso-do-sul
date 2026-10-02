@@ -32,11 +32,6 @@ const navigationItems = [
     icon: 'dsphoto',
   },
   {
-    page: 'História',
-    label: 'História',
-    icon: 'googleDocsAlt',
-  },
-  {
     page: 'Trilha',
     label: 'Trilha',
     icon: 'cityTransit',
