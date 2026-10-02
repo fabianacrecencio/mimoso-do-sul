@@ -886,7 +886,7 @@ do deployment, que é imutável.
 | Aba | Desktop | Celular (≤700px) |
 |---|---|---|
 | Descubra | `/fotos/abertura.jpeg` | mesma, mas `auto 110%` a `51% 100%` (ver abaixo) |
-| Pontos Turísticos | `/fotos/abertura1.jpeg` (1600×900, 1,778) | `/fotos/atr.jpg` (900×2720, 0,3309), `cover` |
+| Pontos Turísticos | `/fotos/ptweb.jpg` (1357×761, 1,783) | `/fotos/pont1.jpg` (900×3400, 0,2647), `cover` |
 | MONAST | `/fotos/monast3.jpeg` | `/fotos/celularmonast.jpg` (1080×1920, 0,562), `cover` |
 | Patrimônios | `/fotos/uniao.jpeg` | mesmo, `cover` com viés vertical 38% |
 | Cristo Redentor | inline via `fundo` | `/fotos/final.png` (722×2176, 0,3318), `cover` |
@@ -1019,10 +1019,37 @@ eixos. Então, para esta aba, sem ampliação em nenhum aparelho:
 **Recomendado: 900 × 3400.** Cobre todos com folga e é 2× de um celular de
 430px, que é o que a regra do projeto pede para tela retina.
 
-O `atr.jpg` tem 900×2720: a largura sobra (900 contra 415), mas a altura
-falta em aparelho alto — amplia **1,04×** a 365px e até **1,18×** a 430px. É
-pouco e não se vê, mas não é zero. A `sun.png` (724×2172), que era a foto
-anterior, amplificava de 1,18× a 1,39×.
+**`pont1.jpg` (900×3400) é o exemplo que funciona.** É a foto de celular da
+aba Pontos Turísticos e **não amplia em nenhum aparelho**:
+
+| Página medida | Escala | |
+|---|---|---|
+| 350 × 2790 (365px) | 0,82× | só reduz, 47% da largura visível |
+| 401 × 3017 (416px) | 0,89× | só reduz, 50% visível |
+| 415 × 3200 (430px) | 0,94× | só reduz, 49% visível |
+
+**O que foi recusado e por quê — vale reter:**
+
+| Foto | Medida | Escala no celular |
+|---|---|---|
+| `sun.png` | 724×2172 | ampliava 1,18× a 1,39× |
+| `atr.jpg` | 900×2720 | ampliava 1,03× a 1,18× |
+| `pt.jpg` | 900×2720 | ampliava 1,03× a 1,18× |
+| `abertura1.jpeg` | 1600×900 | ampliava 3,1× a 3,56×, só 7% visível |
+| `fundoponto.png` | 1122×1402 | ampliava 1,99× a 2,28×, só 16% visível |
+
+**`fundoponto.png` não podia ser consertada por redimensionamento**, e essa
+conta resolve de uma vez a tentação de tentar:
+
+- Encolher a largura de 1122 para 900 deixa a altura em 1125px. Para chegar
+  a 3400 seria preciso esticar a vertical **3,0×** — deforma a foto, não é
+  a mesma imagem.
+- Um recorte vertical também não salva: para sair proporção 0,126 teria que
+  cortar em 177px de largura, e os 1402px de altura restantes ainda seriam
+  menos que os 2790 da página — continuaria ampliando 1,99×.
+
+Ou seja: **foto deitada ou quase quadrada nunca serve para esta página sem
+ampliar.** Só uma vertical de nascença resolve.
 
 A página de **detalhes** é bem menos alta: 0,331 de proporção. Por isso
 `funcel0.png` (900×2720) e `final.png` (722×2176) nele só reduzem.

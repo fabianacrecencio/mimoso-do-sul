@@ -2042,19 +2042,26 @@ a:focus-visible {
   max-width: none;
   min-height: 100vh;
 
-  /* `abertura1.jpeg` tem 1600×900, proporção 1,778 — praticamente
-     16:9, que é a proporção de uma janela de desktop. Aqui é
-     exatamente o formato certo.
+  /* `ptweb.jpg` tem 1357×761, proporção 1,783 — praticamente 16:9.
 
-     A anterior, `tes.png` (1576×998, 1,579), era mais quadrada.
-     A `abertura.jpeg` (1600×898, 1,782) é quase gêmea desta e é a
-     que a página inicial usa. */
+     Medindo: a página no desktop mede 1431×1474, ou seja 0,971. Uma
+     foto deitada é muito mais larga que isso, então o `cover` escala
+     pela ALTURA: 1474÷761 = 1,94×, e sobra visível 54% da largura
+     da foto.
+
+     Isso não é uma regressão — `tes.png` (1,579) e `abertura1.jpeg`
+     (1,778) já ampliavam na mesma faixa. Para esta página não
+     ampliar de jeito nenhum a foto precisaria de uns 1430×1475,
+     ou seja, quase quadrada. Uma foto deitada sempre vai ampliar
+     aqui; o corte vertical é o que segura o enquadramento.
+
+     A anterior era `abertura1.jpeg` (1600×900, 1,778). */
   background-image:
     linear-gradient(
       rgba(0, 0, 0, 0.52),
       rgba(0, 0, 0, 0.76)
     ),
-    url('/fotos/abertura1.jpeg');
+    url('/fotos/ptweb.jpg');
   background-position: center calc(50% + var(--parallax-offset));
   background-size: cover;
   background-repeat: no-repeat;
@@ -3728,33 +3735,31 @@ a:focus-visible {
     background-repeat: no-repeat;
   }
 
-  /* Pontos Turísticos no celular: `atr.jpg` (900×2720, proporção
-     0,3309), com o gradiente da aba.
+  /* Pontos Turísticos no celular: `pont1.jpg` (900×3400, proporção
+     0,2647), com o gradiente da aba.
 
-     A régua do `cover` é esta: a foto NÃO amplia se for maior que a
-     página nos DOIS eixos. A largura está resolvida — 900px contra
-     os 430px do aparelho mais largo. Quem decide é a ALTURA, e a
-     página é bem alta: uns 2720px num celular médio e 3017px no mais
-     alto.
+     Esta é a primeira foto desta aba que NÃO amplia em aparelho
+     nenhum. O `cover` só não amplia se a foto for maior que a página
+     nos dois eixos, e 900×3400 passa dos dois:
 
-     Foto de 900×2720:
-       375×2650 -> 0,97× (só reduz)
-       390×2900 -> 1,07×
-       430×3017 -> 1,11×
+       350×2790 -> 0,82× (só reduz), 47% da largura visível
+       375×2900 -> 0,85× (só reduz)
+       415×3200 -> 0,94× (só reduz)
 
-     Então isto ainda AMPLIA um pouco no aparelho mais alto, e é justo
-     dizer. Para não ampliar em nenhum precisaria de uns 900×3400.
+     Antes, nesta mesma regra: `sun.png` (724×2172) ampliava de 1,18×
+     a 1,39×, depois `atr.jpg` e `pt.jpg` (900×2720) ainda ampliavam
+     1,03× a 1,18×. Com esta, zero.
 
-     A foto anterior, `sun.png` (724×2172), amplificava de 1,18× a
-     1,39× — sem emenda, mas mole num celular de tela 2×. Trocar por
-     `atr.jpg` corta isso pela metade. */
+     A `fundoponto.png` (1122×1402) foi descartada: para cobrir uma
+     página 1:8 ela ampliava 2×. Não dava para consertar por
+     redimensionamento — ver a conta no CHECKPOINT. */
   .natureza-page {
     background-image:
       linear-gradient(
         rgba(0, 0, 0, 0.52),
         rgba(0, 0, 0, 0.76)
       ),
-      url('/fotos/atr.jpg');
+      url('/fotos/pont1.jpg');
     background-position: center 50%;
     background-size: cover;
     background-repeat: no-repeat;
