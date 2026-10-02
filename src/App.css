@@ -2002,14 +2002,38 @@ a:focus-visible {
     border-radius: 12px;
   }
 
+  /* Títulos das seções no celular: 18px, e as linhas laterais encolhem
+     junto.
+
+     Medido a 357px de viewport (306px de conteúdo), com 22px e
+     letter-spacing de 2,4px:
+
+       SOBRE O LOCAL             196px de texto   288 no total   cabia
+       GALERIA                   110px            202            cabia
+       COMO CHEGAR               189px            281            cabia
+       O QUE VEMOS PELO CAMINHO  370px            394            ESTOURAVA 88px
+
+     Só o longo estourava, porque o `h2` tem `white-space: nowrap` e
+     não pode quebrar. Com 18px e letter-spacing de 1,8px ele cabe em
+     uma linha até uns 380px de tela.
+
+     O `white-space: normal` aqui é uma rede de segurança: num
+     aparelho de 320px (284px de conteúdo) o título longo ainda não
+     cabe, e agora ele quebra em duas linhas em vez de vazar para fora
+     da tela. O desktop não foi tocado — lá o `nowrap` continua, e os
+     quatro cabem em 760px. */
   .details-page-cristo .details-section h2 {
-    gap: 12px;
-    font-size: 22px;
+    gap: 10px;
+    font-size: 18px;
+    letter-spacing: 1.8px;
+
+    white-space: normal;
+    text-wrap: balance;
   }
 
   .details-page-cristo .details-section h2::before,
   .details-page-cristo .details-section h2::after {
-    width: 34px;
+    width: 28px;
   }
 
   .details-intro > p:last-child {
@@ -3735,31 +3759,27 @@ a:focus-visible {
     background-repeat: no-repeat;
   }
 
-  /* Pontos Turísticos no celular: `pont1.jpg` (900×3400, proporção
+  /* Pontos Turísticos no celular: `ponturcel.jpg` (900×3400, proporção
      0,2647), com o gradiente da aba.
 
-     Esta é a primeira foto desta aba que NÃO amplia em aparelho
-     nenhum. O `cover` só não amplia se a foto for maior que a página
+     Mesmas medidas da `pont1.jpg` que estava antes — muda a foto, não o
+     tamanho. O `cover` só não amplia se a foto for maior que a página
      nos dois eixos, e 900×3400 passa dos dois:
 
        350×2790 -> 0,82× (só reduz), 47% da largura visível
-       375×2900 -> 0,85× (só reduz)
-       415×3200 -> 0,94× (só reduz)
+       401×3017 -> 0,89× (só reduz), 50% visível
+       415×3200 -> 0,94× (só reduz), 49% visível
 
-     Antes, nesta mesma regra: `sun.png` (724×2172) ampliava de 1,18×
-     a 1,39×, depois `atr.jpg` e `pt.jpg` (900×2720) ainda ampliavam
-     1,03× a 1,18×. Com esta, zero.
-
-     A `fundoponto.png` (1122×1402) foi descartada: para cobrir uma
-     página 1:8 ela ampliava 2×. Não dava para consertar por
-     redimensionamento — ver a conta no CHECKPOINT. */
+     Histórico desta regra: `sun.png` (724×2172) ampliava de 1,18× a
+     1,39×; depois `atr.jpg` e `pt.jpg` (900×2720), de 1,03× a 1,18×.
+     Com 900×3400, zero. */
   .natureza-page {
     background-image:
       linear-gradient(
         rgba(0, 0, 0, 0.52),
         rgba(0, 0, 0, 0.76)
       ),
-      url('/fotos/pont1.jpg');
+      url('/fotos/ponturcel.jpg');
     background-position: center 50%;
     background-size: cover;
     background-repeat: no-repeat;
