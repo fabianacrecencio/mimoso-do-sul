@@ -2191,9 +2191,20 @@ a:focus-visible {
   padding: 32px 30px 120px;
 }
 
-/* Espaço limpo entre o herói e a lista de atrativos */
+/* Espaço limpo entre o herói e a lista de atrativos.
+
+   O `-55px` puxa o "ATRATIVOS TURÍSTICOS" e os cards 27px para cima,
+   que é 10% dos 270px do herói — foi o que a usuária pediu.
+
+   Medido a 365px de largura, antes: o texto do herói terminava a 200px
+   e o herói ia até 270px, ou seja, 70px de espaço morto embaixo. Com
+   o `-28px` o `h3` ficava em 266px, colado no fim do herói; agora ele
+   fica em 239px, ainda 39px abaixo do texto — não encosta.
+
+   O `padding-top: 24px` compensa parte do `-55px`, então o deslize
+   real é de 27px e não de 55px. */
 .natureza-page:not(.patrimonios-page) .natureza-content {
-  margin-top: -28px;
+  margin-top: -55px;
   padding-top: 24px;
 }
 
@@ -3678,14 +3689,20 @@ a:focus-visible {
      O `110%` é o mínimo que funciona: com 108% a folga de 66px
      não basta para descer até 30% — a cabeça parava em 31,7%. */
 
+  /* Sem parallax no celular, nas quatro abas. A usuária pediu: nos
+     fundos de celular a foto fica fixa. O desktop continua com
+     `--parallax-offset` — o pedido foi só para o celular.
+
+     Cada posição aqui é a mesma de antes sem o `calc()`, ou seja, o
+     ponto de repouso que o parallax deslocava. */
   .home-discover {
-    background-position: 51% calc(100% + var(--parallax-offset));
+    background-position: 51% 100%;
     background-repeat: no-repeat;
     background-size: auto 110%;
   }
 
   .patrimonios-page {
-    background-position: center calc(38% + var(--parallax-offset));
+    background-position: center 38%;
     background-repeat: no-repeat;
     background-size: cover;
   }
@@ -3699,33 +3716,39 @@ a:focus-visible {
         rgba(0, 0, 0, 0.62)
       ),
       url('/fotos/celularmonast.jpg');
-    background-position: center calc(50% + var(--parallax-offset));
+    background-position: center 50%;
     background-size: cover;
     background-repeat: no-repeat;
   }
 
-  /* Pontos Turísticos no celular: `sun.png` (724×2172, proporção
-     0,333), com o gradiente da aba.
+  /* Pontos Turísticos no celular: `atr.jpg` (900×2720, proporção
+     0,3309), com o gradiente da aba.
 
-     É a foto certa para o formato: a `touriscel.png` era 0,563,
-     ou seja, 69% mais larga que a página. Esta é quase vertical,
-     então o `cover` corta muito menos dos lados.
+     A régua do `cover` é esta: a foto NÃO amplia se for maior que a
+     página nos DOIS eixos. A largura está resolvida — 900px contra
+     os 430px do aparelho mais largo. Quem decide é a ALTURA, e a
+     página é bem alta: uns 2720px num celular médio e 3017px no mais
+     alto.
 
-     Ela ainda EXPANDE, e a régua é esta: `cover` só não amplia se
-     a foto for maior que a página nos DOIS eixos. A página vai até
-     430px de largura e 3017px de altura; `sun.png` tem 724 de
-     largura (ok) e 2172 de altura (falta). Resultado: 1,18× a 1,39×
-     de ampliação, conforme o aparelho — sem emenda, mas mole num
-     celular de tela 2×. Para não ampliar seria preciso uns
-     900×3400. */
+     Foto de 900×2720:
+       375×2650 -> 0,97× (só reduz)
+       390×2900 -> 1,07×
+       430×3017 -> 1,11×
+
+     Então isto ainda AMPLIA um pouco no aparelho mais alto, e é justo
+     dizer. Para não ampliar em nenhum precisaria de uns 900×3400.
+
+     A foto anterior, `sun.png` (724×2172), amplificava de 1,18× a
+     1,39× — sem emenda, mas mole num celular de tela 2×. Trocar por
+     `atr.jpg` corta isso pela metade. */
   .natureza-page {
     background-image:
       linear-gradient(
         rgba(0, 0, 0, 0.52),
         rgba(0, 0, 0, 0.76)
       ),
-      url('/fotos/sun.png');
-    background-position: center calc(50% + var(--parallax-offset));
+      url('/fotos/atr.jpg');
+    background-position: center 50%;
     background-size: cover;
     background-repeat: no-repeat;
   }

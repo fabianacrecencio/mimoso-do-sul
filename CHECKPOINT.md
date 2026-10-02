@@ -886,7 +886,7 @@ do deployment, que é imutável.
 | Aba | Desktop | Celular (≤700px) |
 |---|---|---|
 | Descubra | `/fotos/abertura.jpeg` | mesma, mas `auto 110%` a `51% 100%` (ver abaixo) |
-| Pontos Turísticos | `/fotos/tes.png` | `/fotos/sun.png` (724×2172, 0,333), `cover` |
+| Pontos Turísticos | `/fotos/tes.png` | `/fotos/atr.jpg` (900×2720, 0,3309), `cover` |
 | MONAST | `/fotos/monast3.jpeg` | `/fotos/celularmonast.jpg` (1080×1920, 0,562), `cover` |
 | Patrimônios | `/fotos/uniao.jpeg` | mesmo, `cover` com viés vertical 38% |
 | Cristo Redentor | inline via `fundo` | `/fotos/final.png` (722×2176, 0,3318), `cover` |
@@ -970,8 +970,24 @@ exige `!important` na regra `.details-page-cristo` dentro da media query.
 
 ## Parallax
 
-- Aplicado em todas as abas: `.home-discover`, `.home-monast`, `.natureza-page`
-  e `.patrimonios-page`, via `background-position: center calc(50% + var(--parallax-offset))`
+- **Não existe mais no celular.** A usuária pediu em 02/10: nos fundos de
+  celular a foto fica fixa. As quatro regras de `@media (max-width: 700px)`
+  tiraram o `--parallax-offset` e ficaram só na posição de repouso:
+
+  | Aba | Antes no celular | Agora |
+  |---|---|---|
+  | Descubra | `51% calc(100% + var(--parallax-offset))` | `51% 100%` |
+  | Patrimônios | `center calc(38% + ...)` | `center 38%` |
+  | MONAST | `center calc(50% + ...)` | `center 50%` |
+  | Pontos Turísticos | `center calc(50% + ...)` | `center 50%` |
+
+- O **desktop continua com parallax** — a regra base em `App.css`
+  (`.home-discover, .home-monast, .natureza-page, .patrimonios-page`) segue
+  com `calc(50% + var(--parallax-offset))`. O pedido foi só para o celular.
+- **Entre 701px e 800px ainda tem parallax**, numa media query própria. Se
+  quiser tirar também, é a regra do `max-width: 800px` do `tes.png`.
+- Aplicado em todas as abas do desktop, via
+  `background-position: center calc(50% + var(--parallax-offset))`
 - `background-attachment: scroll` no celular, que evita o bug conhecido do iOS
   Safari de ignorar `fixed`
 - Fator 0.14 e limite ±70px no desktop; 0.08 e ±40px no celular
@@ -980,6 +996,56 @@ exige `!important` na regra `.details-page-cristo` dentro da media query.
   antes de `.discover-page` existir e o listener nunca é registrado
 - Evite o atalho `background:` em `.natureza-page` e `.patrimonios-page`: ele
   fixa posição/tamanho "no braço" e faz as duas camadas do fundo divergirem
+
+**Como conferir se um fundo usa parallax:** não dá pelo
+`getComputedStyle().backgroundPosition` — o navegador resolve o `calc()` e
+devolve só `50% 50%`, idêntico ao valor sem parallax. Confira na regra do CSS.
+
+## Tamanho certo das fotos de fundo de celular (medido)
+
+**A aba Pontos Turísticos mede 350×2790 no celular** — viewport de 365px,
+menos 15px de barra de rolagem. Proporção **0,1255**, ou seja, mais ou menos
+**1:8** (uma foto oito vezes mais alta que larga).
+
+Regra do `cover`: a foto **não amplia** se for maior que a página nos DOIS
+eixos. Então, para esta aba, sem ampliação em nenhum aparelho:
+
+| Aparelho | Página | Foto precisa de |
+|---|---|---|
+| 365px | 350 × 2790 | ≥ 350 × 2790 |
+| 390px | ~375 × 2900 | ≥ 375 × 2900 |
+| 430px | ~415 × 3200 | ≥ 415 × 3200 |
+
+**Recomendado: 900 × 3400.** Cobre todos com folga e é 2× de um celular de
+430px, que é o que a regra do projeto pede para tela retina.
+
+O `atr.jpg` tem 900×2720: a largura sobra (900 contra 415), mas a altura
+falta em aparelho alto — amplia **1,04×** a 365px e até **1,18×** a 430px. É
+pouco e não se vê, mas não é zero. A `sun.png` (724×2172), que era a foto
+anterior, amplificava de 1,18× a 1,39×.
+
+A página de **detalhes** é bem menos alta: 0,331 de proporção. Por isso
+`funcel0.png` (900×2720) e `final.png` (722×2176)neles só reduzem.
+
+## Ritmo vertical da aba Pontos Turísticos no celular
+
+Medido a 365px de largura:
+
+| Bloco | Topo | Altura |
+|---|---|---|
+| botão Voltar | 18 | 38 |
+| texto do herói | 70 | 130 (termina em 200) |
+| herói | 0 | 270 |
+| `ATRATIVOS TURÍSTICOS` | **239** | 48 |
+| grid de cards | 321 | 2349 |
+| folga até o fim | — | 120 |
+
+O herói tinha **70px de espaço morto** abaixo do texto (200 → 270). A usuária
+pediu para subir o `h3` e os cards em **10%** — 10% dos 270px do herói, ou
+seja **27px**. Feito mudando `.natureza-page:not(.patrimonios-page)
+.natureza-content` de `margin-top: -28px` para `-55px`: o `padding-top: 24px`
+compensa parte, então o deslize real é de 27px e não de 55px. Conferido na
+tela: `h3` em 239px, ainda 39px abaixo do texto do herói, sem encostar.
 
 ## Validação
 
