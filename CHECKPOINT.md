@@ -807,8 +807,24 @@ quebrar abas já aprovadas, e `npm run build && npm run lint` antes de cada
 
 - Cloudflare Pages project: `fabibriefs`
 - URL: https://fabibriefs.pages.dev
-- Deployment mais recente: **https://a5437368.fabibriefs.pages.dev**
+- Deployment mais recente: **https://c6fe01c3.fabibriefs.pages.dev**
 - Comando: `npm run deploy` (= `npm run build && npx wrangler pages deploy dist --project-name fabibriefs`)
+
+**Deploy de 02/10/2026 (encerra a sessão 3) — commit `b17fa42`.** Fundo da aba
+Pontos Turísticos: `ptweb.jpg` no desktop e **`pont1.jpg` (900×3400) no
+celular** — a primeira foto dessa aba que **não amplia em nenhum aparelho**
+(0,82× a 0,94×, só reduz). Também: o "ATRATIVOS TURÍSTICOS" subiu 27px (10% dos
+270px do herói), o parallax saiu do celular nas quatro abas, e o título da
+Cachoeira da Paraíba ficou em uma linha dentro dos 760px da foto.
+
+Assets: `index-Dmveno9x.js` (273,34 kB).
+
+Conferido **em produção**, nos dois tamanhos: na aba, `pont1.jpg` com gradiente
+e sem parallax a 416px. No Cristo: título em 1 linha, as 3 estatísticas, a
+galeria em `58%/50%/50%`, as 4 legendas e o mapa. No Pico: pin "Conceição do
+Muqui", galeria em `58%/0%/38%`, sem a linha do distrito e **zero ocorrência de
+"1.938"**. Na Paraíba: `CACHOEIRA DA PARAÍBA` em 1 linha dentro dos 760px, o
+infográfico, as 4 legendas, sem pin, **zero ocorrência de "do Paraíba"**.
 
 **Deploy de 02/10/2026 (encerra a sessão 3) — commit `297e7f0`.** Título da
 Cachoeira da Paraíba em uma linha só dentro dos 760px da foto (`min(6.6vw,

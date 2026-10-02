@@ -3769,23 +3769,27 @@ a:focus-visible {
      tem prioridade sobre o CSS. O !important é necessário para
      trocar pela foto vertical no celular.
 
-     `final.png` tem 722×2176, proporção 0,3318 — a mesma da
-     página de detalhes (0,3309 medida). Por isso `cover` só
-     REDUZ: entre 0,87× e 0,99×, conforme a largura do aparelho.
-     A foto anterior, `fundocristocelular.png` (0,563), era 1,7×
-     mais larga que a página e por isso era obrigada a ampliar
-     2,2×, cortando 66% da largura.
+     `cristocel.jpg` tem 900×3400, proporção 0,2647. Medindo a
+     página de detalhes do Cristo a 365px: 350×2289. O `cover`
+     escala por 0,67× — só REDUZ, e sobra 58% da largura da foto.
+     Não amplia, que era o requisito.
+
+     A anterior, `final.png` (722×2176), também só reduzia, mas
+     ficava entre 0,87× e 0,99× conforme o aparelho — ou seja,
+     no limite, e num aparelho um pouco mais alto já ampliaria.
+     A de antes dessa, `fundocristocelular.png` (0,563), era 1,7×
+     mais larga que a página e obrigava a ampliar 2,2×, cortando
+     66% da largura.
 
      O gradiente é a única camada que precisa de `100% 100%`, para
      escurecer a página inteira; a foto fica com `cover` puro.
 
-     O véu é leve: a `final.png` é bem escura por si só e tem um
-     azul forte, e só escurecer com preto deixaria o tom brigar
-     com o texto. Ele carrega um verde-oliva bem leve por cima do
-     preto, puxando o fundo para o tom das sombras do texto em vez
-     de competir com ele. A opacidade é baixa de propósito — é só
-     o suficiente para o texto não perder contraste, sem apagar o
-     céu e as nuvens da foto.
+     O véu é leve: a foto é bem escura por si só, e só escurecer
+     com preto deixaria o tom brigar com o texto. Ele carrega um
+     verde-oliva bem leve por cima do preto, puxando o fundo para
+     o tom das sombras do texto em vez de competir com ele. A
+     opacidade é baixa de propósito — é só o suficiente para o
+     texto não perder contraste, sem apagar o céu e as nuvens.
 
      `--olive-shadow` é redefinida aqui, e não numa regra nova de
      `text-shadow`: 14 elementos da aba já consomem a variável, e um
@@ -3801,7 +3805,7 @@ a:focus-visible {
         rgba(14, 22, 8, 0.32),
         rgba(10, 16, 6, 0.52)
       ),
-      url('/fotos/final.png') !important;
+      url('/fotos/cristocel.jpg') !important;
     background-position: center center;
     background-size: 100% 100%, cover;
     background-repeat: no-repeat;
@@ -3826,33 +3830,36 @@ a:focus-visible {
      `fundo` de cada um. Cada atrativo com foto própria agora tem a sua
      regra aqui.
 
-     `sun.png` tem 724×2172, proporção 0,333 — a mesma da página de
-     detalhes (0,331 medida). O `cover` então só amplia um pouco, entre
-     1,18× e 1,39× conforme a largura do aparelho; para não ampliar
-     nada precisaria de uns 900×3400. */
+     As três fotos são 900×3400 (proporção 0,2647) — o formato que o
+     projeto já tinha como meta. Medindo a página de detalhes de cada
+     uma a 365px de largura:
+
+       Cristo       350×2289 -> escala 0,67×, REDUZ, 58% visível
+       Pico dos P.  350×2490 -> escala 0,73×, REDUZ, 53% visível
+       Cachoeira    350×1865 -> escala 0,55×, REDUZ, 71% visível
+
+     Nenhuma amplia. A anterior do Pico, `sun.png` (724×2172),
+     ampliava de 1,18× a 1,39×. */
   .details-page-pico {
     background-image:
       linear-gradient(
         rgba(14, 22, 8, 0.32),
         rgba(10, 16, 6, 0.52)
       ),
-      url('/fotos/sun.png') !important;
+      url('/fotos/pontoescel.jpg') !important;
     background-position: center center;
     background-size: 100% 100%, cover;
     background-repeat: no-repeat;
     background-attachment: scroll;
   }
 
-  /* `funcel0.png` tem 900×2720, proporção 0,331 — a mesma da página, e
-     no formato que o projeto já tinha como meta, então o `cover` não
-     amplia em lugar nenhum. */
   .details-page-paraiba {
     background-image:
       linear-gradient(
         rgba(14, 22, 8, 0.32),
         rgba(10, 16, 6, 0.52)
       ),
-      url('/fotos/funcel0.png') !important;
+      url('/fotos/cachoparacel.jpg') !important;
     background-position: center center;
     background-size: 100% 100%, cover;
     background-repeat: no-repeat;
