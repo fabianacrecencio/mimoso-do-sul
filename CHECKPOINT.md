@@ -726,12 +726,35 @@ quebrar abas já aprovadas, e `npm run build && npm run lint` antes de cada
 
 - Cloudflare Pages project: `fabibriefs`
 - URL: https://fabibriefs.pages.dev
-- Deployment mais recente: **https://0cc20d63.fabibriefs.pages.dev**
+- Deployment mais recente: **https://c9b5b69f.fabibriefs.pages.dev**
 - Comando: `npm run deploy` (= `npm run build && npx wrangler pages deploy dist --project-name fabibriefs`)
 
-**Deploy de 01/10/2026 (fim da sessão 3) — commit `fd02df9`.** Pico dos Pontões
-completo: subtítulo, "Sobre o local" com dois parágrafos, infográfico com os
-três ícones novos da fonte, "O QUE VEMOS PELO CAMINHO" com as 4 vagas,
+**Deploy de 01/10/2026 (encerra a sessão 3) — commit `0806ab1`.** Cachoeira da
+Paraíba no padrão do Pico: subtítulo, "Sobre o local" com dois parágrafos,
+infográfico, "O QUE VEMOS PELO CAMINHO" com 4 vagas, nome corrigido para
+"da Paraíba", e o título longo deixou de centralizar a página.
+
+Também neste deploy: a linha "Distrito de Conceição do Muqui…" saiu do Pico;
+`endereco` e `mapa` viraram campos de dados; o mapa deixou de ser um `ternary`
+com as coordenadas no JSX. A Fazenda União quase ficou sem pin em produção
+por não ter seus dados em `Patrimonios.jsx` — o mapa virou campo de dados, e
+esse arquivo não foi atualizado junto.
+
+Assets: `index-36hy7xMw.js` (273,31 kB) e o CSS com o `minmax(0, 1fr)` e o
+`min-width: 0`.
+
+Conferido **em produção**: Cachoeira da Paraíba com `CACHOEIRA DA PARAÍBA` em 2
+linhas, todos os blocos com **desvio 0** do centro, o infográfico com os três
+ícones, as 4 legendas, sem pin, e **zero ocorrência de "do Paraíba"** no site.
+Cristo e Pico com `nowrap`, título em 1 linha e desvio 0.
+
+**Deploy intermediário de 01/10/2026 — `befbdf25`** (mesma sessão): a
+refatoração do mapa, publicada antes do conteúdo da Paraíba para não deixar a
+Fazenda União sem pin em produção.
+
+**Deploy de 01/10/2026 (início da sessão 3) — commit `fd02df9`.** Pico dos
+Pontões completo: subtítulo, "Sobre o local" com dois parágrafos, infográfico
+com os três ícones novos da fonte, "O QUE VEMOS PELO CAMINHO" com as 4 vagas,
 galeria `fundopontos.png` / `pontoes.jpeg` / `ponte.png`, foto grande
 `cardgrande.png`, altitude corrigida para 1.438 m, e o `object-position` do
 item 3 da galeria medido por pixel (38%).
@@ -868,7 +891,7 @@ npm run build     # index-Dq97VkoZ.js / index-DYRJAW7D.css
 npm run lint      # sem erros
 ```
 
-E conferido contra a produção em `0cc20d63.fabibriefs.pages.dev`: o
+E conferido contra a produção em `c9b5b69f.fabibriefs.pages.dev`: o
 `index.html` serve os assets acima, as seis imagens testadas
 (`cardgrande.png`, `ponte.png`, `fundopontos.png`, `cardpico.png`, `top.png`,
 `cristo2.png`) responderam `200`, e a página foi aberta e conferida atrativo
