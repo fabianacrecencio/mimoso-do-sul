@@ -2066,26 +2066,27 @@ a:focus-visible {
   max-width: none;
   min-height: 100vh;
 
-  /* `ptweb.jpg` tem 1357×761, proporção 1,783 — praticamente 16:9.
+  /* `foto_hd_4k.jpg` tem 3840×2150, proporção 1,786 — o formato 16:9,
+     o mesmo da `ptweb.jpg`, mas em 4K.
 
-     Medindo: a página no desktop mede 1431×1474, ou seja 0,971. Uma
-     foto deitada é muito mais larga que isso, então o `cover` escala
-     pela ALTURA: 1474÷761 = 1,94×, e sobra visível 54% da largura
-     da foto.
+     Continua SEM ampliar: a página no desktop mede 1431×1474, e a
+     foto é maior que isso nos dois eixos (3840 > 1431, 2150 > 1474).
+     O `cover` escala por 0,69×, só reduz, e sobra quase toda a
+     largura da foto.
 
-     Isso não é uma regressão — `tes.png` (1,579) e `abertura1.jpeg`
-     (1,778) já ampliavam na mesma faixa. Para esta página não
-     ampliar de jeito nenhum a foto precisaria de uns 1430×1475,
-     ou seja, quase quadrada. Uma foto deitada sempre vai ampliar
-     aqui; o corte vertical é o que segura o enquadramento.
+     A `ptweb.jpg` (1357×761) tinha a MESMA proporção e ampliava 1,94×.
+     A diferença é o tamanho: 2150px de altura contra os 1474 da
+     página. É por isso que "proporção boa" não basta — o tamanho
+     também conta, a mesma regra que vale para os fundos de celular.
 
-     A anterior era `abertura1.jpeg` (1600×900, 1,778). */
+     Custo: 2,92 MB contra 0,37 MB da `foto_hd.jpg`. Em tela de retina
+     fica nítida; em tela comum o navegador baixa a mesma coisa. */
   background-image:
     linear-gradient(
       rgba(0, 0, 0, 0.52),
       rgba(0, 0, 0, 0.76)
     ),
-    url('/fotos/ptweb.jpg');
+    url('/fotos/foto_hd_4k.jpg');
   background-position: center calc(50% + var(--parallax-offset));
   background-size: cover;
   background-repeat: no-repeat;
