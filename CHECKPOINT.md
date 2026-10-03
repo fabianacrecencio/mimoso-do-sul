@@ -931,14 +931,18 @@ quebrar abas já aprovadas, e `npm run build && npm run lint` antes de cada
 
 - Cloudflare Pages project: `fabibriefs`
 - URL: https://fabibriefs.pages.dev
-- Deployment mais recente: **https://b6f4c1e0.fabibriefs.pages.dev**
+- Deployment mais recente: **https://cee5e8f8.fabibriefs.pages.dev**
 - Comando: `npm run deploy` (= `npm run build && npx wrangler pages deploy dist --project-name fabibriefs`)
 
-**Deploy de 02/10/2026 (encerra a sessão 3) — commits `bbe9883` e `dcd3fbd`.**
+**Deploy de 02/10/2026 (encerra a sessão 3) — commits `bbe9883` e `3d8e48d`.**
 Card "Cultura" da página inicial renomeado para "**História**", aba "História"
 removida do menu inferior (sobraram 5 abas), e o botão "×" do canto passou a
 acompanhar a linha do rótulo do cabeçalho em todas as abas — medido com
 diferença **0** em Descubra, Pontos Turísticos, Patrimônios e MONAST.
+
+Conferido **em produção** a 1446px: na página inicial o "DESCUBRA" e o "×"
+estão em 131px, os cards são Pontos Turísticos / Patrimônios / **História**, e o
+menu tem 5 abas sem "História".
 
 Detalhe importante dessa última: a usuária **escolheu descer o "×"** em vez
 de subir o conteúdo das páginas, para não perder o alinhamento do cabeçalho
