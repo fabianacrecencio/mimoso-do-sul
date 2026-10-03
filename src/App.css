@@ -2498,8 +2498,16 @@ a:focus-visible {
 ========================= */
 
 @media (max-width: 700px) {
+  /* Só o padding lateral muda no celular. O vertical continua vindo
+     de `--titulo-centro`, como no desktop.
+
+     Antes era `padding: 15px 20px`, que sobrescrevia o `calc()` da
+     regra base e jogava o "×" de volta para o topo do viewport — o
+     botão ficava na altura antiga e não acompanhava o "DESCUBRA" em
+     nenhuma página no celular. Era o mesmo alinhamento do desktop,
+     só que quebrado aqui. */
   .header {
-    padding: 15px 20px;
+    padding: calc(var(--titulo-centro, 43px) - 23px) 20px 15px;
   }
 
   .logo {

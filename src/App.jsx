@@ -169,10 +169,13 @@ function App() {
 
       const r = alvo.getBoundingClientRect()
 
-      raiz.style.setProperty(
-        '--titulo-centro',
-        `${Math.round(r.top + r.height / 2)}px`,
-      )
+      /* Piso de 23px: o CSS faz `--titulo-centro - 23px` para
+         centrar o botão na linha. Se o rótulo ficasse acima de 23px
+         o resultado seria negativo, o `padding` inteiro ficaria
+         inválido e o botão perderia o padding lateral também. */
+      const centro = Math.max(23, Math.round(r.top + r.height / 2))
+
+      raiz.style.setProperty('--titulo-centro', `${centro}px`)
     }
 
     alinhar()
