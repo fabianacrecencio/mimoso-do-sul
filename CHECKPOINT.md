@@ -308,6 +308,34 @@ topo.
 O `:root` tem `--titulo-centro: 43px` como reserva: se a medição falhar, o
 botão volta ao canto superior em vez de sumir.
 
+**No celular a regra de `≤700px` sobrescrevia o alinhamento inteiro.** Era
+`padding: 15px 20px`, que jogava fora o `calc()` da regra base e devolvia o
+"×" ao topo do viewport — o mesmo alinhamento do desktop, só que quebrado
+exatamente onde ninguém conferia. Agora as duas regras usam o mesmo vertical:
+
+```css
+/* base */     padding: calc(var(--titulo-centro, 43px) - 23px) 30px 20px;
+/* ≤700px */   padding: calc(var(--titulo-centro, 43px) - 23px) 20px 15px;
+```
+
+Só o lateral muda (30px → 20px), que é o ajuste certo para tela estreita.
+
+**Piso de 23px no JS:** `--titulo-centro` nunca fica abaixo de 23px. Se o
+rótulo subisse acima disso, o `calc()` daria negativo, o `padding` inteiro
+ficaria inválido e o botão perderia o padding lateral também — um efeito
+colateral que ninguém pediria num ajuste de alinhamento.
+
+**Como conferir a cascata sem renderizar no celular:** procurar as duas regras
+no CSS compilado e conferir a ordem, já que a de celular precisa vir depois.
+A ordem das media queries no arquivo minificado não corresponde à ordem do
+fonte, então vale olhar o contexto:
+
+```powershell
+$css = Get-Content (Get-ChildItem dist\assets\index-*.css)[0] -Raw
+$i = $css.IndexOf('23px) 20px 15px')
+$css.Substring($i - 40, 100)   # deve mostrar @media (width<=700px){ antes
+```
+
 ## Componente Icon
 
 `src/components/Icon.jsx` guarda todo o catálogo. Duas famílias:
@@ -931,8 +959,18 @@ quebrar abas já aprovadas, e `npm run build && npm run lint` antes de cada
 
 - Cloudflare Pages project: `fabibriefs`
 - URL: https://fabibriefs.pages.dev
-- Deployment mais recente: **https://cee5e8f8.fabibriefs.pages.dev**
+- Deployment mais recente: **https://a2708f12.fabibriefs.pages.dev**
 - Comando: `npm run deploy` (= `npm run build && npx wrangler pages deploy dist --project-name fabibriefs`)
+
+**Deploy de 03/10/2026 — commit `9017986`.** O botão "×" passou a acompanhar o
+rótulo do cabeçalho **também no celular**. A regra de `≤700px` sobrescrevia o
+`calc()` da base com um `padding: 15px 20px` fixo e devolvia o botão ao topo —
+funcionava no desktop, quebrado no celular. Agora as duas regras usam o mesmo
+vertical, e só o padding lateral muda (30px → 20px).
+
+Conferido no CSS publicado: as duas regras presentes, a de celular dentro de
+`@media (width<=700px)`. O desktop segue com diferença **0** e padding lateral
+de 30px.
 
 **Deploy de 02/10/2026 (encerra a sessão 3) — commits `bbe9883` e `3d8e48d`.**
 Card "Cultura" da página inicial renomeado para "**História**", aba "História"
