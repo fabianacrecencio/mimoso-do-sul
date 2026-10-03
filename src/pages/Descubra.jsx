@@ -6,11 +6,11 @@ function Descubra({ onOpen }) {
 
       <div className="discover-header">
 
-        <p className="discover-eyebrow">DESCUBRA</p>
+        <p className="discover-eyebrow rotulo-cabecalho">DESCUBRA</p>
 
         <div className="discover-title-block">
 
-          <h2 className="discover-title">
+          <h2 className="discover-title titulo-pagina">
             MIMOSO
             <br className="discover-title-break" />
             {' DO SUL'}

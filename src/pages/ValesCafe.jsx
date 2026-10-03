@@ -8,7 +8,7 @@ function ValesCafe({ onOpen }) {
 
         <p>REGIÃO</p>
 
-        <h2>
+        <h2 className="titulo-pagina">
           MONAST
         </h2>
 

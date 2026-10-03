@@ -178,7 +178,7 @@ const isCachoeiraParaiba = title === 'Cachoeira da Paraíba'
 
           {usaPadraoCristo ? (
             <>
-              <h1 className="details-title">
+              <h1 className="details-title titulo-pagina">
                 {title}
               </h1>
 

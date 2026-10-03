@@ -94,11 +94,11 @@ function Monast() {
 
       <div className="monast-header">
 
-        <p className="monast-label">
+        <p className="monast-label rotulo-cabecalho">
           MONAST
         </p>
 
-        <h1>
+        <h1 className="titulo-pagina">
           Monumento Natural
           <span>Serra das Torres</span>
         </h1>

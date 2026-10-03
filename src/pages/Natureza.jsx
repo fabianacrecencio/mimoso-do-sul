@@ -188,11 +188,11 @@ function Natureza({ onOpen, onBack }) {
 
         <div className="natureza-hero-content">
 
-          <p className="discover-eyebrow">
+          <p className="discover-eyebrow rotulo-cabecalho">
             DESCUBRA
           </p>
 
-          <h1 className="discover-title">
+          <h1 className="discover-title titulo-pagina">
             MIMOSO DO SUL
           </h1>
 

@@ -116,6 +116,81 @@ function App() {
      NAVEGAÇÃO
   ========================= */
 
+  /* Alinha o botão "×" do canto com a linha do título da página.
+
+     O `.header` é `position: fixed`, e o botão precisa ficar na MESMA
+     linha do rótulo do cabeçalho de cada página — o "DESCUBRA". Mede
+     a classe `.rotulo-cabecalho` e, se não houver, cai no
+     `.titulo-pagina`.
+
+     Duas classes e não `h1` porque o markup é inconsistente: o
+     título da página inicial e o dos Vales do Café são `<h2>`, os
+     outros são `<h1>`.
+
+     Se a página não tiver nenhuma das duas, a variável é removida e o
+     CSS volta a 43px (o valor do `:root`), que é onde o botão vivia
+     antes. Rede de segurança: se a medição falhar, ele continua
+     visível no canto. */
+  useEffect(() => {
+    function alinhar() {
+      const raiz = document.documentElement
+
+      /* A referência é o RÓTULO do cabeçalho — o "DESCUBRA" — e não o
+         título grande. Foi o que a usuária pediu: o "×" na mesma reta
+         do "DESCUBRA".
+
+         A escolha é do usuário e vale a pena respectar: o `×` desce
+         até a linha do rótulo, e o conteúdo da página NÃO sobe. Subir
+         o conteúdo tiraria o cabeçalho de cima da cabeça do Cristo na
+         página inicial, que é um detalhe já aprovado.
+
+         Páginas sem rótulo (as de detalhe, que vão direto no título)
+         caem no `.titulo-pagina` — o "×" alinha com o título em vez
+         de sumir. */
+      const seletor = '.rotulo-cabecalho, .titulo-pagina'
+
+      const candidatos = Array.from(document.querySelectorAll(seletor)).filter(
+        (el) => {
+          const r = el.getBoundingClientRect()
+
+          return r.height > 0 && r.width > 0
+        },
+      )
+
+      const alvo =
+        candidatos.find((el) => el.classList.contains('rotulo-cabecalho')) ||
+        candidatos[0]
+
+      if (!alvo) {
+        raiz.style.removeProperty('--titulo-centro')
+
+        return
+      }
+
+      const r = alvo.getBoundingClientRect()
+
+      raiz.style.setProperty(
+        '--titulo-centro',
+        `${Math.round(r.top + r.height / 2)}px`,
+      )
+    }
+
+    alinhar()
+
+    window.addEventListener('resize', alinhar)
+    window.addEventListener('load', alinhar)
+
+    return () => {
+      window.removeEventListener('resize', alinhar)
+      window.removeEventListener('load', alinhar)
+      document.documentElement.style.removeProperty('--titulo-centro')
+    }
+  }, [intro, activePage, selectedItem])
+
+  /* =========================
+     NAVEGAÇÃO
+     ========================= */
+
   function handleNavigate(page) {
     setActivePage(page)
     setSelectedItem(null)

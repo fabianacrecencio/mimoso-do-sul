@@ -49,11 +49,11 @@ function Patrimonios({ onOpen, onBack }) {
           ← Voltar
         </button>
 
-        <p className="patrimonios-page-kicker">
+        <p className="patrimonios-page-kicker rotulo-cabecalho">
           DESCUBRA
         </p>
 
-        <h1 className="patrimonios-page-title">
+        <h1 className="patrimonios-page-title titulo-pagina">
           PATRIMÔNIOS
         </h1>
 

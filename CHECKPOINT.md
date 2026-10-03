@@ -255,8 +255,58 @@ Todos os ícones são arcticons com `viewBox 0 0 48 48`, 22px, inline no compone
 | MONAST | `nothingButWallpapers` | arcticons:nothing-but-wallpapers |
 | Sul Capixaba | `openMaps` | arcticons:openmaps |
 | Galeria | `dsphoto` | arcticons:dsphoto |
-| História | `googleDocsAlt` | arcticons:google-docs-alt |
 | Trilha | `cityTransit` | arcticons:city-transit |
+
+**A aba "História" foi removida do menu** em 02/10/2026 — a usuária circulara ela.
+São 5 abas agora. O card "Cultura" da página inicial virou "**História**"
+(o `title` e o `<h4>` em `Descubra.jsx`), então não sobrou rótulo "Cultura"
+nenhum no código.
+
+O ícone `googleDocsAlt` continua no catálogo do `Icon.jsx`, sem uso em tela.
+
+## O botão "×" acompanha o rótulo do cabeçalho
+
+O `.header` é `position: fixed`, e o "×" fica agora **na mesma linha do
+rótulo** ("DESCUBRA", "MONAST"…) de cada aba. Medido em produção a 1446px:
+
+| Aba | Rótulo | Centro | Centro do "×" | Diferença |
+|---|---|---|---|---|
+| Descubra | DESCUBRA | 131 | 131 | **0** |
+| Pontos Turísticos | DESCUBRA | 72 | 72 | **0** |
+| Patrimônios | DESCUBRA | 98 | 98 | **0** |
+| MONAST | MONAST | 134 | 134 | **0** |
+
+**A escolha foi do usuário e é contra-intuitiva, então vale reter:** ele
+**optou por descer o "×"**, e não por subir o conteúdo. Subir o conteúdo
+teria tirado o cabeçalho de cima da cabeça do Cristo na página inicial, que
+é um detalhe já aprovado e calibrado (o `padding-top: 124px` é o número mais
+frágil do projeto). Por isso **nada da página mudou de posição**.
+
+**Como funciona.** Duas classes novas, nenhuma muda o visual:
+
+| Classe | O que marca |
+|---|---|
+| `.titulo-pagina` | o título grande de cada página |
+| `.rotulo-cabecalho` | o rótulo pequeno acima do título |
+
+Um `useEffect` em `App.jsx` mede `.rotulo-cabecalho` (com fallback para
+`.titulo-pagina`) e escreve `--titulo-centro` no `:root`. O `.header` usa
+`padding-top: calc(var(--titulo-centro, 43px) - 23px)`, sendo 23px metade da
+altura do botão — aí o botão fica **centrado** na linha, não alinhado pelo
+topo.
+
+**Duas armadilhas que custaram tempo aqui:**
+
+1. **Não dá para buscar por `h1`.** O markup é inconsistente: o título da
+   página inicial e o dos Vales do Café são `<h2>`, os outros são `<h1>`.
+   A primeira versão da medição procurava `h1` e não achava **nada** na
+   página inicial — o "×" ficava parado no lugar antigo sem erro nenhum.
+2. **O "×" não existe nas páginas de detalhe.** Quando `selectedItem` está
+   preenchido, o `App.jsx` retorna o `<Detalhes>` sem o `<header>` — lá é
+   "← Voltar". Ou seja, "todas as páginas" para o "×" significa as abas.
+
+O `:root` tem `--titulo-centro: 43px` como reserva: se a medição falhar, o
+botão volta ao canto superior em vez de sumir.
 
 ## Componente Icon
 
@@ -881,8 +931,19 @@ quebrar abas já aprovadas, e `npm run build && npm run lint` antes de cada
 
 - Cloudflare Pages project: `fabibriefs`
 - URL: https://fabibriefs.pages.dev
-- Deployment mais recente: **https://3a5cc0d5.fabibriefs.pages.dev**
+- Deployment mais recente: **https://b6f4c1e0.fabibriefs.pages.dev**
 - Comando: `npm run deploy` (= `npm run build && npx wrangler pages deploy dist --project-name fabibriefs`)
+
+**Deploy de 02/10/2026 (encerra a sessão 3) — commits `bbe9883` e `dcd3fbd`.**
+Card "Cultura" da página inicial renomeado para "**História**", aba "História"
+removida do menu inferior (sobraram 5 abas), e o botão "×" do canto passou a
+acompanhar a linha do rótulo do cabeçalho em todas as abas — medido com
+diferença **0** em Descubra, Pontos Turísticos, Patrimônios e MONAST.
+
+Detalhe importante dessa última: a usuária **escolheu descer o "×"** em vez
+de subir o conteúdo das páginas, para não perder o alinhamento do cabeçalho
+com a cabeça do Cristo na página inicial. Ver **O botão "×" acompanha o
+rótulo do cabeçalho**.
 
 **Deploy de 02/10/2026 (encerra a sessão 3) — commits `568abd5` e `d814761`.**
 

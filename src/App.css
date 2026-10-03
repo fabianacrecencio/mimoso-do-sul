@@ -7,6 +7,10 @@
 
 :root {
   --parallax-offset: 0px;
+  /* Altura de reserva para o botão "×" quando a página ainda não foi
+     medida. O `App.jsx` sobrescreve com o centro real do `.titulo-pagina`
+     da página. 43px é onde o botão vivia antes, medido. */
+  --titulo-centro: 43px;
   --off-white: #f7f3ea;
   --olive-shadow:
     0 6px 26px rgba(74, 96, 46, 0.42), 0 2px 5px rgba(52, 74, 30, 0.5);
@@ -244,6 +248,21 @@ a:focus-visible {
    CABEÇALHO
 ========================= */
 
+/* O botão "×" acompanha a linha do título da página.
+
+   `--titulo-centro` é medido em `App.jsx` e traz o centro vertical do
+   `h1` principal. O `padding-top` é esse centro menos metade da
+   altura do botão (23px), para o botão ficar CENTRADO na linha do
+   título em vez de alinhado pelo topo.
+
+   Quando a variável não existe — página sem `h1`, ou antes do
+   primeiro `useEffect` rodar — o `padding-top` volta a 20px, que é
+   onde o botão ficava antes. A rede de segurança: se a medição
+   falhar, o botão continua visível no canto, só que na altura antiga.
+
+   Não dá para fixar um valor: cada página põe o título numa altura
+   diferente. Medido a 1000px de largura, o centro do `h1` fica em
+   185px na página inicial e em 127px em Pontos Turísticos. */
 .header {
   position: fixed;
   top: 0;
@@ -255,7 +274,7 @@ a:focus-visible {
   align-items: center;
   justify-content: flex-end;
 
-  padding: 20px 30px;
+  padding: calc(var(--titulo-centro, 43px) - 23px) 30px 20px;
   color: #fff;
 
   pointer-events: none;
